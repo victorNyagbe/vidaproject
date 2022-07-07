@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Guests\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/* Partie utilisateur */
+
+Route::get('/', [MainController::class, 'welcome'])->name('guests.welcome');
+
+Route::get('/login', [MainController::class, 'login'])->name('guests.login');
+
+
