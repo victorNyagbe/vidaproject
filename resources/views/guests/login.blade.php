@@ -17,7 +17,7 @@
         <link href="{{ asset('styles/mdb/css/bootstrap.css') }}" rel="stylesheet">
 
         <link rel="stylesheet" href="{{ asset('styles/guests/css/welcome.css') }}">
-       
+
     </head>
     <body>
         <div class="container-fluid">
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-6" id="loginAccount">
                                 <!-- Default form register -->
                                 <form class="text-center border login-form p-5" action="#!">
 
@@ -66,10 +66,10 @@
 
                                     <!-- Terms of service -->
                                     <p>Si vous n'avez pas de compte,
-                                        <a href="" target="_blank">créer un compte</a>
+                                        <a href="#!" id="createNewAccoutButton">créer un compte</a>
                                     </p>
                                     <p>
-                                        <a href="" target="_blank">mot de passe oublié ? </a>
+                                        <a href="#!" id="passwordResetButton">mot de passe oublié ? </a>
                                     </p>
                                 </form>
                                 <!-- Default form register -->
@@ -102,7 +102,7 @@
                                             <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Prénom">
                                         </div>
                                     </div>
-                                    
+
                                     <!-- E-mail -->
                                     <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
@@ -123,7 +123,7 @@
 
                                     <!-- Terms of service -->
                                     <p>Si vous avez un compte,
-                                        <a href="" target="_blank">connectez-vous</a>
+                                        <a href="#!" class="loginAccountButton">connectez-vous</a>
                                     </p>
                                 </form>
                                 <!-- Default form register -->
@@ -142,7 +142,10 @@
                                     <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
                                     <!-- Sign up button -->
-                                    <button class="btn btn-validate my-4 btn-block" type="submit">Se connecter</button>
+                                    <button class="btn btn-validate my-4 btn-block" type="submit">Valider</button>
+                                    <p>
+                                        <a href="#!" class="loginAccountButton">Me connecter</a>
+                                    </p>
 
                                 </form>
                                 <!-- Default form register -->
@@ -156,31 +159,55 @@
 
         <!-- Main JS File -->
         <script src="{{ asset('styles/guests/aos/aos.js') }}"></script>
+        <script src="{{ asset('styles/mdb/js/jquery.js') }}"></script>
         <script>
             AOS.init();
 
             AOS.init({
-            // Global settings:
-            disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
-            startEvent: 'DOMContentLoaded', // name of the event dispatched on the document, that AOS should initialize on
-            initClassName: 'aos-init', // class applied after initialization
-            animatedClassName: 'aos-animate', // class applied on animation
-            useClassNames: false, // if true, will add content of `data-aos` as classes on scroll
-            disableMutationObserver: false, // disables automatic mutations' detections (advanced)
-            debounceDelay: 50, // the delay on debounce used while resizing window (advanced)
-            throttleDelay: 99, // the delay on throttle used while scrolling the page (advanced)
-            
+                // Global settings:
+                disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
+                startEvent: 'DOMContentLoaded', // name of the event dispatched on the document, that AOS should initialize on
+                initClassName: 'aos-init', // class applied after initialization
+                animatedClassName: 'aos-animate', // class applied on animation
+                useClassNames: false, // if true, will add content of `data-aos` as classes on scroll
+                disableMutationObserver: false, // disables automatic mutations' detections (advanced)
+                debounceDelay: 50, // the delay on debounce used while resizing window (advanced)
+                throttleDelay: 99, // the delay on throttle used while scrolling the page (advanced)
 
-            // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
-            offset: 120, // offset (in px) from the original trigger point
-            delay: 0, // values from 0 to 3000, with step 50ms
-            duration: 3000, // values from 0 to 3000, with step 50ms
-            easing: 'linear', // default easing for AOS animations
-            once: false, // whether animation should happen only once - while scrolling down
-            mirror: false, // whether elements should animate out while scrolling past them
-            anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
+
+                // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
+                offset: 120, // offset (in px) from the original trigger point
+                delay: 0, // values from 0 to 3000, with step 50ms
+                duration: 3000, // values from 0 to 3000, with step 50ms
+                easing: 'linear', // default easing for AOS animations
+                once: false, // whether animation should happen only once - while scrolling down
+                mirror: false, // whether elements should animate out while scrolling past them
+                anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
 
             });
+
+            $(document).ready(function () {
+                $('#createNewAccoutButton').click(function (event) {
+                    event.preventDefault()
+                    $('#loginAccount').hide()
+                    $('#passReset').hide()
+                    $('#createAccount').fadeIn()
+                });
+
+                $('#passwordResetButton').click(function (event) {
+                    event.preventDefault()
+                    $('#loginAccount').hide()
+                    $('#createAccount').hide()
+                    $('#passReset').fadeIn()
+                });
+
+                $('.loginAccountButton').click(function (event) {
+                    event.preventDefault()
+                    $('#passReset').hide()
+                    $('#createAccount').hide()
+                    $('#loginAccount').fadeIn()
+                });
+            })
         </script>
     </body>
 </html>
