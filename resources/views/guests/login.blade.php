@@ -65,7 +65,7 @@
                                     <button class="btn btn-validate my-4 btn-block" type="submit">Se connecter</button>
 
                                     <!-- Terms of service -->
-                                    <p>Si vous n'avez pas de compte,
+                                    <p>Je n'ai pas de compte,
                                         <a href="#!" id="createNewAccoutButton">créer un compte</a>
                                     </p>
                                     <p>
@@ -119,11 +119,11 @@
                                     </div>
 
                                     <!-- Sign up button -->
-                                    <button class="btn btn-validate my-4 btn-block" type="submit">Se connecter</button>
+                                    <button class="btn btn-validate my-4 btn-block" type="submit">Créer le compte</button>
 
                                     <!-- Terms of service -->
-                                    <p>Si vous avez un compte,
-                                        <a href="#!" class="loginAccountButton">connectez-vous</a>
+                                    <p>J'ai déjà un compte,
+                                        <a href="#!" class="loginAccountButton">Me connecter</a>
                                     </p>
                                 </form>
                                 <!-- Default form register -->
@@ -141,8 +141,14 @@
                                     <!-- E-mail -->
                                     <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
+                                    <!-- Authentification code -->
+                                    <input type="email" id="passResetCode" class="form-control" placeholder="Entrer le code">
+                                    <small id="log-message" class="form-text log-advice mb-4">
+                                        Cet code ne sera plus valable après 5 minutes, veuillez vérifier votre boite mail !
+                                    </small>
+
                                     <!-- Sign up button -->
-                                    <button class="btn btn-validate my-4 btn-block" type="submit">Valider</button>
+                                    <button class="btn btn-validate my-4 btn-block passResetSubmit" type="submit">Valider</button>
                                     <p>
                                         <a href="#!" class="loginAccountButton">Me connecter</a>
                                     </p>
@@ -207,7 +213,13 @@
                     $('#createAccount').hide()
                     $('#loginAccount').fadeIn()
                 });
-            })
+
+                $('.passResetSubmit').click(function (evrnt) {
+                    event.preventDefault()
+                    $('#passResetCode').fadeIn()
+                    $('#log-message').fadeIn()
+                });
+            });
         </script>
     </body>
 </html>
