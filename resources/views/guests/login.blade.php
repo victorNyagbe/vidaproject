@@ -79,7 +79,7 @@
 
                             <div id="createAccount" class="col-12 col-lg-6">
                                 <!-- Default form register -->
-                                <form class="text-center border login-form p-5" action="#!">
+                                <form class="text-center border p-5" action="#!" id="register-form">
 
                                     <p class="h2 mb-4">Démarrer</p>
 
@@ -93,21 +93,21 @@
                                     </div>
 
                                     <div class="form-row mb-4">
-                                        <div class="col">
+                                        <div class="col mb-4 mb-md-1">
                                             <!-- First name -->
-                                            <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Nom">
+                                            <input type="text" name="registerFirstName" id="defaultRegisterFormFirstName" class="form-control" placeholder="Prénom">
                                         </div>
-                                        <div class="col">
+                                        <div class="col mb-4 mb-md-1">
                                             <!-- Last name -->
-                                            <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Prénom">
+                                            <input type="text" name="registerLastName" id="defaultRegisterFormLastName" class="form-control" placeholder="Nom ">
                                         </div>
                                     </div>
 
                                     <!-- E-mail -->
-                                    <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+                                    <input type="email" name="registerFormEmail" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
 
                                     <!-- Password -->
-                                    <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Mot de passe" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                                    <input type="password" name="registerFormPassword" id="defaultRegisterFormPassword" class="form-control" placeholder="Mot de passe" aria-describedby="defaultRegisterFormPasswordHelpBlock">
                                     <small id="defaultRegisterFormPasswordHelpBlock" class="form-text log-advice mb-4">
                                         Entrer au minimum 8 charactères
                                     </small>
@@ -207,6 +207,10 @@
                     $('#createAccount').hide()
                     $('#loginAccount').fadeIn()
                 });
+
+                $('#register-form').on('submit', function(e)) {
+                    e.preventDefault();
+                }
             })
         </script>
     </body>
