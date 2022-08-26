@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\MainController as AdminMainController;
+use App\Http\Controllers\Admin\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guests\MainController;
 
@@ -18,6 +21,16 @@ use App\Http\Controllers\Guests\MainController;
 
 Route::get('/', [MainController::class, 'welcome'])->name('guests.welcome');
 
-Route::get('/login', [MainController::class, 'login'])->name('guests.login');
+Route::get('/acces', [MainController::class, 'login'])->name('guests.login');
+
+Route::post('/inscription', [RegisterController::class, 'registerNewUser'])->name('guests.registration');
+
+Route::post('/connexion', [LoginController::class, 'login'])->name('guests.login.processing');
+
+Route::get('/connexion-via-google', [RegisterController::class, 'redirectToGoogle'])->name('guests.google.redirection');
+
+Route::get('/connexion-via-google/callback', [RegisterController::class, 'handleGoogleCallback'])->name('guests.google.callback');
 
 
+/* Partie Administrateur */
+Route::get('dashboard', [AdminMainController::class, 'dashboard'])->name('admin.dashboard');

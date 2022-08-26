@@ -206,3 +206,12 @@
 #log-message {
     display: none;
 }
+
+.error-log {
+    color: #c62208;
+    text-align: left;
+}
+
+#errorFirstName, #errorLastName, #errorEmail, #errorPassword {
+    display: none;
+}
