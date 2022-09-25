@@ -8,7 +8,7 @@
             />
             <label for="inbox-check0">Tout</label>
         </div>
-        <a href="#" id="hide-trash-btn" class="btn btn-danger inbox-trash-btn">Supprimer</a>
+        <a href="#" id="hide-trash-btn" class="btn btn-danger trash-btn">Supprimer</a>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
                             type="checkbox"
                             value=""
                             id="inbox-check1"
-                            class="inbox-delete-check"                            
+                            class="inbox-delete-check"
                         />
                         <label for="inbox-check1"></label>
                     </div>
@@ -47,7 +47,7 @@
                             type="checkbox"
                             value=""
                             id="inbox-check2"
-                            class="inbox-delete-check"                           
+                            class="inbox-delete-check"
                         />
                         <label for="inbox-check2"></label>
                     </div>
@@ -72,7 +72,7 @@
                             type="checkbox"
                             value=""
                             id="inbox-check3"
-                            class="inbox-delete-check"                            
+                            class="inbox-delete-check"
                         />
                         <label for="inbox-check3"></label>
                     </div>
@@ -122,7 +122,7 @@
                             type="checkbox"
                             value=""
                             id="inbox-check5"
-                            class="inbox-delete-check"                           
+                            class="inbox-delete-check"
                         />
                         <label for="inbox-check5"></label>
                     </div>
@@ -197,7 +197,7 @@
                             type="checkbox"
                             value=""
                             id="inbox-check8"
-                            class="inbox-delete-check"                           
+                            class="inbox-delete-check"
                         />
                         <label for="inbox-check8"></label>
                     </div>
