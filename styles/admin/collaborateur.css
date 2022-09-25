@@ -1,0 +1,56 @@
+.name-project {
+    color: #3838cf;
+    padding-left: 2em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.name-project:hover {
+    text-decoration: none;
+    color: #4848eef3;
+}
+
+.page-name {
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.2em;
+    color: #0000005a;
+}
+
+.add-link {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.9em;
+    float: right;
+    background-color: #3838cf;
+    padding: 0.5em;
+    border-radius: 3%;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-link:hover {
+    color: #ffffff;
+    background-color: #4848eef3;
+    text-decoration: none;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+    background-color: rgba(0, 0, 0, 0.617);
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #ffffff;
+}
+
+.small-card-header {
+    background-color: #3838cfe2;
+}
+
+.collab-link {
+    color: #000000;
+    font-size: 1.2em;
+}
+
+.collab-link:hover {
+    color: #3838cf;
+}

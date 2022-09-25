@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    public function home()
+    {
+        $page = 'admin.home';
+        return view('admin.home', compact('page'));
+    }
+
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $page = 'admin.dashboard';
+        return view('admin.dashboard', compact('page'));
     }
+
 }

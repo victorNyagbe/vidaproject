@@ -1,0 +1,80 @@
+.name-project {
+    color: #3838cf;
+    padding-left: 2em;
+    font-size: 1.3em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.page-name {
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.2em;
+    color: #0000005a;
+}
+
+.add-link {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.9em;
+    float: right;
+    background-color: #3838cf;
+    padding: 0.5em;
+    border-radius: 3%;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-link:hover {
+    color: #ffffff;
+    background-color: #4848eef3;
+    text-decoration: none;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pie-chart {
+    width: 1100px;
+    height: 500px;
+}
+
+.pie-chart-block {
+    background-color: #6c757d;
+}
+
+/* partie du project board */
+
+.gantt-chart {
+    width: 1100px;
+    height: 300px;
+}
+
+.knob-label2 {
+    background-color: #9fa5ab;
+    padding: 1em;
+    font-size: 1.5em;
+    color: rgb(231, 57, 57);
+}
+
+.hand-moji {
+    transform: rotate3d(2, -1, -1, -0.2turn);
+    background-color: #3838cf;
+}
+
+.text-motivation {
+    color: #ffffff;
+}
+
+.happy-btn {
+    background-color: #28a745;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    color: #ffffff;
+    border-radius: 10px;
+    margin-left: 0.5em;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.happy-btn:hover {
+    background-color: #ffffff;
+    color: #28a745;
+}

@@ -1,0 +1,78 @@
+.mail-body {
+    height: 70vh;
+}
+
+.mail-content {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 10px);
+    padding: 50px;
+    overflow-y: auto;
+}
+
+.mailbox-sender a {
+    color: #28a745;
+}
+
+.mailbox-item a:hover {
+    background-color: #979ca2;
+}
+
+.actived {
+    background-color: #979ca2;
+}
+
+/* inbox */
+
+.inbox-date {
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.inbox-trash-btn {
+    color: #fff;
+    font-weight: bold;
+    float: right;
+    border-radius: 5px;
+    display: none;
+}
+
+/* trash */
+
+.select-all-block {
+    padding-bottom: 2em;
+}
+
+.first-checkbox {
+    display: inline-block;
+    border-radius: 2px;
+}
+
+/* .first-checkbox-text {
+    font-weight: bold;
+} */
+
+.trash-restore-btn {
+    margin-right: 0.8em;
+}
+
+.trash-btn {
+    color: #fff;
+    font-weight: bold;
+    float: right;
+    border-radius: 5px;
+    display: none;
+}
+
+.trash-icons i {
+    padding: 10px 0;
+}
+
+.trash-icons i:hover.fa-trash-alt:before {
+    color: #dc3545;
+}
+
+.trash-date {
+    font-size: 0.7em;
+    font-weight: bold;
+}
