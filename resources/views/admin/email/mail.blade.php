@@ -4,7 +4,7 @@
   <link rel="stylesheet" href="{{ asset('styles/admin/email/mail.css') }}">
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
@@ -21,48 +21,48 @@
                     <h3 class="card-title">Menu</h3>
 
                     <div class="card-tools">
-                      <button type="button" class="btn btn-tool text-light" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
+                        <button type="button" class="btn btn-tool text-light" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
                     </div>
                   </div>
-                  <div class="card-body bg-secondary p-0">
-                    <ul class="nav nav-pills flex-column">
-                      <li class="nav-item bg-secondary mailbox-item">
-                        <a href="#" class="nav-link inbox actived">
-                          <i class="fas fa-inbox"></i> Boite de reception
-                          <span class="badge bg-primary float-right">12</span>
-                        </a>
-                      </li>
-                      <li class="nav-item bg-secondary mailbox-item">
-                        <a href="#" class="nav-link toSend">
-                          <i class="fas fa-paper-plane"></i> Nouveau message
-                        </a>
-                      </li>
-                      <li class="nav-item bg-secondary mailbox-item">
-                        <a href="#" class="nav-link sent">
-                          <i class="far fa-envelope"></i> Messages envoyés
-                        </a>
-                      </li>
-                      <li class="nav-item bg-secondary mailbox-item">
-                        <a href="#" class="nav-link draft">
-                          <i class="far fa-file-alt"></i> Brouillons
-                          <span class="badge bg-warning float-right">5</span>
-                        </a>
-                      </li>
-                      <li class="nav-item bg-secondary mailbox-item">
-                        <a href="#" class="nav-link trash">
-                          <i class="far fa-trash-alt"></i> Corbeille
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                    <div class="card-body bg-secondary p-0">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item bg-secondary mailbox-item">
+                                <a href="#" class="nav-link inbox actived">
+                                    <i class="fas fa-inbox"></i> Boite de reception
+                                <span class="badge bg-primary float-right">12</span>
+                                </a>
+                            </li>
+                            <li class="nav-item bg-secondary mailbox-item">
+                                <a href="#" class="nav-link toSend">
+                                    <i class="fas fa-paper-plane"></i> Nouveau message
+                                </a>
+                            </li>
+                            <li class="nav-item bg-secondary mailbox-item">
+                                <a href="#" class="nav-link sent">
+                                    <i class="far fa-envelope"></i> Messages envoyés
+                                </a>
+                            </li>
+                            <li class="nav-item bg-secondary mailbox-item">
+                                <a href="#" class="nav-link draft">
+                                    <i class="far fa-file-alt"></i> Brouillons
+                                <span class="badge bg-warning float-right">5</span>
+                                </a>
+                            </li>
+                            <li class="nav-item bg-secondary mailbox-item">
+                                <a href="#" class="nav-link trash">
+                                    <i class="far fa-trash-alt"></i> Corbeille
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                   <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
               </div>
               <!-- /.col -->
-              
+
               <div class="col-md-9">
                 <div class="card card-dark card-outline">
                     <div class="card-header bg-dark">
@@ -87,7 +87,7 @@
                     <!-- /.card-header -->
                     <div class="card-body bg-secondary mail-body p-0">
                         <div class="mail-content">
-                            
+
                         </div>
                         <!-- /.mail-box-messages -->
                     </div>
@@ -148,9 +148,20 @@
         $('.mail-content').html(status);
         $.activeButtonClicked($('.inbox'));
 
+        $('#inbox-check0').change(function () {
+            $('.inbox-delete-check').prop('checked', $(this).prop('checked'));
+            if (!$(this).prop('checked')) {
+                $('.trash-btn').css('display', 'none')
+            } else {
+                $('.trash-btn').css('display', 'block')
+            }
+        });
+
+        $.toggleTrashAndRestoreButton('inbox-delete-check')
+
       }
     });
-    
+
     // inbox view
     $('.inbox').click(function(e){
       e.preventDefault()
@@ -170,47 +181,10 @@
               $('.trash-btn').css('display', 'none')
             } else {
               $('.trash-btn').css('display', 'block')
-            } 
+            }
           });
 
-          var checkboxes = document.querySelectorAll('.inbox-delete-check');
-          
-          if (checkboxes.length > 0) {
-
-            let compteurCheckboxChecked = 0
-
-            checkboxes.forEach((checkbox) => {
-              if (checkbox.checked) {
-                compteurCheckboxChecked = compteurCheckboxChecked + 1
-              }
-            })
-            
-            if (compteurCheckboxChecked > 0) {
-              $('.trash-btn').css('display', 'block')
-            }
-
-            checkboxes.forEach((checkbox) => {
-              checkbox.addEventListener('change', function() {
-                if (checkbox.checked) {
-                  $('.trash-btn').css('display', 'block')
-                } else {
-                  checkboxes.forEach((checkbox) => {
-                    if (checkbox.checked) {
-                      compteurCheckboxChecked = compteurCheckboxChecked + 1
-                    }
-                  })
-
-                  if (compteurCheckboxChecked > 0) {
-                    $('.trash-btn').css('display', 'block')
-                  } else {
-                    $('.trash-btn').css('display', 'none')
-                  }
-
-                  compteurCheckboxChecked = 0
-                }
-              })
-            })
-          }
+          $.toggleTrashAndRestoreButton('inbox-delete-check')
 
         }
       });
@@ -273,48 +247,10 @@
               $('.trash-btn').css('display', 'none')
             } else {
               $('.trash-btn').css('display', 'block')
-            } 
+            }
           });
 
-
-          var checkboxes = document.querySelectorAll('.delete-check');
-          
-          if (checkboxes.length > 0) {
-
-            let compteurCheckboxChecked = 0
-
-            checkboxes.forEach((checkbox) => {
-              if (checkbox.checked) {
-                compteurCheckboxChecked = compteurCheckboxChecked + 1
-              }
-            })
-            
-            if (compteurCheckboxChecked > 0) {
-              $('.trash-btn').css('display', 'block')
-            }
-
-            checkboxes.forEach((checkbox) => {
-              checkbox.addEventListener('change', function() {
-                if (checkbox.checked) {
-                  $('.trash-btn').css('display', 'block')
-                } else {
-                  checkboxes.forEach((checkbox) => {
-                    if (checkbox.checked) {
-                      compteurCheckboxChecked = compteurCheckboxChecked + 1
-                    }
-                  })
-
-                  if (compteurCheckboxChecked > 0) {
-                    $('.trash-btn').css('display', 'block')
-                  } else {
-                    $('.trash-btn').css('display', 'none')
-                  }
-
-                  compteurCheckboxChecked = 0
-                }
-              })
-            })
-          }
+          $.toggleTrashAndRestoreButton('delete-check')
 
         }
       });
@@ -327,21 +263,66 @@
       }
     }
 
+
+    // Voici la fonction qui est là. Prends bien soin ;) faut laisser pour la class .trash-btn à des boutons supprimer que
+    // tu aimerais créer dans les autres blade de ton mail si tu veut utiliser la fonction puisque c'est de cette manière
+    //que j'ai écris la fonction. J'ai pas prévu de code pour le changement de class du bouton supprimer.
+    $.toggleTrashAndRestoreButton = function (classElement) {
+        var checkboxes = document.querySelectorAll('.' + classElement);
+
+        if (checkboxes.length > 0) {
+
+            let compteurCheckboxChecked = 0
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                compteurCheckboxChecked = compteurCheckboxChecked + 1
+                }
+            })
+
+            if (compteurCheckboxChecked > 0) {
+                $('.trash-btn').css('display', 'block')
+            }
+
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    $('.trash-btn').css('display', 'block')
+                } else {
+                    checkboxes.forEach((checkbox) => {
+                    if (checkbox.checked) {
+                        compteurCheckboxChecked = compteurCheckboxChecked + 1
+                    }
+                    })
+
+                    if (compteurCheckboxChecked > 0) {
+                        $('.trash-btn').css('display', 'block')
+                    } else {
+                        $('.trash-btn').css('display', 'none')
+                    }
+
+                    compteurCheckboxChecked = 0
+                }
+                })
+            })
+        }
+    }
+
   })
 
-  function checkedAll(el, el2, el3) {
-    var checkboxes = document.querySelectorAll('el2');
-    el.addEventListener('change', function() {
-      
-      checkboxes.forEach((checkbox) => {
-          .checkboxes.checked == true
-          if (el.checked) {
-            el3.classList.add("appear")
-          }
-      })
+//   function checkedAll(el, el2, el3) {
+//     var checkboxes = document.querySelectorAll('el2');
+//     el.addEventListener('change', function() {
 
-    }) 
-  }
+//       checkboxes.forEach((checkbox) => {
+//           .checkboxes.checked == true
+//           if (el.checked) {
+//             el3.classList.add("appear")
+//           }
+//       })
+
+//     })
+//   }
 </script>
 
 @endsection
