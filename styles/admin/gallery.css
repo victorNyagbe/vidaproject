@@ -3,7 +3,7 @@
 }
 
 .name-project {
-    color: #3838cf;
+    color: #2781cd;
     padding-left: 2em;
     font-size: 1.3em;
     font-weight: bold;
@@ -22,7 +22,7 @@
     font-weight: bold;
     font-size: 0.9em;
     float: right;
-    background-color: #3838cf;
+    background-color: #2781cd;
     padding: 0.5em;
     border-radius: 3%;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
@@ -30,23 +30,46 @@
 
 .add-link:hover {
     color: #ffffff;
-    background-color: #4848eef3;
+    background-color: rgba(39, 130, 205, 0.881);
     text-decoration: none;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
 }
 
 .your-project-name {
-    color: #c6c46f;
+    color: #ffcc00;
 }
 
 .gallery-img {
     background-size: cover;
     height: 25vh;
     width: 100%;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .gallery-img:hover {
     transform: scale3d(1.03, 1.03, 1.03);
     transition: 0.5s;
+}
+
+.delete-img-block {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+.delete-img-block a {
+    background-color: #dc3545;
+    color: #ffffff;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 7%;
+}
+
+.delete-img-block a:hover {
+    text-decoration: none;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.5);
 }

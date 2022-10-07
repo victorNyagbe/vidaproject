@@ -44,37 +44,70 @@ Route::get('/connexion-via-google', [RegisterController::class, 'redirectToGoogl
 
 Route::get('/connexion-via-google/callback', [RegisterController::class, 'handleGoogleCallback'])->name('guests.google.callback');
 
+Route::prefix('collaborateur/')->group( function() {
+    Route::get('dashboard', [MainController::class, 'dashboard'])->name('guests.dashboard');
+});
+
 
 /* Partie Administrateur */
-Route::get('Accueil', [AdminMainController::class, 'home'])->name('admin.home');
+Route::get('accueil', [AdminMainController::class, 'home'])->name('admin.home');
 
-Route::get('dashboard', [AdminMainController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('creation-du-premier-projet', [AdminProjectController:: class, 'createProjectLogin'])->name('admin.createProjectLogin');
+
+Route::prefix('dashboard')->group( function() {
+    Route::get('', [AdminMainController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::post('store-processing', [AdminProjectController::class, 'store_project_login'])->name('admin.home.store');
+});
 
 Route::prefix('projects')->group( function() {
 
-    Route::get('/', [AdminProjectController::class, 'index'])->name('admin.project.project');
+    Route::get('', [AdminProjectController::class, 'index'])->name('admin.project.project');
+
+    Route::post('store-processing', [AdminProjectController::class, 'store'])->name('admin.project.project.store');
+
+    Route::get('/{project}/destroy-processing', [AdminProjectController::class, 'destroy'])->name('admin.project.project.destroy');
 
     Route::prefix('nom-du-projet')->group( function() {
 
-        Route::get('/', [AdminProjectController::class, 'show'])->name('admin.project.showBord');
+        Route::get('', [AdminProjectController::class, 'show'])->name('admin.project.showBord');
 
-        Route::get('/bureau', [AdminBoardController::class, 'board'])->name('admin.board');
+        Route::prefix('details')->group( function() {
 
-        Route::get('/collaborateur', [AdminProjectPartnerController::class, 'collaborateur'])->name('admin.projectBoard.collaborateur');
+            // Route::get('/', [AdminProjectController:: class, 'update_index'])->name('admin.project.projectUpdate');
 
-        Route::get('/diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
+            Route::get('/{project}/edition', [AdminProjectController::class, 'edit'])->name('admin.project.edit');
+            
+            Route::patch('/{project}/update-processing', [AdminProjectController::class, 'update'])->name('admin.project.update');
 
-        Route::get('/calendrier', [AdminProjectCalendarController::class, 'calendar'])->name('admin.projectBoard.calendar');
+            Route::get('/{project}/destroy-project-processing', [AdminProjectController::class, 'destroy_edit'])->name('admin.project.edit.destroy');
 
-        Route::get('/gallerie', [AdminGalleryController::class, 'projectGallery'])->name('admin.projectBoard.gallery');
+        });
+
+        Route::prefix('gallerie')->group( function() {
+
+            Route::get('/', [AdminGalleryController::class, 'projectGallery'])->name('admin.projectBoard.gallery');
+
+            Route::post('/store-processing', [AdminGalleryController::class, 'store'])->name('admin.projectBoard.gallery.store');
+
+            Route::get('/{gallerie}/destroy-processing', [AdminGalleryController::class, 'destroy'])->name('admin.projectBoard.gallery.destroy');
+        });
+
+        Route::get('bureau', [AdminBoardController::class, 'board'])->name('admin.board');
+
+        Route::get('collaborateur', [AdminProjectPartnerController::class, 'collaborateur'])->name('admin.projectBoard.collaborateur');
+
+        Route::get('diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
+
+        Route::get('calendrier', [AdminProjectCalendarController::class, 'calendar'])->name('admin.projectBoard.calendar');
 
         /* Project board */
 
         Route::get('messages', [AdminProjectChatController::class, 'chat'])->name('admin.projectBoard.message.chat');
 
-        Route::get('/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
+        Route::get('autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
 
-        Route::get('/rapport', [AdminProjectPartnerController::class, 'rapport'])->name('admin.projectBoard.rapport');
+        Route::get('rapport', [AdminProjectPartnerController::class, 'rapport'])->name('admin.projectBoard.rapport');
 
         // Route::get('email', [MailController::class, 'mail'])->name('admin.projectBoard.email.mail');
     });
@@ -95,17 +128,17 @@ Route::get('messages', [AdminChatController::class, 'chat'])->name('admin.messag
 
 Route::prefix('email')->group( function() {
 
-    Route::get('/', [AdminMailController::class, 'mail'])->name('admin.email.mail');
+    Route::get('', [AdminMailController::class, 'mail'])->name('admin.email.mail');
 
-    Route::get('/boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.email.inboxMail');
+    Route::get('boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.email.inboxMail');
 
-    Route::get('/envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.email.newMail');
+    Route::get('envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.email.newMail');
 
-    Route::get('/message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.email.sentMail');
+    Route::get('message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.email.sentMail');
 
-    Route::get('/brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.email.draftMail');
+    Route::get('brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.email.draftMail');
 
-    Route::get('/Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
+    Route::get('Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
 
 });
 

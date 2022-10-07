@@ -1,5 +1,5 @@
 .name-project {
-    color: #3838cf;
+    color: #2781cd;
     padding-left: 2em;
     font-size: 1.3em;
     font-weight: bold;
@@ -7,7 +7,7 @@
 
 .name-project:hover {
     text-decoration: none;
-    color: #4848eef3;
+    color: #2781cd;
 }
 
 .page-name {
@@ -22,7 +22,7 @@
     font-weight: bold;
     font-size: 0.9em;
     float: right;
-    background-color: #3838cf;
+    background-color: #2781cd;
     padding: 0.5em;
     border-radius: 3%;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
@@ -30,7 +30,29 @@
 
 .add-link:hover {
     color: #ffffff;
-    background-color: #4848eef3;
+    background-color: rgba(39, 130, 205, 0.881);
     text-decoration: none;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.checkboxs-form {
+    padding: 1em;
+}
+
+.first-checkbox {
+    display: inline-block;
+    margin-left: 2em;
+}
+
+.second-checkbox {
+    display: inline-block;
+    margin-left: 4em;
+}
+
+.start-input {
+    display: none;
+}
+
+.end-input {
+    display: none;
 }

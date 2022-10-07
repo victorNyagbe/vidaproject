@@ -37,7 +37,7 @@
                     <div class="checkbox pt-4">
                       <label for="drop-remove">
                         <input type="checkbox" id="drop-remove">
-                        Supprimer une fois lâché
+                        Déposer et Supprimer
                       </label>
                     </div>
                     <div class="delete-event">

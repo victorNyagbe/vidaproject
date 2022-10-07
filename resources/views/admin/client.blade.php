@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-12 pb-5">
                 <a href="#" class="name-project">Gestion de projet</a><span class="page-name">/ Client</span>
-                <a href="#" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un client</a>
+                <a href="#!" data-toggle="modal" data-target="#chooseProject" class="add-link"><i class="fas fa-hand-point-right"></i> Choisir le projet</a>
             </div>
         </div>
         <!-- /.col -->
@@ -20,7 +20,7 @@
             <div class="col-12">
             <div class="card bg-secondary">
               <div class="card-header cardHeader">
-                    Liste des clients de votre projet : Gestion de projet
+                    Vos clients sur le projet : Gestion de projet
               </div>
               <div class="card-body">
                     <div class="row small-card">
@@ -73,6 +73,33 @@
             </div>
           </div>
        </div>
+
+       <div class="modal fade" id="chooseProject" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Choisir le projet</h5>
+              <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                    <label for="statut">Voulez-vous afficher le(s) client(s) de quel projet ?</label>
+                    <select name="statut" id="statut" class="form-control">
+                        <option value="" disabled><b>Vos projets</b></option>
+                        <option value="1">Kozah 3</option>
+                        <option value="2">Gozem</option>
+                        <option value="3">Golfe 1</option>
+                    </select>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </div>

@@ -24,7 +24,7 @@
                   <p>Projets</p>
                 </div>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -43,7 +43,7 @@
                 </div>
               </div>
               
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -60,7 +60,7 @@
                   <p>Calendrier</p>
                 </div>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -77,7 +77,7 @@
                   <p>En ligne</p>
                 </div>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -106,33 +106,33 @@
                         <th scope="col">Nombre de Collaborateur</th>
                         <th scope="col">Chef projet</th>
                         <th scope="col">Type de projet</th>
-                        <th scope="col">Nombre de ressource</th>
+                        <th scope="col">Date de finalisation</th>
                         <th scope="col">Progression</th>
                       </tr>
                     </thead>
                     <tbody class="table-group-divider">
                       <tr>
-                        <td>Mark</td>
+                        <td>Gozem</td>
                         <td>5</td>
                         <td>Vic</td>
-                        <td>informatique</td>
-                        <td>2</td>
+                        <td>Application web</td>
+                        <td>01-11-2023</td>
                         <td>55%</td>
                       </tr>
                       <tr>
-                        <td>Jacob</td>
+                        <td>Jira</td>
                         <td>6</td>
                         <td>Thornton</td>
-                        <td>construction</td>
-                        <td>6</td>
+                        <td>Application destop</td>
+                        <td>6-07-2023</td>
                         <td>70%</td>
                       </tr>
                       <tr>
-                        <td>Alex</td>
+                        <td>Apple</td>
                         <td>4</td>
                         <td>Gordonne</td>
-                        <td>Fabrication</td>
-                        <td>8</td>
+                        <td>Application mobile</td>
+                        <td>3-04-2023</td>
                         <td>30%</td>
                       </tr>
                     </tbody>
@@ -252,7 +252,7 @@
 
                 <h3 class="card-title">
                   <i class="far fa-calendar-alt"></i>
-                  Calendar
+                  Calendrier
                 </h3>
                 <!-- tools card -->
                 <div class="card-tools">
@@ -262,10 +262,10 @@
                       <i class="fas fa-bars"></i>
                     </button>
                     <div class="dropdown-menu" role="menu">
-                      <a href="#" class="dropdown-item">Add new event</a>
-                      <a href="#" class="dropdown-item">Clear events</a>
+                      <a href="#" class="dropdown-item">Ajouter un évènement</a>
+                      <a href="#" class="dropdown-item">Supprimer un évènement</a>
                       <div class="dropdown-divider"></div>
-                      <a href="#" class="dropdown-item">View calendar</a>
+                      <a href="#" class="dropdown-item">Voir calendrier</a>
                     </div>
                   </div>
                   <button type="button" class="btn btn-secondary btn-sm" data-card-widget="collapse">
@@ -291,7 +291,7 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-clipboard mr-1"></i>
-                  To Do List
+                  Liste de tâches
                 </h3>
 
                 <div class="card-tools">
@@ -319,7 +319,7 @@
                       <label for="todoCheck1"></label>
                     </div>
                     <!-- todo text -->
-                    <span class="text">Design a nice theme</span>
+                    <span class="text">Concevoir un design de thème</span>
                     <!-- Emphasis label -->
                     <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
                     <!-- General tools such as edit or delete-->
@@ -337,7 +337,7 @@
                       <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
                       <label for="todoCheck2"></label>
                     </div>
-                    <span class="text">Make the theme responsive</span>
+                    <span class="text">Rendre le thème responsive</span>
                     <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
                     <div class="tools">
                       <i class="fas fa-edit"></i>
@@ -353,7 +353,7 @@
                       <input type="checkbox" value="" name="todo3" id="todoCheck3">
                       <label for="todoCheck3"></label>
                     </div>
-                    <span class="text">Let theme shine like a star</span>
+                    <span class="text">Dynamiser le login</span>
                     <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
                     <div class="tools">
                       <i class="fas fa-edit"></i>
@@ -369,7 +369,7 @@
                       <input type="checkbox" value="" name="todo4" id="todoCheck4">
                       <label for="todoCheck4"></label>
                     </div>
-                    <span class="text">Let theme shine like a star</span>
+                    <span class="text">Dynamiser la première interface</span>
                     <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
                     <div class="tools">
                       <i class="fas fa-edit"></i>

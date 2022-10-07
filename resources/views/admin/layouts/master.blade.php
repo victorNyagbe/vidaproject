@@ -41,13 +41,13 @@
   @yield('style')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-        @include('admin.includes.navbar')
-        @include('admin.includes.sidebar')
-        @yield('content')
-    </div>
+  <div class="wrapper">
+    @include('admin.includes.navbar')
+    @include('admin.includes.sidebar')
+    @yield('content')
+  </div>
 
-    <!-- jQuery -->
+<!-- jQuery -->
 <script src="{{ asset('styles/admin/plugins/jquery/jquery.js') }} "></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('styles/admin/plugins/jquery-ui/jquery-ui.js') }} "></script>

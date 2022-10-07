@@ -211,9 +211,21 @@
         type : "GET",
         url : "{{ route('admin.email.sentMail') }}",
         success : function(status){
-          $('#cardMail').text('Messages envoyé')
+          $('#cardMail').text('Messages envoyés')
           $('.mail-content').html(status);
           $.activeButtonClicked($('.sent'));
+
+          $('#sent-check0').change(function () {
+            $('.sent-delete-check').prop('checked', $(this).prop('checked'));
+            if (!$(this).prop('checked')) {
+              $('.trash-btn').css('display', 'none')
+            } else {
+              $('.trash-btn').css('display', 'block')
+            }
+          });
+
+          $.toggleTrashAndRestoreButton('sent-delete-check')
+
         }
       });
     });
@@ -227,6 +239,18 @@
           $('#cardMail').text('Brouillons')
           $('.mail-content').html(status);
           $.activeButtonClicked($('.draft'));
+
+          $('#draft-check0').change(function () {
+            $('.draft-delete-check').prop('checked', $(this).prop('checked'));
+            if (!$(this).prop('checked')) {
+              $('.trash-btn').css('display', 'none')
+            } else {
+              $('.trash-btn').css('display', 'block')
+            }
+          });
+
+          $.toggleTrashAndRestoreButton('draft-delete-check')
+
         }
       });
     });

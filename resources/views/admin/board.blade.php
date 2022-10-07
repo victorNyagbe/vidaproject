@@ -27,45 +27,53 @@
                                         LISTE TÂCHES
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#"><i class="bi bi-three-dots-vertical"></i></a>
-                                            <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
+                                            <a href="#" data-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mr-4 mt-4">
+                                                <a href="#" class="dropdown-item">
+                                                    4 new messages
+                                                </a>
+                                            </div>
+                                            <a href="#">
+                                                <i class="bi bi-plus-circle-fill"></i>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
-                                        <div class="accordion" id="accordionOne">
-                                            <div class="card card-warning card-outline">
-                                                <div class="card-header bg-light" id="headingOne">
-                                                    <h5 class="card-title small-card-title">Création de l'i...</h5>
-                                                    <div class="card-tools">
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                        <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></i>
-                                                    </div>
+                                        <div class="card card-warning card-outline">
+                                            <div class="card-header bg-light" id="headingOne">
+                                                <h5 class="card-title small-card-title">Création de l'i...</h5>
+                                                <div class="card-tools">
+                                                    <a href="#" class="btn btn-tool">
+                                                        <i class="fas fa-pen"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <!-- <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></i> -->
                                                 </div>
-                                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionOne">
-                                                    <div class="card-body bg-light">
-                                                        <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" disabled>
-                                                        <label for="customCheckbox1" class="custom-control-label">Bug</label>
-                                                        </div>
-                                                        <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" id="customCheckbox2" disabled>
-                                                        <label for="customCheckbox2" class="custom-control-label">Feature</label>
-                                                        </div>
-                                                        <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" id="customCheckbox3" disabled>
-                                                        <label for="customCheckbox3" class="custom-control-label">Enhancement</label>
-                                                        </div>
-                                                        <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" id="customCheckbox4" disabled>
-                                                        <label for="customCheckbox4" class="custom-control-label">Documentation</label>
-                                                        </div>
-                                                        <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" id="customCheckbox5" disabled>
-                                                        <label for="customCheckbox5" class="custom-control-label">Examples</label>
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                            <div class="card-body bg-light">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox1" disabled>
+                                                    <label for="customCheckbox1" class="custom-control-label">Bug</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox2" disabled>
+                                                    <label for="customCheckbox2" class="custom-control-label">Feature</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox3" disabled>
+                                                    <label for="customCheckbox3" class="custom-control-label">Enhancement</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox4" disabled>
+                                                    <label for="customCheckbox4" class="custom-control-label">Documentation</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" type="checkbox" id="customCheckbox5" disabled>
+                                                    <label for="customCheckbox5" class="custom-control-label">Examples</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,28 +87,33 @@
                                         À FAIRE
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#"><i class="bi bi-three-dots-vertical"></i></a>
+                                            <a href="#" data-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left ml-2 mt-4">
+                                                <a href="#" class="dropdown-item text-dark">
+                                                    4 new messages
+                                                </a>
+                                            </div>
                                             <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
-                                        <div class="accordion" id="accordionTwo">
-                                            <div class="card card-primary card-outline">
-                                                <div class="card-header bg-light" id="headingTwo">
-                                                    <h5 class="card-title small-card-title">1er solution</h5>
-                                                        <div class="card-tools">
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                        <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"></i>
-                                                    </div>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionTwo">
-                                                    <div class="card-body bg-light">
-                                                        Commentaire
-                                                    </div>
+                                        <div class="card card-primary card-outline">
+                                            <div class="card-header bg-light" id="headingTwo">
+                                                <h5 class="card-title small-card-title">1er solution</h5>
+                                                    <div class="card-tools">
+                                                    <a href="#" class="btn btn-tool">
+                                                        <i class="fas fa-pen"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
                                                 </div>
                                             </div>
+                                                <div class="card-body bg-light">
+                                                    Commentaire
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +125,14 @@
                                         EN COURS
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#"><i class="bi bi-three-dots-vertical"></i></a>
+                                            <a href="#" data-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mt-4">
+                                                <a href="#" class="dropdown-item">
+                                                    4 new messages
+                                                </a>
+                                            </div>
                                             <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
                                         </div>
                                     </div>
@@ -125,15 +145,15 @@
                                                         <a href="#" class="btn btn-tool">
                                                             <i class="fas fa-pen"></i>
                                                         </a>
-                                                        <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"></i>
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionThree">
-                                                    <div class="card-body bg-light">
-                                                        <p>
-                                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                                        </p>
-                                                    </div>
+                                                <div class="card-body bg-light">
+                                                    <p>
+                                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,7 +167,14 @@
                                         TERMINÉ
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#"><i class="bi bi-three-dots-vertical"></i></a>
+                                            <a href="#" data-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mr-2 mt-4">
+                                                <a href="#" class="dropdown-item text-dark">
+                                                    4 new messages
+                                                </a>
+                                            </div>
                                             <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
                                         </div>
                                     </div>
@@ -160,15 +187,15 @@
                                                         <a href="#" class="btn btn-tool">
                                                             <i class="fas fa-pen"></i>
                                                         </a>
-                                                        <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"></i>
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionFour">
-                                                    <div class="card-body bg-light">
-                                                        <p>
-                                                            Commentaire
-                                                        </p>
-                                                    </div>
+                                                <div class="card-body bg-light">
+                                                    <p>
+                                                        Commentaire
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
