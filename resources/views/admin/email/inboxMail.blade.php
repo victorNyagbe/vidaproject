@@ -17,7 +17,7 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -33,7 +33,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -58,7 +58,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -83,7 +83,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -92,7 +92,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -108,7 +108,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -117,7 +117,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -133,7 +133,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -142,7 +142,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -158,7 +158,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -167,7 +167,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -183,7 +183,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -192,7 +192,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -208,7 +208,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -217,7 +217,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -233,7 +233,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -242,7 +242,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -258,7 +258,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -267,7 +267,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -283,7 +283,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -292,7 +292,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -308,7 +308,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -317,7 +317,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -333,7 +333,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -342,7 +342,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -358,7 +358,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
@@ -367,7 +367,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="icheck-primary">
+                    <div class="icheck-danger">
                         <input
                             type="checkbox"
                             value=""
@@ -383,7 +383,7 @@
                 <td class="mailbox-subject">
                     <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
                 </td>
-                <td class="mailbox-attachment">
+                <td class="mailbox-attachment delete-icons">
                     <a href="#">
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>

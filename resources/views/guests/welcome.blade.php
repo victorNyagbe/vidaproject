@@ -20,7 +20,7 @@
        
     </head>
     <body>
-        <div class="container-fluid">
+        <!-- <div class="container-fluid">
             <div class="back-img">
                 <div class="filter">
                     <div class="container">
@@ -47,7 +47,31 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+        <section id="hero" class="welcome-page">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 logo">
+                        <img src="{{ asset('assets/logos/goproject-03.png') }}" alt="Logo">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
+                        <div>
+                            <h2>Démarrer la gestion de tout vos projets informatiques</h2>
+                            <h4>L'objectif est d'assurer la planification et le monitoring de vos projets</h4>
+                            <a href="{{ route('guests.login') }}" class="btn btn-success mt-4">Commencer <i class="bi bi-play-circle-fill"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
+                        <img src="{{ asset('assets/images/hero-img.png') }}" class="img-fluid" alt="image">
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- End Hero -->
 
 
         <!-- Main JS File -->

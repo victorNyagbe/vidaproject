@@ -37,6 +37,14 @@
     display: none;
 }
 
+.delete-icons {
+    padding: 10px 0;
+}
+
+.delete-icons i:hover.fa-trash-alt:before {
+    color: #dc3545;
+}
+
 /* trash */
 
 .select-all-block {

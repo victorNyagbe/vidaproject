@@ -1,12 +1,17 @@
 /* Navbar */
 .navbar-background {
-    background-color: #c6c46f;
+    background: #20b085;
+    color: #ffffff;
+}
+
+.navbar-background a {
+    color: #ffffff;
 }
 
 .online-btn {
     width: 9px;
     height: 9px;
-    background-color: #00bc8b;
+    background-color: #09f540;
     border-radius: 50%;
 }
 
@@ -14,7 +19,26 @@
 .sidebar-background {
     /* background-color: #a1a04e; */
     color: #ffffff;
-    background-color: #c6c46f;
+    background-color: #20b085;
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    background-color: #20b085;
+    position: relative;
+}
+
+.brand-link {
+    height: 80px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.goproject-logo {
+    border-radius: 20px;
+    position: absolute;
 }
 
 .info-user a {
@@ -25,21 +49,21 @@
 }
 
 .info-user a:hover {
-    color: #000000;
+    color: #22222289;
 }
 
 .sidebar-light .nav-sidebar > .nav-item > .nav-link.active {
-    background-color: #a1a04e;
+    background-color: #20b085;
     color: #fff;
 }
 
 .sidebar-light .nav-sidebar > .nav-item > .nav-link.active:hover {
-    background-color: #a1a04e;
+    background-color: #20b085;
     color: #fff;
 }
 
 .sidebar-light .nav-sidebar > .nav-item > .nav-link:hover {
-    color: #a1a04e;
+    color: #20b085;
 }
 
 .sidebar-bg {
@@ -56,12 +80,12 @@
     > .nav-treeview
     > .nav-item
     > .nav-link:hover {
-    color: #a1a04e;
+    color: #20b085;
 }
 
 .badge-background {
     color: #fff;
-    background-color: #7633f9;
+    background-color: #f79d01;
 }
 
 /* Dashboard */
@@ -127,7 +151,7 @@ td {
 }
 
 .progressbar-content {
-    background-color: #7633f9;
+    background-color: #1bd253;
     padding: 0.22em;
     text-align: right;
     border-radius: 15px;
@@ -178,7 +202,7 @@ td {
 /* Calendar */
 
 .calendar-block {
-    height: 48vh;
+    height: 43vh;
 }
 
 .bootstrap-datetimepicker-widget table td.old,

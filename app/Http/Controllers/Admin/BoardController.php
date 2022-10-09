@@ -9,7 +9,7 @@ class BoardController extends Controller
 {
     public function board()
     {
-        $page = 'admin.board';
+        $page = 'admin.projectBoard.board';
         return view('admin.board', compact('page'));
     }
 }

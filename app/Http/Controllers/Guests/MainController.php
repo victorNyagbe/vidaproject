@@ -16,4 +16,11 @@ class MainController extends Controller
     {
         return view('guests.login');
     }
+
+    public function dashboard()
+    {
+        $page = 'guests.dashboard';
+
+        return view('guests.dashboard', compact('page'));
+    }
 }

@@ -1,20 +1,19 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light sidebar-bg elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="{{ asset('styles/admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">GoProject</span>
-    </a>
+    <div class="brand-block mb-3 d-flex">
+      <div href="index3.html" class="brand-link image">
+        <img src="{{ asset('assets/logos/goproject-03.jpg') }}" alt="goproject Logo" class="brand-image goproject-logo" style="opacity: .8; width:140px; height:120px;">
+      </div>
+    </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src=" {{ asset('assets/logos/gozem.png') }} " class="img-circle logo-img elevation-2" alt="User Image">
-        </div>
-        <div class="info info-user">
-          <a href="#" class="d-block">Gozem</a>
+      <div class="user-panel pb-3 mb-3 d-flex">
+        <div class="image" style="padding-left: 5em;">
+          <!-- <img src=" {{ asset('assets/logos/kozah 3 logo.jpg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
+          <img src=" {{ asset('assets/logos/gozem.png') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
         </div>
       </div>
 
@@ -36,7 +35,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{ route('admin.project.showBord') }}" class="nav-link {{ $page == 'admin.projectBoard.project.showBoard' ? 'active' : '' }}">
+            <a href="{{ route('admin.project.showBord') }}" class="nav-link {{ $page == 'admin.project.showBoard' ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                   Tableau de bord

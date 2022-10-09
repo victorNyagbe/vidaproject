@@ -24,6 +24,11 @@
             <div class="login-back">
                 <div class="login-filter">
                     <div class="container">
+                        <div class="row">
+                            <div class="col-12 login-logo">
+                                <img src="{{ asset('assets/logos/goproject-03.png') }}" alt="Logo">
+                            </div>
+                        </div>
                         <div class="row login-content">
                             <div class="col-12 col-lg-6">
                                 <div class="">
