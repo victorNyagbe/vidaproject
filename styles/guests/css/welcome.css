@@ -1,4 +1,4 @@
-.container-fluid {
+/* .container-fluid {
     padding-left: 0;
     padding-right: 0;
 }
@@ -44,7 +44,7 @@
     text-align: justify;
 } */
 
-.welcome-title {
+/* .welcome-title {
     font-size: 2.4em;
     font-weight: bold;
 }
@@ -85,9 +85,37 @@
     background-repeat: no-repeat;
     height: 50vh;
     background-position: center;
+} */
+
+.welcome-page {
+    background-color: #20b08579;
+    height: 100vh;
+}
+
+.logo {
+    height: 15vh;
+    align-items: center;
+    display: flex;
+}
+
+.logo img {
+    width: 400px;
+    height: 200px;
+    padding-top: 4em;
 }
 
 /**** LOGIN ****/
+
+.login-logo {
+    height: 10vh;
+    align-items: center;
+    display: flex;
+}
+
+.login-logo img {
+    width: 200px;
+    height: 80px;
+}
 
 .login-filter {
     position: absolute;
@@ -138,7 +166,7 @@
     text-align: center;
     box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
     width: 100%;
-    border: 1px solid #c6c46f;
+    border: 1px solid #20b085;
 }
 
 .orBlock {
@@ -181,13 +209,13 @@
 }
 
 .btn-validate {
-    background-color: #c6c46f;
+    background-color: #20b085;
     color: #ffffff;
     font-size: 1.2em;
 }
 
 .btn-validate:hover {
-    background-color: #b1b053;
+    background-color: #1be2a6;
     color: #ffffff;
 }
 
@@ -212,6 +240,9 @@
     text-align: left;
 }
 
-#errorFirstName, #errorLastName, #errorEmail, #errorPassword {
+#errorFirstName,
+#errorLastName,
+#errorEmail,
+#errorPassword {
     display: none;
 }

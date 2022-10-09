@@ -27,21 +27,13 @@
                                         LISTE TÂCHES
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#" data-toggle="dropdown">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mr-4 mt-4">
-                                                <a href="#" class="dropdown-item">
-                                                    4 new messages
-                                                </a>
-                                            </div>
-                                            <a href="#">
-                                                <i class="bi bi-plus-circle-fill"></i>
+                                            <a href="#" class="add-task">
+                                                <i class="bi bi-plus-circle"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
-                                        <div class="card card-warning card-outline">
+                                        <div class="card card-warning card-outline collapsed-card">
                                             <div class="card-header bg-light" id="headingOne">
                                                 <h5 class="card-title small-card-title">Création de l'i...</h5>
                                                 <div class="card-tools">
@@ -49,7 +41,7 @@
                                                         <i class="fas fa-pen"></i>
                                                     </a>
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                        <i class="fas fa-minus"></i>
+                                                        <i class="fas fa-plus"></i>
                                                     </button>
                                                     <!-- <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></i> -->
                                                 </div>
@@ -87,19 +79,13 @@
                                         À FAIRE
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#" data-toggle="dropdown">
-                                                <i class="bi bi-three-dots-vertical"></i>
+                                            <a href="#">
+                                                <i class="bi bi-plus-circle"></i>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left ml-2 mt-4">
-                                                <a href="#" class="dropdown-item text-dark">
-                                                    4 new messages
-                                                </a>
-                                            </div>
-                                            <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
-                                        <div class="card card-primary card-outline">
+                                        <div class="card card-primary card-outline collapsed-card">
                                             <div class="card-header bg-light" id="headingTwo">
                                                 <h5 class="card-title small-card-title">1er solution</h5>
                                                     <div class="card-tools">
@@ -107,13 +93,13 @@
                                                         <i class="fas fa-pen"></i>
                                                     </a>
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                        <i class="fas fa-minus"></i>
+                                                        <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                                <div class="card-body bg-light">
-                                                    Commentaire
-                                                </div>
+                                            <div class="card-body bg-light">
+                                                Commentaire
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,20 +111,14 @@
                                         EN COURS
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#" data-toggle="dropdown">
-                                                <i class="bi bi-three-dots-vertical"></i>
+                                            <a href="#">
+                                                <i class="bi bi-plus-circle"></i>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mt-4">
-                                                <a href="#" class="dropdown-item">
-                                                    4 new messages
-                                                </a>
-                                            </div>
-                                            <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
                                         <div class="accordion" id="accordionThree">
-                                            <div class="card card-info card-outline">
+                                            <div class="card card-info card-outline collapsed-card">
                                                 <div class="card-header bg-light">
                                                     <h5 class="card-title small-card-title">Créer le dépôt</h5>
                                                     <div class="card-tools">
@@ -146,7 +126,7 @@
                                                             <i class="fas fa-pen"></i>
                                                         </a>
                                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                            <i class="fas fa-minus"></i>
+                                                            <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -167,20 +147,12 @@
                                         TERMINÉ
                                         </h3>
                                         <div class="board-card-icon">
-                                            <a href="#" data-toggle="dropdown">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left mr-2 mt-4">
-                                                <a href="#" class="dropdown-item text-dark">
-                                                    4 new messages
-                                                </a>
-                                            </div>
-                                            <a href="#"><i class="bi bi-plus-circle-fill"></i></a>
+                                            <a href="#"><i class="bi bi-plus-circle"></i></a>
                                         </div>
                                     </div>
                                     <div class="card-body bg-secondary">
                                         <div class="accordion" id="accordionFour">
-                                            <div class="card card-success card-outline">
+                                            <div class="card card-success card-outline collapsed-card">
                                                 <div class="card-header bg-light">
                                                     <h5 class="card-title small-card-title">Créer le logo</h5>
                                                     <div class="card-tools">
@@ -188,7 +160,7 @@
                                                             <i class="fas fa-pen"></i>
                                                         </a>
                                                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                            <i class="fas fa-minus"></i>
+                                                            <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
                                                 </div>

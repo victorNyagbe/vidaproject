@@ -29,13 +29,13 @@
                         <form class="login-form" action="{{ route('admin.home.store') }}" method="post">
                             @csrf
                             <div class="form-group">
-                                <input type="text" name="project_name" id="project_name" class="form-control" placeholder="Nom du projet*">
+                                <input type="text" name="project_name" id="project_name" class="form-control" placeholder="Nom du projet">
                             </div>
                             <!-- <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Mot clé*">
                             </div> -->
                             <div class="form-group">
-                                <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet*" style="width: 100%;">
+                                <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
                                     <option>Application web</option>
                                     <option>Application mobile</option>
                                     <option>Application destop</option>
