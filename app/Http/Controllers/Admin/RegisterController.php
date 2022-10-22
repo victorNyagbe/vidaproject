@@ -27,7 +27,7 @@ class RegisterController extends Controller
             'registerPassword.confirmed' => 'Les mot de passe ne sont pas conformes'
         ]);
 
-        User::create([
+       $user = User::create([
             'fullname' => $request->registerFirstName . ' ' . $request->registerLastName,
             'email' => $request->registerEmail,
             'password' => Hash::make($request->registerPassword)
@@ -35,7 +35,11 @@ class RegisterController extends Controller
 
         $fullname = $request->registerFirstName . ' ' . $request->registerLastName;
 
-        session()->put('fullname', $fullname);
+        session()->put('id', $user->id);
+        session()->put('email', $user->email);
+        session()->put('fullname', $user->fullname);
+        session()->put('profile', $user->profile);
+        session()->put('isAuthenticated', true);
 
         return route('admin.dashboard');
     }
@@ -67,6 +71,10 @@ class RegisterController extends Controller
             ]);
         }
 
+        session()->put('id', $user->id);
+        session()->put('email', $user->email);
         session()->put('fullname', $user->fullname);
+        session()->put('profile', $user->profile);
+        session()->put('isAuthenticated', true);
     }
 }
