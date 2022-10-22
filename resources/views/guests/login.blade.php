@@ -452,8 +452,6 @@
 
                         $.validateRegisterForm()
 
-                        console.log('right not: ' + $.validateRegisterForm())
-
                         if (!$.validateRegisterForm()) {
                             $.ajax({
                                 type: "POST",
