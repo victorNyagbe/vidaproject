@@ -11,7 +11,7 @@
        <div class="container-fluid">
           <div class="row">
               <div class="col-12 pb-5">
-                  <a href="#" class="name-project">Gestion de projet</a><span class="page-name">/ Client</span>
+                  <a href="#" class="name-project">Gestion de projet</a><span class="page-name">/ Collaborateurs</span>
                   <a href="#" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un collaborateur</a>
               </div>
           </div>

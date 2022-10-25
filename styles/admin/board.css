@@ -46,6 +46,12 @@
     font-size: 1.2em;
 }
 
+.small-card-title-block {
+    height: 3vh;
+    align-items: center;
+    display: flex;
+}
+
 .small-card-title {
     font-size: 1em;
     font-weight: bold;
@@ -70,4 +76,12 @@
 
 .signe {
     cursor: pointer;
+}
+
+.addTask-btn {
+    background-color: #292b2c;
+}
+
+.addTask-btn:hover {
+    background-color: #3d3f3f;
 }

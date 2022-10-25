@@ -10,22 +10,21 @@
 <div class="content-wrapper">
   <section class="content pt-4">
     <div class="container-fluid">
+      @include('admin.includes.messageReturned')
       <div class="row">
           <div class="col-12 pb-5">
-              <h6 class="name-project">Gozem</h6><span class="page-name">/ Rapport</span>
-              <a href="#" class="add-link"><i class="bi bi-send-fill"></i> Envoyer le rapport</a>
+              <h6 class="project-title">Gozem</h6><span class="page-name">/ Rapport</span>
+              <!-- <a href="#" class="btn btn-primary send-link"><i class="bi bi-send-fill"></i> Envoyer le rapport</a> -->
+              <a href="#" data-toggle="modal" data-target="#showRapport" class="btn btn-primary showRapports-btn"><i class="bi bi-file-earmark-pdf"></i> Vos rapports</a>
           </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-9 col-lg-8">
-          <form action="" method="" enctype="" id="createForm">
+          <form action="{{ route('admin.projectBoard.rapport.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="form-group">
               <label for="title">Titre du projet </label>
               <input type="text" name="title" id="title" value="" class="form-control" placeholder="Saisir le titre du projet">
-            </div>
-            <div class="form-group">
-              <label for="duration">Durée du projet </label>
-              <input type="text" name="duration" id="duration" value="" class="form-control" placeholder="Saisir la durée du projet">
             </div>
             <div class="form-group">
               <label for="project_key">Clée du projet </label>
@@ -33,11 +32,11 @@
             </div>
             <div class="form-group">
               <label for="date_debut">Date de Début </label>
-              <input type="text" name="date_debut" id="date_debut" value="" class="form-control" placeholder="Saisir la date de début">
+              <input type="date" name="date_debut" id="date_debut" value="" class="form-control" placeholder="Saisir la date de début">
             </div>
             <div class="form-group">
               <label for="date_fin">Date de fin </label>
-              <input type="text" name="date_fin" id="date_fin" value="" class="form-control" placeholder="Saisir la date de fin">
+              <input type="date" name="date_fin" id="date_fin" value="" class="form-control" placeholder="Saisir la date de fin">
             </div>
             <div class="form-group">
               <label for="montant">Montant du budget </label>
@@ -45,12 +44,12 @@
             </div>
             <div class="form-group">
               <label for="stade">Stade du projet</label>
-              <select name="stade" id="stade" class="form-control">
-                <option value="">Selectionner le niveau de progression du projet</option>
-                <option value="">Stade de pré-amorçage</option>
-                <option value="">Stade d'amorçage</option>
-                <option value="">Stade de croissance</option>
-                <option value="">phase de finalisation</option>
+              <select name="stade" id="stade" data-placeholder="Choisir le stade d'avancement du projet" class="form-control">
+                <option value="1">Selectionner le niveau de progression du projet</option>
+                <option value="2">Stade de pré-amorçage</option>
+                <option value="3">Stade d'amorçage</option>
+                <option value="3">Stade de croissance</option>
+                <option value="4">phase de finalisation</option>
               </select>
             </div>
             <div class="form-group">
@@ -58,14 +57,41 @@
               <textarea name="description" id="description" class="form-control description">
               </textarea>
             </div>
-            
             <div class="form-group text-center pt-4 pb-5">
               <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-success text-uppercase">valider</button>
+                <button type="submit" class="btn btn-success text-uppercase">Enregistrer</button>
               </div>
             </div>
+            
           </form>
-        </div>   
+        </div> 
+        
+        <!-- modals of show all rapports -->
+
+        <div class="modal fade" id="showRapport" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content bg-secondary">
+                  <div class="modal-header">
+                      <h5 class="modal-title text-uppercase">Vos Rapports</h5>
+                      <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="#" method="">
+                      @foreach ($rapports as $rapport)
+                        <div class="form-row">
+                          <div class="col-11 rapport-title ">{{ $rapport->title }}</div>
+                          <div class="col-1"><a href="{{ route('admin.projectBoard.rapport.edit', $rapport) }}" class="btn btn-info btn-sm {{ $page=='admin.projectBoard.rapport' ? 'active' : ''}}"><i class="fas fa-eye"></i></a></div>
+                        </div>
+                        <hr>
+                      @endforeach
+                    </form>
+                  </div>
+              </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

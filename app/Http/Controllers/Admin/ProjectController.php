@@ -85,6 +85,11 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $verify_project = Project::where('id', $project->id)->first();
+
+        if ($verify_project == null) {
+            abort('404');
+        }
+        
         $page = 'admin.project';
         return view('admin.project.edit', compact('project','page'));
     }

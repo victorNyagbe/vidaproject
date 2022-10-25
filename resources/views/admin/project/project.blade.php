@@ -76,11 +76,11 @@
                         </div>
                         <div class="form-group">
                           <label for="project_type">Type de projet (vous pouvez en choisir plusieurs)</label>
-                          <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet*" style="width: 100%;">
-                              <option>Application web</option>
-                              <option>Application mobile</option>
-                              <option>Application destop</option>
-                              <option>Site web</option>
+                          <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
+                            <option>Application web</option>
+                            <option>Application mobile</option>
+                            <option>Application destop</option>
+                            <option>Site web</option>
                           </select>
                         </div>
                         <div class="form-group checkboxs-form">

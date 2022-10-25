@@ -109,7 +109,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.rapport') }}" class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.rapport.index') }}" class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Rapport

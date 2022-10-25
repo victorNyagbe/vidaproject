@@ -1,3 +1,11 @@
+.project-title {
+    color: #2781cd;
+    padding-left: 2em;
+    font-size: 1.3em;
+    font-weight: bold;
+    display: inline-block;
+}
+
 .name-project {
     color: #2781cd;
     padding-left: 2em;
@@ -8,7 +16,7 @@
 
 .name-project:hover {
     text-decoration: none;
-    color: #2781cd;
+    color: #2782cdcb;
 }
 
 .page-name {
@@ -18,24 +26,46 @@
     color: #0000005a;
 }
 
-.add-link {
-    color: #ffffff;
+.send-link {
     font-weight: bold;
-    font-size: 0.9em;
     float: right;
-    background-color: #2781cd;
-    padding: 0.5em;
-    border-radius: 3%;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    margin-right: 10em;
 }
 
-.add-link:hover {
-    color: #ffffff;
-    background-color: rgba(39, 130, 205, 0.881);
-    text-decoration: none;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+.show-btn {
+    font-weight: bold;
+    float: right;
+    margin-right: 1rem;
+}
+
+.showRapports-btn {
+    font-weight: bold;
+    float: right;
+    margin-right: 5em;
 }
 
 .blocNote {
     font-size: 1.5em;
+}
+
+.rapport-title {
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+/* edit */
+
+.info-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.info-detail {
+    font-size: 1.2rem;
+}
+
+.info-description {
+    font-size: 1.2rem;
+    text-align: justify;
 }
