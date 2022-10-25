@@ -31,8 +31,28 @@ class LoginController extends Controller
                 'status' => $status
             ];
         } else {
+
+            $checkIfEmailUserIsForGoogleOrNot = User::where([
+                ['email', $request->loginEmail],
+                ['password', null],
+                ['google_id', '<>', null]
+            ])->first();
+
+            if ($checkIfEmailUserIsForGoogleOrNot != null) {
+                $status = '800';
+                return $response = [
+                    'message' => "connexion impossible avec ce mail. Veuillez vous connecter via google avec ce mail",
+                    'status' => $status
+                ];
+            }
+
             if (Hash::check($request->loginPassword, $findEmail->password)) {
-                session()->put('fullname', $findEmail->firstname . ' ' . $findEmail->lastname);
+
+                session()->put('id', $findEmail->id);
+                session()->put('email', $findEmail->email);
+                session()->put('profile', $findEmail->profile);
+                session()->put('isAuthenticated', true);
+                session()->put('fullname', $findEmail->fullname);
 
                 $status = 'success';
                 return $response = [
@@ -50,31 +70,5 @@ class LoginController extends Controller
             }
         }
     }
-
-    public function store_inscription(Request $request) {
-
-        $request->validate([
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'loginEmail' => 'required',
-            'loginPassword' => 'required'
-        ], [
-            'firstName.required' => 'Veuillez renseigner de votre prenom',
-            'lastName.required' => 'Veuillez renseigner de votre nom',
-            'loginEmail.required' => 'Veuillez renseigner l\'adresse mail de votre compte',
-            'loginPassword.required' => 'Veuillez renseigner votre mot de passe'
-        ]);
-
-        User::create([
-            'lastname' => $request->registerLastName,
-            'firstname' => $request->registerFirstName,
-            'email' => $request->registerEmail,
-            'password' => Hash::make($request->registerPassword)
-        ]);
-
-        return redirect()->route('admin.createProjectLogin')->with('success', 'Opération d\'inscription réussie');
-
-        // return redirect()->back()->with('success', 'Opération d\'inscription réussie');
-
     }
 }

@@ -45,9 +45,9 @@
                                     <p class="h2 mb-4">Démarrer</p>
 
                                     <!-- Sign up Email button -->
-                                    <button class="btn btn-custum" type="submit">
+                                    <a href="{{ route('guests.google.redirection') }}" class="btn btn-custum" type="submit">
                                         <img src="{{ asset('assets/images/google.png') }}" alt="" class="google-logo"> Continuer avec google
-                                    </button>
+                                    </a>
 
                                     <div class="orBlock">
                                         <span class="forOr">OU</span>
@@ -72,7 +72,7 @@
                                     </div>
 
                                     <!-- Sign up button -->
-                                    <button class="btn btn-validate my-4 btn-block" type="submit">Se connecter</button>
+                                    <button class="btn btn-validate my-4 btn-block" id="connection_button" type="submit">Se connecter</button>
 
                                     <!-- Terms of service -->
                                     <p>Je n'ai pas de compte,
@@ -128,6 +128,7 @@
 
                                     <div class="form-group mb-2">
                                         <input type="password" name="registerPassword_confirmation" id="defaultRegisterFormPasswordConfirmation" class="form-control register_password" placeholder="Confirmer le mot de passe">
+                                        <small class="error-log" id="errorPassword"></small>
                                     </div>
 
 
@@ -292,10 +293,11 @@
 
                     let get_login_url = "{{ route('guests.login.processing') }}"
 
-
                     // Login Form Submitted
                     $('#login-form').on('submit', function(e) {
                         e.preventDefault()
+
+                        $.loginProcessingButton()
 
                         $.validateLoginForm()
 
@@ -308,7 +310,10 @@
                                 _token: _token
                             },
                             success: function (response) {
-                                if (response.status == 'password_error') {
+
+                                if (response.status == '800') {
+                                    $.loginEmailNonValidated(response.message)
+                                } else if (response.status == 'password_error') {
                                     $.loginPasswordNotInformed(response.message)
                                 } else if (response.status == 'email_error') {
                                     $.loginEmailNonValidated(response.message)
@@ -368,6 +373,16 @@
                         }
                     })
 
+                    $.loginProcessingButton = function() {
+                        $('#connection_button').attr('disabled', true)
+                        $('#connection_button').text('Connexion en cours...')
+                    }
+
+                    $.loginNotProcessingButton = function() {
+                        $('#connection_button').attr('disabled', false)
+                        $('#connection_button').text('Se connecter')
+                    }
+
                     // Login Email validated
                     $.loginEmailValidated = function() {
                         loginEmail.removeClass('is-invalid')
@@ -406,6 +421,7 @@
                                 $('#errorLoginPassword').hide()
                             }
                         }
+                        $.loginNotProcessingButton()
                     }
 
                 /* -- End of the part of login -- */
@@ -436,48 +452,50 @@
 
                         $.validateRegisterForm()
 
-                        $.ajax({
-                            type: "POST",
-                            url: get_url,
-                            data: {
-                                registerFirstName: registerFirstName.val(),
-                                registerLastName: registerLastName.val(),
-                                registerEmail: registerEmail.val(),
-                                registerPassword: registerPassword.val(),
-                                registerPassword_confirmation: registerPasswordConfirmed.val(),
-                                _token: _token
-                            },
-                            success: function (response) {
-                                window.location.href = response
-                            },
-                            error: function (error) {
-                                let getErrors = JSON.parse(error.responseText)
+                        if (!$.validateRegisterForm()) {
+                            $.ajax({
+                                type: "POST",
+                                url: get_url,
+                                data: {
+                                    registerFirstName: registerFirstName.val(),
+                                    registerLastName: registerLastName.val(),
+                                    registerEmail: registerEmail.val(),
+                                    registerPassword: registerPassword.val(),
+                                    registerPassword_confirmation: registerPasswordConfirmed.val(),
+                                    _token: _token
+                                },
+                                success: function (response) {
+                                    window.location.href = response
+                                },
+                                error: function (error) {
+                                    let getErrors = JSON.parse(error.responseText)
 
-                                registerPassword.val('')
-                                registerPasswordConfirmed.val('')
+                                    registerPassword.val('')
+                                    registerPasswordConfirmed.val('')
 
-                                if (typeof(getErrors.errors) != 'undefined') {
+                                    if (typeof(getErrors.errors) != 'undefined') {
 
-                                    if (typeof(getErrors.errors.registerFirstName) != 'undefined') {
-                                        $.registerFirstNameNonValidated(getErrors.errors.registerFirstName)
+                                        if (typeof(getErrors.errors.registerFirstName) != 'undefined') {
+                                            $.registerFirstNameNonValidated(getErrors.errors.registerFirstName)
+                                        }
+
+                                        if (typeof(getErrors.errors.registerLastName) != 'undefined') {
+                                            $.registerLastNameNonValidated(getErrors.errors.registerLastName)
+                                        }
+
+                                        if (typeof(getErrors.errors.registerEmail) != 'undefined') {
+                                            $.registerEmailNonValidated(getErrors.errors.registerEmail)
+                                        }
+
+                                        if (typeof(getErrors.errors.registerPassword) != 'undefined') {
+                                            $.registerPasswordNotInformed(getErrors.errors.registerPassword)
+                                        }
+                                    } else {
+                                        console.log('Une erreur s\'est produite')
                                     }
-
-                                    if (typeof(getErrors.errors.registerLastName) != 'undefined') {
-                                        $.registerLastNameNonValidated(getErrors.errors.registerLastName)
-                                    }
-
-                                    if (typeof(getErrors.errors.registerEmail) != 'undefined') {
-                                        $.registerEmailNonValidated(getErrors.errors.registerEmail)
-                                    }
-
-                                    if (typeof(getErrors.errors.registerPassword) != 'undefined') {
-                                        $.registerPasswordNotInformed(getErrors.errors.registerPassword)
-                                    }
-                                } else {
-                                    console.log('Une erreur s\'est produite')
                                 }
-                            }
-                        })
+                            })
+                        }
                     })
 
                     // Show or hide register password
@@ -613,31 +631,47 @@
 
                     // First Validation of register
                     $.validateRegisterForm = function() {
-                        if (registerFirstName.val() == '' || registerLastName.val() == '' || registerEmail.val() == '' || registerPassword.val() == '' || registerPasswordConfirmed == '') {
+
+                        let errorStatus = false;
+
+                        if (registerFirstName.val() == '' || registerLastName.val() == '' || registerEmail.val() == '' || registerPassword.val() == '' || registerPasswordConfirmed.val() == '') {
                             if (registerFirstName.val() == '') {
                                 $.registerFirstNameNonValidated(errorFirstNameMessage)
+                                errorStatus = true;
                             } else {
                                 $.registerFirstNameValidated()
                             }
 
                             if (registerLastName.val() == '') {
                                 $.registerLastNameNonValidated(errorLastNameMessage)
+                                errorStatus = true;
                             } else {
                                 $.registerLastNameValidated()
                             }
 
                             if (registerEmail.val() == '') {
                                 $.registerEmailNonValidated(errorEmailMessage)
+                                errorStatus = true;
                             } else {
                                 $.registerEmailValidated()
                             }
 
-                            if (registerPassword.val() == '' || registerPasswordConfirmed == '') {
+                            if (registerPassword.val() == '' || registerPasswordConfirmed.val() == '') {
                                 $.registerPasswordNotInformed(errorPasswordNotInformed)
+                                errorStatus = true;
                             } else {
                                 $.registerPasswordNotConformed(errorPasswordNotConformed)
+                                errorStatus = true;
                             }
                         }
+
+                        if (registerPassword.val() != registerPasswordConfirmed.val()) {
+                            $.registerPasswordNotConformed(errorPasswordNotConformed)
+                            errorStatus = true;
+                        }
+
+                        return errorStatus;
+                        
                     }
 
                 /* -- End of the part of registration -- */

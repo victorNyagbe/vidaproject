@@ -51,10 +51,6 @@ Route::get('/connexion-via-google', [RegisterController::class, 'redirectToGoogl
 Route::get('/connexion-via-google/callback', [RegisterController::class, 'handleGoogleCallback'])->name('guests.google.callback');
 
 
-/* partie login sans google */
-
-Route::post('/creation-de-compte', [LoginController::class, 'store_inscription'])->name('guests.login.registration');
-
 /* Partie Administrateur */
 Route::get('accueil', [AdminMainController::class, 'home'])->name('admin.home');
 
