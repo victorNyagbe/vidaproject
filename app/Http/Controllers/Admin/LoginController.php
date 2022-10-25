@@ -31,8 +31,28 @@ class LoginController extends Controller
                 'status' => $status
             ];
         } else {
+
+            $checkIfEmailUserIsForGoogleOrNot = User::where([
+                ['email', $request->loginEmail],
+                ['password', null],
+                ['google_id', '<>', null]
+            ])->first();
+
+            if ($checkIfEmailUserIsForGoogleOrNot != null) {
+                $status = '800';
+                return $response = [
+                    'message' => "connexion impossible avec ce mail. Veuillez vous connecter via google avec ce mail",
+                    'status' => $status
+                ];
+            }
+
             if (Hash::check($request->loginPassword, $findEmail->password)) {
-                session()->put('fullname', $findEmail->firstname . ' ' . $findEmail->lastname);
+
+                session()->put('id', $findEmail->id);
+                session()->put('email', $findEmail->email);
+                session()->put('profile', $findEmail->profile);
+                session()->put('isAuthenticated', true);
+                session()->put('fullname', $findEmail->fullname);
 
                 $status = 'success';
                 return $response = [
@@ -49,5 +69,12 @@ class LoginController extends Controller
                 ];
             }
         }
+    }
+
+    public function logout()
+    {
+        session()->flush();
+
+        return redirect()->route('guests.login');
     }
 }
