@@ -50,4 +50,31 @@ class LoginController extends Controller
             }
         }
     }
+
+    public function store_inscription(Request $request) {
+
+        $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'loginEmail' => 'required',
+            'loginPassword' => 'required'
+        ], [
+            'firstName.required' => 'Veuillez renseigner de votre prenom',
+            'lastName.required' => 'Veuillez renseigner de votre nom',
+            'loginEmail.required' => 'Veuillez renseigner l\'adresse mail de votre compte',
+            'loginPassword.required' => 'Veuillez renseigner votre mot de passe'
+        ]);
+
+        User::create([
+            'lastname' => $request->registerLastName,
+            'firstname' => $request->registerFirstName,
+            'email' => $request->registerEmail,
+            'password' => Hash::make($request->registerPassword)
+        ]);
+
+        return redirect()->route('admin.createProjectLogin')->with('success', 'Opération d\'inscription réussie');
+
+        // return redirect()->back()->with('success', 'Opération d\'inscription réussie');
+
+    }
 }

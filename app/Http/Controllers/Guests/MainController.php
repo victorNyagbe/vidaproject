@@ -23,4 +23,12 @@ class MainController extends Controller
 
         return view('guests.dashboard', compact('page'));
     }
+
+
+    // Partie partner (inviteLogin)
+
+    public function inviteLogin()
+    {
+        return view('partners.inviteLogin');
+    }
 }

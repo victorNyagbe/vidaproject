@@ -30,9 +30,15 @@ use App\Http\Controllers\Admin\Project\CalendarController as AdminProjectCalenda
 |
 */
 
-/* Partie utilisateur */
+/* Partie welcome */
 
 Route::get('/', [MainController::class, 'welcome'])->name('guests.welcome');
+
+Route::prefix('collaborateur/')->group( function() {
+    Route::get('dashboard', [MainController::class, 'dashboard'])->name('guests.dashboard');
+});
+
+/* Partie login avec google */
 
 Route::get('/acces', [MainController::class, 'login'])->name('guests.login');
 
@@ -44,10 +50,10 @@ Route::get('/connexion-via-google', [RegisterController::class, 'redirectToGoogl
 
 Route::get('/connexion-via-google/callback', [RegisterController::class, 'handleGoogleCallback'])->name('guests.google.callback');
 
-Route::prefix('collaborateur/')->group( function() {
-    Route::get('dashboard', [MainController::class, 'dashboard'])->name('guests.dashboard');
-});
 
+/* partie login sans google */
+
+Route::post('/creation-de-compte', [LoginController::class, 'store_inscription'])->name('guests.login.registration');
 
 /* Partie Administrateur */
 Route::get('accueil', [AdminMainController::class, 'home'])->name('admin.home');
@@ -107,7 +113,21 @@ Route::prefix('projects')->group( function() {
 
         Route::get('autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
 
-        Route::get('rapport', [AdminProjectPartnerController::class, 'rapport'])->name('admin.projectBoard.rapport');
+        Route::prefix('rapport')->group(function(){ 
+
+            Route::get('', [AdminProjectPartnerController::class, 'index'])->name('admin.projectBoard.rapport.index');
+
+            Route::post('/store_processing', [AdminProjectPartnerController::class, 'store_rapport'])->name('admin.projectBoard.rapport.store');
+
+            Route::get('/{rapport}/details', [AdminProjectPartnerController::class, 'edit'])->name('admin.projectBoard.rapport.edit');
+
+            Route::post('/voir-le-pdf', [AdminProjectPartnerController::class, 'viewPdf'])->name('admin.projectBoard.rapport.viewPdf');
+
+            Route::post('/{rapport}/telecharger-le-pdf', [AdminProjectPartnerController::class, 'downloadPdf'])->name('admin.projectBoard.rapport.downloadPdf');
+
+            Route::get('/{rapport}/destroy-processing', [AdminProjectPartnerController::class, 'destroy_rapport'])->name('admin.projectBoard.rapport.destroy');
+
+        });
 
         // Route::get('email', [MailController::class, 'mail'])->name('admin.projectBoard.email.mail');
     });
@@ -141,6 +161,11 @@ Route::prefix('email')->group( function() {
     Route::get('Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
 
 });
+
+
+// Login du lien d'invitation
+
+Route::get('invitation/login', [MainController::class, 'inviteLogin'])->name('partners.inviteLogin');
 
 
 
