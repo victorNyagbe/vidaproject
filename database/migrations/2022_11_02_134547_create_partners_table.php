@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_clients', function (Blueprint $table) {
+        Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->string('profile')->nullable();
             $table->string('nom');
             $table->string('prenom');
             $table->string('email')->unique();
-            $table->string('profile')->nullable();
+            $table->string('contact')->nullable();
             $table->string('adresse')->nullable();
             $table->string('profession')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->string('contact')->nullable();
+            $table->string('number')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_clients');
+        Schema::dropIfExists('partners');
     }
 };

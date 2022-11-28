@@ -11,15 +11,15 @@
        <div class="container-fluid">
           <div class="row">
               <div class="col-12 pb-5">
-                  <a href="#" class="name-project">Gestion de projet</a><span class="page-name">/ Collaborateurs</span>
-                  <a href="#" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un collaborateur</a>
+                  <a href="#" class="name-project">{{ $project->nom }}</a><span class="page-name">/ Collaborateurs</span>
+                  <a href="#!" data-toggle="modal" data-target="#addCollab" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un collaborateur</a>
               </div>
           </div>
           <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header cardHeader">
-                  Liste des collaborateurs sur votre projet : Gestion de projet
+                  <h3 class="card-title count-header-title">Liste des collaborateurs sur votre projet <span class="your-project-name">{{ $project->nom }}</span></h3>
                 </div>
                 <div class="card-body bg-secondary">
                   <div class="row">
@@ -159,7 +159,37 @@
                 </div>
               </div>
           </div>
-         </div>   
+         </div>
+         <!-- Modal -->
+        <div class="modal fade" id="addCollab" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content bg-secondary">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Ajouter un collaborateur</h5>
+                      <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                  <form action="{{ route('admin.projectBoard.client.add',$project) }}" method="post" enctype="multipart/form-data">
+                      @csrf
+                      <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" name="email" id="email" class="form-control" placeholder="Saisir le l'adresse email du collaborateur">
+                      </div>
+                      <div class="form-group">
+                          <input type="hidden" name="typePartner" id="typePartner" value="collab">
+                      </div>
+                      <div class="form-group">
+                      <div class="d-flex justify-content-center">
+                          <button type="submit" class="btn btn-primary text-uppercase">Envoyer une demande</button>
+                      </div>
+                      </div>
+                  </form>
+                  </div>
+              </div>
+          </div>
+        </div>   
        </div>
     </section>
 </div>

@@ -14,7 +14,7 @@
       @include('admin.includes.messageReturned')
       <div class="row">
         <div class="col-12 pb-5">
-          <h6 class="name-project">Gozem</h6><span class="page-name">/ Gallerie</span>
+          <h6 class="name-project">{{ $project->nom }}</h6><span class="page-name">/ Gallerie</span>
           <a href="#!" data-toggle="modal" data-target="#addImage" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter une image</a>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
           <div class="card card-outline count-card">
             <div class="card-header bg-secondary">
-              <h3 class="card-title count-header-title">Gallerie photo du projet : <span class="your-project-name">Gozem</span></h3>
+              <h3 class="card-title count-header-title">Gallerie photo du projet <span class="your-project-name">{{ $project->nom }}</span></h3>
             </div>
             <div class="card-body bg-secondary">
               <div class="row">

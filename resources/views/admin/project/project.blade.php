@@ -12,10 +12,17 @@
   <section class="content pt-4">
     <div class="container-fluid">
       @include('admin.includes.messageReturned')
-       <div class="row">
+        <div class="row">
           <div class="col-12 pb-5">
               <h6 class="name-project">TOUS VOS PROJETS</h6>
               <a href="#!" data-toggle="modal" data-target="#addProject" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Créer un projet</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 group-name-block">
+            <p class="projects-group-name">
+               Projets en tant que gestionnaire de projet
+            </p>
           </div>
         </div>
         <div class="row">
@@ -43,7 +50,7 @@
                     <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
                     <td>
-                      <a href="{{ route('admin.project.showBord') }}" class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
+                      <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.projectBoard.project.showBoard' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
                       <a href="{{ route('admin.project.edit', $project) }}" class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i class="fas fa-edit"></i></a>
                       <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                     </td>
@@ -77,10 +84,9 @@
                         <div class="form-group">
                           <label for="project_type">Type de projet (vous pouvez en choisir plusieurs)</label>
                           <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
-                            <option>Application web</option>
-                            <option>Application mobile</option>
-                            <option>Application destop</option>
-                            <option>Site web</option>
+                            @foreach ($types as $type)
+                              <option value="{{ $type->id }}">{{ $type->nom }}</option>
+                            @endforeach
                           </select>
                         </div>
                         <div class="form-group checkboxs-form">
@@ -121,7 +127,89 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12 group-name-block mt-4">
+            <p class="projects-group-name">
+               Projets en tant que collaborateur
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive text-nowrap table-responsive-md">
+              <table class="table bg-secondary">
+                <thead>
+                  <tr>
+                    <th scope="col">Nom du projet</th>
+                    <th scope="col">Nombre de Collaborateur</th>
+                    <th scope="col">Chef projet</th>
+                    <th scope="col">Type de projet</th>
+                    <th scope="col">Date de début</th>
+                    <th scope="col">Date de finalisation</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                  @foreach ($projects as $project)
+                  <tr>
+                    <td>{{ $project->nom }}</td>
+                    <td>5</td>
+                    <td>Vic</td>
+                    <td>{{ $project->type }}</td>
+                    <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
+                    <td>
+                      <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
+                      <a href="{{ route('admin.projectBoard.project.edit', $project) }}" class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i class="fas fa-edit"></i></a>
+                      <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                    </td>
+                  </tr>
+                  @endforeach                
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
     </div>
+
+    @if(isset($_COOKIE['id']))
+      <input type="hidden" id="inputAnnonce" />
+      <?php
+        setcookie('id', '', time()-3600, '/', '', false, false);
+      ?>
+    @else
+      <!-- <input type="hidden" id="annonce" /> -->
+      <?php
+        setcookie('id', '', time()-3600, '/', '', false, false);
+      ?>
+    @endif
+
+    <div class="modal fade" id="annonce" tabindex="-1" role="dialog" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa fa-bell"></i> Notification</h5>
+                    <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-center annonceBell">
+                      <span class="fa fa-bell"></span>
+                  </div>
+                  <div class="d-flex justify-content-center flex-column mt-3">
+                    <img src="" alt="" class="img-fluid">
+                    <p class="text-center my-2">Vous avez été ajouté à (1) nouveau(x) projet(s)!</p>
+                    <p class="text-center pt-4">
+                        <a href="" class="btn btn-success mr-4">Accepter</a>
+                        <a href="" class="btn btn-danger ml-4">Refuser</a>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
   </section>
 </div>
 @endsection
@@ -185,8 +273,37 @@
 
     });
 
-
   })
+  window.addEventListener("load", function(){
+        setTimeout(
+            function open(event){
+                document.querySelector(".popup").style.display = "block";
+            },
+            1000
+        )
+    });
+
+  document.querySelector("#close").addEventListener("click", function(){
+      document.querySelector(".popup").style.display = "none";
+  });
+</script>
+
+<script>
+
+    $(function() {
+
+      window.onload = function(){
+
+        if ( document.getElementById('inputAnnonce') ){
+
+          $('#annonce').modal('show');
+          
+        }
+
+      }
+
+    });
+
 </script>
 
 @endsection

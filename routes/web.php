@@ -72,9 +72,9 @@ Route::prefix('projects')->group( function() {
 
     Route::get('/{project}/destroy-processing', [AdminProjectController::class, 'destroy'])->name('admin.project.project.destroy');
 
-    Route::prefix('nom-du-projet')->group( function() {
+    // Route::prefix('mon-du-projet')->group( function() {
 
-        Route::get('', [AdminProjectController::class, 'show'])->name('admin.project.showBord');
+        Route::get('/{project}/tableau-de-bord', [AdminProjectController::class, 'show'])->name('admin.projectBoard.project.showBoard');
 
         Route::prefix('details')->group( function() {
 
@@ -86,38 +86,50 @@ Route::prefix('projects')->group( function() {
 
             Route::get('/{project}/destroy-project-processing', [AdminProjectController::class, 'destroy_edit'])->name('admin.project.edit.destroy');
 
+            // depuis projectBoard
+
+            Route::get('/{project}/project-edition', [AdminProjectProjectController::class, 'edit'])->name('admin.projectBoard.project.edit');
+            
+            Route::patch('/{project}/update-project-processing', [AdminProjectProjectController::class, 'update'])->name('admin.projectBoard.project.update');
+
+            Route::get('/{project}/destroy-processing', [AdminProjectProjectController::class, 'destroy_edit'])->name('admin.projectBoard.project.edit.destroy');
+
         });
 
         Route::prefix('gallerie')->group( function() {
 
-            Route::get('/', [AdminGalleryController::class, 'projectGallery'])->name('admin.projectBoard.gallery');
+            Route::get('{project}/', [AdminGalleryController::class, 'projectGallery'])->name('admin.projectBoard.gallery');
 
             Route::post('/store-processing', [AdminGalleryController::class, 'store'])->name('admin.projectBoard.gallery.store');
 
             Route::get('/{gallerie}/destroy-processing', [AdminGalleryController::class, 'destroy'])->name('admin.projectBoard.gallery.destroy');
         });
 
-        Route::get('bureau', [AdminBoardController::class, 'board'])->name('admin.board');
-
-        Route::get('collaborateur', [AdminProjectPartnerController::class, 'collaborateur'])->name('admin.projectBoard.collaborateur');
-
-        Route::get('diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
-
-        Route::get('calendrier', [AdminProjectCalendarController::class, 'calendar'])->name('admin.projectBoard.calendar');
-
         /* Project board */
 
-        Route::get('messages', [AdminProjectChatController::class, 'chat'])->name('admin.projectBoard.message.chat');
+        Route::get('/{project}/bureau', [AdminBoardController::class, 'board'])->name('admin.board');
 
-        Route::get('autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
+        Route::get('/{project}/collaborateur', [AdminProjectPartnerController::class, 'collaborateur'])->name('admin.projectBoard.collaborateur');
+
+        Route::get('/{project}/client', [AdminProjectPartnerController::class, 'client'])->name('admin.projectBoard.client');
+
+        Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
+
+        Route::get('/{project}/diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
+
+        Route::get('/{project}/calendrier', [AdminProjectCalendarController::class, 'calendar'])->name('admin.projectBoard.calendar');
+
+        Route::get('/{project}/messages', [AdminProjectChatController::class, 'chat'])->name('admin.projectBoard.message.chat');
+
+        Route::get('/{project}/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
 
         Route::prefix('rapport')->group(function(){ 
 
-            Route::get('', [AdminProjectPartnerController::class, 'index'])->name('admin.projectBoard.rapport.index');
+            Route::get('{project}/', [AdminProjectPartnerController::class, 'index'])->name('admin.projectBoard.rapport.index');
 
-            Route::post('/store_processing', [AdminProjectPartnerController::class, 'store_rapport'])->name('admin.projectBoard.rapport.store');
+            Route::post('/{project1}/store_processing', [AdminProjectPartnerController::class, 'store_rapport'])->name('admin.projectBoard.rapport.store');
 
-            Route::get('/{rapport}/details', [AdminProjectPartnerController::class, 'edit'])->name('admin.projectBoard.rapport.edit');
+            Route::get('/{rapport}/{project}/details', [AdminProjectPartnerController::class, 'edit'])->name('admin.projectBoard.rapport.edit');
 
             Route::post('/voir-le-pdf', [AdminProjectPartnerController::class, 'viewPdf'])->name('admin.projectBoard.rapport.viewPdf');
 
@@ -128,7 +140,7 @@ Route::prefix('projects')->group( function() {
         });
 
         // Route::get('email', [MailController::class, 'mail'])->name('admin.projectBoard.email.mail');
-    });
+    // });
 });
 
 
@@ -163,7 +175,17 @@ Route::prefix('email')->group( function() {
 
 // Login du lien d'invitation
 
-Route::get('invitation/login', [MainController::class, 'inviteLogin'])->name('partners.inviteLogin');
+Route::get('invitation/login/', [MainController::class, 'inviteLogin'])->name('partners.inviteLogin');
+
+Route::post('invitation/login/collaborateur/store-processing', [AdminProjectPartnerController::class, 'collab_store'])->name('partners.collaborator.register');
+
+Route::get('invitation/login/client', [MainController::class, 'inviteClientLogin'])->name('partners.addClientLogin');
+
+Route::post('invitation/login/client/store-processing', [AdminProjectPartnerController::class, 'client_store'])->name('partners.client.register');
+
+Route::get('invitation/login/connexion', [MainController::class, 'inviteLoginConnexion'])->name('partners.inviteLoginConnexion');
+
+Route::post('invitation/login/connexion-processing', [MainController::class, 'partner_login'])->name('partners.invitePartnerLogin');
 
 
 

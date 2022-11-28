@@ -13,7 +13,11 @@
       <div class="user-panel pb-3 mb-3 d-flex">
         <div class="image" style="padding-left: 5em;">
           <!-- <img src=" {{ asset('assets/logos/kozah 3 logo.jpg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
-          <img src=" {{ asset('assets/logos/gozem.png') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
+          @if($project->logo)
+            <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
+          @else
+            <img src=" {{ asset('assets/logos/avatar.svg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
+          @endif
         </div>
       </div>
 
@@ -35,7 +39,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{ route('admin.project.showBord') }}" class="nav-link {{ $page == 'admin.project.showBoard' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.project.showBoard' ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                   Tableau de bord
@@ -43,7 +47,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.board') }}" class="nav-link {{ $page == 'admin.projectBoard.board' ? 'active' : '' }}">
+            <a href="{{ route('admin.board', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.board' ? 'active' : '' }}">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                 Bureau
@@ -51,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.collaborateur') }}" class="nav-link {{ $page == 'admin.projectBoard.collaborateur' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.collaborateur', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.collaborateur' ? 'active' : '' }}">
               <i class="nav-icon fas fa-user-plus"></i>
               <p>
                  Collaborateurs
@@ -59,7 +63,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.charts') }}" class="nav-link {{ $page == 'admin.projectBoard.charts' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.client', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-user-plus"></i>
+              <p>
+                 Clients
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.projectBoard.charts', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.charts' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                  Diagrammes
@@ -67,7 +79,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.calendar') }}" class="nav-link {{ $page == 'admin.projectBoard.calendar' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.calendar', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.calendar' ? 'active' : '' }}">
               <i class="nav-icon bi bi-calendar-date-fill pl-1"></i>
               <p>
                 Calendrier
@@ -76,7 +88,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.gallery') }}" class="nav-link {{ $page == 'admin.projectBoard.gallery' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.gallery', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.gallery' ? 'active' : '' }}">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Gallerie
@@ -92,7 +104,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.message.chat') }}" class="nav-link {{ $page == 'admin.projectBoard.message' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.message.chat', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.message' ? 'active' : '' }}">
               <i class="nav-icon far fa-comments"></i>
               <p>
                 Messages
@@ -101,7 +113,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.project.project') }}" class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.project.project', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
               <i class="nav-icon fas fa-project-diagram"></i>
               <p>
                 Autres projets
@@ -109,7 +121,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.rapport.index') }}" class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.rapport.index', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Rapport

@@ -15,7 +15,7 @@
       <div class="container-fluid">
         <div class="row pt-4">
             <div class="col-12 pb-5">
-                <a href="#" class="name-project">Gestion de projet</a><span class="page-name">/ Calendrier</span>
+                <a href="#" class="name-project">{{ $project->nom }}</a><span class="page-name">/ Calendrier</span>
                 <!-- <a href="#" class="add-link">Ajouter un collaborateur</a> -->
             </div>
         </div>

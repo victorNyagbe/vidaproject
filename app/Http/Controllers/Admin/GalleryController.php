@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Project;
 use App\Models\Gallerie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,19 +11,31 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-    public function gallery()
+    public function gallery(Project $project)
     {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $page = 'admin.gallery';
-        return view('admin.gallery', compact('page'));
+        return view('admin.gallery', compact('project', 'page'));
     }
 
     // project board
 
-    public function projectGallery()
+    public function projectGallery(Project $project)
     {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $galleries = Gallerie::all();
         $page = 'admin.projectBoard.gallery';
-        return view('admin.projectBoard.gallery', compact('galleries','page'));
+        return view('admin.projectBoard.gallery', compact('project', 'galleries','page'));
     }
 
     public function store(Request $request)
