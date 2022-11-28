@@ -38,6 +38,8 @@ Route::prefix('collaborateur/')->group( function() {
     Route::get('dashboard', [MainController::class, 'dashboard'])->name('guests.dashboard');
 });
 
+Route::get('deconnexion', [LoginController::class, 'logout'])->name('guests.logout');
+
 /* Partie login avec google */
 
 Route::get('/acces', [MainController::class, 'login'])->name('guests.login');
