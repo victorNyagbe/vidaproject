@@ -18,7 +18,7 @@
             font-family: 'MontSerrat', sans-serif;
         }
         .container-custom {
-            height: 120vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -63,54 +63,32 @@
                             </button>
                         </div>
                     @endif
-                    <h5 class="text-center text-white panel-text">Remplissez le formulaire d'inscription !</h5>
+                    <h5 class="text-center text-white panel-text">Remplissez le formulaire de connexion !</h5>
                     <div class="login-panel">
                         <div class="panel-logo mb-4">
                             <img src="{{ asset('assets/logos/goproject-03.png') }}" alt="" class="img-fluid">
                         </div>
-                        <form action="{{ route('partners.collaborator.register') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('partners.invitePartnerLogin') }}" method="post">
                             @csrf
                             <div class="form-group">
-                                <input type="file" name="profil" id="profil" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="lastName" id="defaultRegisterFormLastName" class="form-control" placeholder="Saisir votre nom...">
-                                <small class="error-log" id="errorLastName"></small>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="firstName" id="defaultRegisterFormFirstName" class="form-control" placeholder="Saisir votre prenom...">
-                                <small class="error-log" id="errorFirstName"></small>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" name="email" id="defaultRegisterFormEmail" class="form-control" placeholder="E-mail">
+                                <input type="email" name="loginEmail" id="defaultRegisterFormEmail" class="form-control" placeholder="E-mail">
                                 <small class="error-log" id="errorEmail"></small>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="contact" id="contact" class="form-control" placeholder="Contact">
-                            </div>
-                            <div class="form-group">
-                                <select name="status" id="status" class="form-control">
-                                    <option value="" disabled selected hidden>Choisir votre statut le projet</option>
-                                    @foreach ($collab_statuses as $collab_status)
-                                        <option value="{{ $collab_status->id }}">{{ $collab_status->nom }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password" id="defaultRegisterFormPassword" class="form-control register_password" placeholder="Mot de passe">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password_confirmation" id="defaultRegisterFormPasswordConfirmation" class="form-control register_password" placeholder="Confirmer le mot de passe">
+                                <input type="password" name="loginPassword" id="defaultRegisterFormPassword" class="form-control register_password" placeholder="Mot de passe">
                             </div>
                             <div class="custom-control custom-checkbox custum-box">
                                 <input type="checkbox" class="custom-control-input" id="show_or_hide_password">
                                 <label class="custom-control-label" for="show_or_hide_password">Afficher le mot de passe</label>
                             </div>
                             <div class="form-group">
-                                <div class="d-flex justify-content-center mt-2">
-                                    <button type="submit" class="btn btn-green text-white">S'inscrire</button>
+                                <div class="d-flex justify-content-center mt-4">
+                                    <button type="submit" class="btn btn-green text-white">Connexion</button>
                                 </div>
                             </div>
+                            <p>
+                                <a href="#!" id="passwordResetButton">mot de passe oublié ? </a>
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -353,6 +331,13 @@
                 event.preventDefault()
                 $('#passResetCode').fadeIn()
                 $('#log-message').fadeIn()
+            });
+
+            $('.toConnect').click(function (event) {
+                event.preventDefault()
+                $()
+                window.location.href = ‘https://ExampleURL.com/’;
+                $('#alertInfo').fadeIn()
             });
         });
     </script>

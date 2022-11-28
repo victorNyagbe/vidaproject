@@ -13,14 +13,14 @@
       @include('admin.includes.messageReturned')
       <div class="row">
           <div class="col-12 pb-5">
-              <h6 class="project-title">Gozem</h6><span class="page-name">/ Rapport</span>
+              <h6 class="project-title">{{ $project->nom }}</h6><span class="page-name">/ Rapport</span>
               <!-- <a href="#" class="btn btn-primary send-link"><i class="bi bi-send-fill"></i> Envoyer le rapport</a> -->
               <a href="#" data-toggle="modal" data-target="#showRapport" class="btn btn-primary showRapports-btn"><i class="bi bi-file-earmark-pdf"></i> Vos rapports</a>
           </div>
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-md-9 col-lg-8">
-          <form action="{{ route('admin.projectBoard.rapport.store') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('admin.projectBoard.rapport.store', $project) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
               <label for="title">Titre du projet </label>
@@ -45,11 +45,10 @@
             <div class="form-group">
               <label for="stade">Stade du projet</label>
               <select name="stade" id="stade" data-placeholder="Choisir le stade d'avancement du projet" class="form-control">
-                <option value="1">Selectionner le niveau de progression du projet</option>
-                <option value="2">Stade de pré-amorçage</option>
-                <option value="3">Stade d'amorçage</option>
-                <option value="3">Stade de croissance</option>
-                <option value="4">phase de finalisation</option>
+                <option value="" selected hidden disabled >Selectionner le niveau de progression du projet</option>
+                @foreach ($levels as $level)
+                  <option value="{{ $level->id }}">{{ $level->nom }}</option>>
+                @endforeach
               </select>
             </div>
             <div class="form-group">
@@ -82,7 +81,7 @@
                       @foreach ($rapports as $rapport)
                         <div class="form-row">
                           <div class="col-11 rapport-title ">{{ $rapport->title }}</div>
-                          <div class="col-1"><a href="{{ route('admin.projectBoard.rapport.edit', $rapport) }}" class="btn btn-info btn-sm {{ $page=='admin.projectBoard.rapport' ? 'active' : ''}}"><i class="fas fa-eye"></i></a></div>
+                          <div class="col-1"><a href="{{ route('admin.projectBoard.rapport.edit', [$rapport, $project] ) }}" class="btn btn-info btn-sm {{ $page=='admin.projectBoard.rapport' ? 'active' : ''}}"><i class="fas fa-eye"></i></a></div>
                         </div>
                         <hr>
                       @endforeach

@@ -36,10 +36,9 @@
                             </div> -->
                             <div class="form-group">
                                 <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
-                                    <option>Application web</option>
-                                    <option>Application mobile</option>
-                                    <option>Application destop</option>
-                                    <option>Site web</option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}">{{ $type->nom }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">

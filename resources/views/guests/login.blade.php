@@ -89,7 +89,7 @@
 
                             <div id="createAccount" class="col-12 col-lg-6">
                                 <!-- Default form register -->
-                                <form class="text-center border p-5" method="post" action="{{ route('guests.login.registration') }}" {{-- id="register-form" --}} >
+                                <form class="text-center border p-5" method="post" action="{{-- route('guests.login.registration') --}}" id="register-form">
                                     @csrf
                                     <p class="h2 mb-4">Démarrer</p>
 

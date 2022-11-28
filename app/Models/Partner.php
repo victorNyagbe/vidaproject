@@ -7,7 +7,7 @@ use App\Models\CollabStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProjectUser extends Model
+class Partner extends Model
 {
     use HasFactory;
     protected $guarded = [];

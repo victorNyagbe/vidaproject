@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
+use App\Models\ProjectType;
 use Illuminate\Http\Request;
+use App\Models\ProjectStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +14,8 @@ class ProjectController extends Controller
 {
     public function createProjectLogin()
     {
-        return view('admin.createProjectLogin');
+        $types = ProjectType::all();
+        return view('admin.createProjectLogin', compact('types'));
     }
 
     public function store_project_login(Request $request)
@@ -36,8 +39,9 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
+        $types = ProjectType::all();
         $page = 'admin.project';
-        return view('admin.project.project', compact('projects','page') );
+        return view('admin.project.project', compact('projects', 'types', 'page') );
     }
 
     public function store(Request $request)
@@ -84,14 +88,17 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
+        $statuses = ProjectStatus::all();
         $verify_project = Project::where('id', $project->id)->first();
-
+        
         if ($verify_project == null) {
             abort('404');
         }
+
+        $types = ProjectType::all();
         
         $page = 'admin.project';
-        return view('admin.project.edit', compact('project','page'));
+        return view('admin.project.edit', compact('project', 'statuses', 'types', 'page'));
     }
 
     public function destroy_edit(Project $project)
@@ -198,9 +205,15 @@ class ProjectController extends Controller
     }
 
 
-    public function show()
+    public function show(Project $project)
     {
-        $page = 'admin.project.showBoard';
-        return view('admin.project.showBoard', compact('page'));
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+        
+        $page = 'admin.projectBoard.project.showBoard';
+        return view('admin.projectBoard.project.showBoard', compact('page', 'project'));
     }
 }

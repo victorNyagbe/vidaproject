@@ -35,6 +35,21 @@
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
+.group-name-block {
+    background-color: #20b08534;
+    padding: 0.3em;
+    margin-bottom: 2em;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.projects-group-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #00000094;
+}
+
 .checkboxs-form {
     padding: 1em;
 }

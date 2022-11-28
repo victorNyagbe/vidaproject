@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 pb-5">
-                <h6 class="name-project">Gozem</h6><span class="page-name">/ Bureau</span>
+                <h6 class="name-project">{{ $project->nom }}</h6><span class="page-name">/ Bureau</span>
                 <a href="#" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un tableau</a>
             </div>
         </div>

@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProjectLevel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rapport extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function project_level()
+    {
+        return $this->belongsTo(ProjectLevel::class);
+    }
 }

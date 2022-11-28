@@ -12,7 +12,7 @@
     <div class="container-fluid">
       <div class="row">
           <div class="col-12 pb-5">
-              <a href="{{ route('admin.projectBoard.rapport.index') }}" class="name-project">Rapport</a><span class="page-name">/ Détails</span>
+              <a href="{{ route('admin.projectBoard.rapport.index', $project) }}" class="name-project">Rapport</a><span class="page-name">/ Détails</span>
 
               <form action="{{ route('admin.projectBoard.rapport.destroy', $rapport) }}" method="get" >
                 @csrf
@@ -58,7 +58,7 @@
             <hr>
             <div class="form-row">
               <div class="col-3 info-title">Stade du projet :</div>
-              <div class="col-9 info-detail">{{ $rapport->stade }}</div>
+              <div class="col-9 info-detail">{{ $level->nom }}</div>
             </div>
             <hr>
             <div class="form-row">
@@ -71,7 +71,7 @@
         
         <!-- modals of show all rapports -->
 
-        <div class="modal fade" id="showRapport" role="dialog">
+        <!-- <div class="modal fade" id="showRapport" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content bg-secondary">
                   <div class="modal-header">
@@ -90,7 +90,7 @@
                   </div>
               </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>

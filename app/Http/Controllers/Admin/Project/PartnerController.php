@@ -2,64 +2,138 @@
 
 namespace App\Http\Controllers\Admin\Project;
 
+use App\Models\User;
+use App\Models\Partner;
+use App\Models\Project;
 use App\Models\Rapport;
+use App\Models\ProjectUser;
+use App\Models\ProjectLevel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class PartnerController extends Controller
 {
-    public function client()
+    public function client(Project $project)
     {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $page = 'admin.projectBoard.client';
-        return view('admin.client', compact('page'));
+        return view('admin.projectBoard.client', compact('page', 'project'));
     }
 
     public function client_store(Request $request)
     {
         $request->validate([
-            'nom' => 'required',
-            'prenom' => 'required',
-            'profession' => 'required',
-            'adresse' => 'required',
+            'profil' => 'file|image|mimes:png,jpg,jpeg,jfif,webp',
+            'lastName' => 'required',
+            'firstName' => 'required',
             'contact' => 'required',
             'email' => 'required',
             'status' => 'required'
         ], [
-            'nom.required' => 'Veuillez renseigner toutes les informations',
-            'prenom.required' => 'Veuillez renseigner toutes les informations',
-            'profession.required' => 'Veuillez renseigner toutes les informations',
-            'adresse.required' => 'Veuillez renseigner toutes les informations',
-            'contact.required' => 'Veuillez renseigner toutes les informations',
-            'email.required' => 'Veuillez renseigner toutes les informations',
-            'status.required' => 'Veuillez renseigner toutes les informations'
+            'profil.file' => 'Le fichier choisi est invalide',
+            'profil.image' => 'Le fichier choisi est invalide',
+            'profil.mimes' => 'Veuillez choisir une image valide',
+            'lastName.required' => 'Veuillez renseigner votre nom',
+            'firstName.required' => 'Veuillez renseigner votre prénom',
+            'contact.required' => 'Veuillez renseigner votre contact',
+            'email.required' => 'Veuillez renseigner votre email',
+            'status.required' => 'Veuillez renseigner votre statut sur le projet'
         ]);
 
-        UserClient::create([
-            'nom' => '$request->nom',
-            'prenom' => '$request->prenom',
-            'profession' => '$request->profession',
-            'adresse' => '$request->adresse',
-            'contact' => '$request->contact',
-            'email' => '$request->email',
-            'status' => '$request->status',
+        // dd($request->lastName);
+
+        // dd($request->firstName);
+
+        $user = User::create([
+            'fullname' => $request->firstName . ' ' . $request->lastName,
+            'profile' => request('profil')->store('profil_client', 'public'),
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+
         ]);
+
+        ProjectUser::create([
+            'user_id' => $user->id,
+            'adresse' => $request->adresse,
+            'profession' => $request->profession,
+            'contact' => $request->contact,
+            'status' => $request->status
+        ]);
+
+        return redirect()->back()->with('success', 'Opération d\'inscription réussie !!');
     }
 
-    public function collaborateur()
+    public function collaborateur(Project $project)
     {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $page = 'admin.projectBoard.collaborateur';
-        return view('admin.projectBoard.collaborateur', compact('page'));
+        return view('admin.projectBoard.collaborateur', compact('page', 'project'));
     }
 
-    public function index()
+    public function collab_store(Request $request)
     {
+        $request->validate([
+            'profil' => 'file|image|mimes:png,jpg,jpeg,jfif,webp',
+            'lastName' => 'required',
+            'firstName' => 'required',
+            'contact' => 'required',
+            'email' => 'required',
+            'status' => 'required'
+        ], [
+            'profil.file' => 'Le fichier choisi est invalide',
+            'profil.image' => 'Le fichier choisi est invalide',
+            'profil.mimes' => 'Veuillez choisir une image valide',
+            'lastName.required' => 'Veuillez renseigner votre nom',
+            'firstName.required' => 'Veuillez renseigner votre prénom',
+            'contact.required' => 'Veuillez renseigner votre contact',
+            'email.required' => 'Veuillez renseigner votre email',
+            'status.required' => 'Veuillez renseigner votre statut sur le projet'
+        ]);
+
+        $user = User::create([
+            'fullname' => $request->firstName . ' ' . $request->lastName,
+            'profile' => request('profil')->store('profil_collab', 'public'),
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        ProjectUser::create([
+            'user_id' => $user->id,
+            'contact' => $request->contact,
+            'status' => $request->status
+        ]);
+
+        return redirect()->back()->with('success', 'Opération d\'inscription réussie !!');
+    }
+
+    public function index(Project $project)
+    {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
+        $levels = ProjectLevel::all();
         $rapports = Rapport::all();
         $page = 'admin.projectBoard.rapport';
-        return view('admin.projectBoard.rapport.index', compact('rapports', 'page'));
+        return view('admin.projectBoard.rapport.index', compact('project','levels', 'rapports', 'page'));
     }
 
-    public function store_rapport(Request $request)
+    public function store_rapport(Request $request, Project $project)
     {
         $request->validate([
             'title' => 'required',
@@ -83,7 +157,14 @@ class PartnerController extends Controller
 
         // $date_fin = Carbon::parse($request->date_fin)->format('Y-m-d');
 
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         Rapport::create([
+            'project_id' => $project->id,
             'title' => $request->title,
             'key' => $request->project_key,
             'date_debut' => $request->date_debut,
@@ -96,28 +177,36 @@ class PartnerController extends Controller
         return redirect()->back()->with('success', 'Opération d\'enregistrement réussie !!');
     }
 
-    public function edit(Rapport $rapport)
+    public function edit(Rapport $rapport, Project $project)
     {
         $rapport = Rapport::where('id', $rapport->id)->first();
+        $project = Project::where('id', $project->id)->first();
+        $level = ProjectLevel::where('id', $rapport->stade)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $page = 'admin.projectBoard.rapport';
-        return view('admin.projectBoard.rapport.edit', compact('rapport', 'page'));
+        return view('admin.projectBoard.rapport.edit', compact('project', 'rapport', 'level', 'page'));
     }
 
-    public function viewPdf()
-    {
-        $rapports = Rapport::all();
-        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
-        ->setPaper('a4', 'portrait');
-        return $pdf->stream();
-    }
+    // public function viewPdf()
+    // {
+    //     $rapports = Rapport::all();
+    //     $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
+    //     ->setPaper('a4', 'portrait');
+    //     return $pdf->stream();
+    // }
 
     public function downloadPdf(Rapport $rapport)
     {
         // $rapports = Rapport::all();
         // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
 
-        $rapports = Rapport::where('id', $rapport->id)->first();
-        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapports'))
+        $rapport = Rapport::where('id', $rapport->id)->first();
+        $level = ProjectLevel::where('id', $rapport->stade)->first();
+        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
         ->setPaper('a4', 'portrait');
         return $pdf->download('Rapport.pdf');
     }
@@ -133,5 +222,38 @@ class PartnerController extends Controller
         $rapport->delete();
 
         return redirect()->route('admin.projectBoard.rapport.index')->with('success', 'Opération de suppression réussie');
+    }
+
+    public function mailForAdd(Request $request, Project $project){
+        $typePartner = $request->typePartner;
+        if($typePartner == "client")
+        {
+            $project = Project::where('id', $project->id)->first();
+            Mail::send('AddByMail.addClient', compact('project'), function ($message) {
+                
+                $message->from('gomezfelix310@gmail.com', 'Laravel');
+            
+                $message->to($address = $request->email)->cc(request->email)
+                ->subject('Demande d\'ajout sur le projet gozem');
+            });
+
+            return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
+        }
+        else if($typePartner == "collab")
+        {
+            $project = Project::where('id', $project->id)->first();
+            Mail::send('AddByMail.addCollab', compact('project'), function ($message) {
+                
+                $message->from('gomezfelix310@gmail.com', 'Laravel');
+            
+                $message->to('gomezfelix310@gmail.com')->cc('gomezfelix310@gmail.com')
+                ->subject('Demande d\'ajout sur le projet gozem');
+            });
+
+            return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
+        }
+        else {
+            abort('404');
+        }
     }
 }
