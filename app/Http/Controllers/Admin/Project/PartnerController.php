@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Project;
 
+use App\Events\sendInvitationMailForCollabEvent;
 use App\Models\User;
 use App\Models\Partner;
 use App\Models\Project;
@@ -199,17 +200,17 @@ class PartnerController extends Controller
     //     return $pdf->stream();
     // }
 
-    public function downloadPdf(Rapport $rapport)
-    {
-        // $rapports = Rapport::all();
-        // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
+    // public function downloadPdf(Rapport $rapport)
+    // {
+    //     // $rapports = Rapport::all();
+    //     // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
 
-        $rapport = Rapport::where('id', $rapport->id)->first();
-        $level = ProjectLevel::where('id', $rapport->stade)->first();
-        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
-        ->setPaper('a4', 'portrait');
-        return $pdf->download('Rapport.pdf');
-    }
+    //     $rapport = Rapport::where('id', $rapport->id)->first();
+    //     $level = ProjectLevel::where('id', $rapport->stade)->first();
+    //     $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
+    //     ->setPaper('a4', 'portrait');
+    //     return $pdf->download('Rapport.pdf');
+    // }
 
     public function destroy_rapport(Rapport $rapport)
     {
@@ -224,36 +225,82 @@ class PartnerController extends Controller
         return redirect()->route('admin.projectBoard.rapport.index')->with('success', 'Opération de suppression réussie');
     }
 
-    public function mailForAdd(Request $request, Project $project){
-        $typePartner = $request->typePartner;
-        if($typePartner == "client")
-        {
-            $project = Project::where('id', $project->id)->first();
-            Mail::send('AddByMail.addClient', compact('project'), function ($message) {
-                
-                $message->from('gomezfelix310@gmail.com', 'Laravel');
-            
-                $message->to($address = $request->email)->cc(request->email)
-                ->subject('Demande d\'ajout sur le projet gozem');
-            });
+    // public function mailForAdd(Request $request, Project $project){
+    //     $typePartner = $request->typePartner;
+    //     if($typePartner == "client")
+    //     {
+    //         $project = Project::where('id', $project->id)->first();
+    //         Mail::send('AddByMail.addClient', compact('project'), function ($message) {
 
-            return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
-        }
-        else if($typePartner == "collab")
-        {
-            $project = Project::where('id', $project->id)->first();
-            Mail::send('AddByMail.addCollab', compact('project'), function ($message) {
-                
-                $message->from('gomezfelix310@gmail.com', 'Laravel');
-            
-                $message->to('gomezfelix310@gmail.com')->cc('gomezfelix310@gmail.com')
-                ->subject('Demande d\'ajout sur le projet gozem');
-            });
+    //             $message->from('gomezfelix310@gmail.com', 'Laravel');
 
-            return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
+    //             $message->to($address = $request->email)->cc(request->email)
+    //             ->subject('Demande d\'ajout sur le projet gozem');
+    //         });
+
+    //         return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
+    //     }
+    //     else if($typePartner == "collab")
+    //     {
+    //         $project = Project::where('id', $project->id)->first();
+    //         Mail::send('AddByMail.addCollab', compact('project'), function ($message) {
+
+    //             $message->from('gomezfelix310@gmail.com', 'Laravel');
+
+    //             $message->to('gomezfelix310@gmail.com')->cc('gomezfelix310@gmail.com')
+    //             ->subject('Demande d\'ajout sur le projet gozem');
+    //         });
+
+    //         return redirect()->back()->with('success', 'Votre demande d\'ajout à été envoyé avec succès');
+    //     }
+    //     else {
+    //         abort('404');
+    //     }
+    // }
+
+    public function sendInvitationForCollab(Request $request, Project $project)
+    {
+
+        $request->validate([
+            'email' => 'required'
+        ], [
+            'email.required' => 'Veuillez renseigner le mail du collaborateur'
+        ]);
+
+        $collabLink = route('admin.projectBoard.project.showBoard', $project);
+
+        $findIfInvitationHasAlreadySent = ProjectUser::where([
+            ['user_mail', '=', $request->email],
+            ['project_id', '=', $project->id]
+        ])->first();
+
+        if ($findIfInvitationHasAlreadySent != null) {
+            if ($findIfInvitationHasAlreadySent->status == 0) {
+                return redirect()->back()->with('error', 'Une demande du projet a déjà été envoyée à ce mail');
+            } else if ($findIfInvitationHasAlreadySent->status == 1) {
+                return redirect()->back()->with('error', 'Ce mail est déjà collaborateur sur ce projet');
+            } else {
+                return redirect()->back()->with('error', 'La demande au projet a été refusée par ce mail');
+            }
         }
-        else {
-            abort('404');
+
+        if (session()->get('email') == $request->email) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas vous envoyer une demande. Vous êtes le gestionnaire du projet');
         }
+
+        $data = [
+            'name' => $project->nom,
+            'collabLink' =>  $collabLink
+        ];
+
+        event(new sendInvitationMailForCollabEvent($data));
+
+        ProjectUser::create([
+            'user_mail' => $request->email,
+            'project_id' => $project->id,
+            'status' => 0
+        ]);
+
+        return redirect()->back()->with('success', 'Votre demande a été envoyée avec succès');
     }
 }

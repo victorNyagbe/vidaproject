@@ -11,15 +11,18 @@
   </style>
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
     <div class="container-fluid">
+        @include('admin.includes.messageReturned')
         <div class="row">
             <div class="col-12 pb-5">
                 <h6 class="name-project">{{ $project->nom }}</h6><span class="page-name">/ Bureau</span>
-                <a href="#" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter un tableau</a>
+                @if (session()->get('accessLevel') == 'Owner')
+                    <a href="#!" data-toggle="modal" data-target="#addTask" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter une tâche</a>
+                @endif
             </div>
         </div>
         <div class="row">
@@ -27,363 +30,191 @@
                 <section class="content pb-3">
                     <div class="container-fluid h-100">
                         <div class="row">
-                            <div class="col-12 col-lg-3">
-                                <div class="card card-warning board-card">
-                                    <div class="card-header">
-                                        <h3 class="card-title board-card-title">
-                                        LISTE TÂCHES
-                                        </h3>
-                                        <div class="board-card-icon">
-                                            <a href="#" class="add-task">
-                                                <i class="bi bi-x-circle"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body bg-secondary" id="card-body">
-                                        <div id="external-events">
-                                            <div class="card card-warning card-outline collapsed-card external-event " id="draggable">
-                                                <div class="card-header bg-light" id="headingOne">
-                                                    <div class="small-card-title-block">
-                                                        <h5 class="card-title small-card-title">Création du module</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="card-tools">
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                            <i class="bi bi-chat-left-dots"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="bi bi-x-lg"></i>
-                                                        </a>
-                                                        <!-- <i class="fas fa-plus signe" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></i> -->
-                                                    </div>
-                                                </div>
-                                                <div class="card-body bg-light">
-                                                    <h6 class="text-justify text-secondary">Création du module :</h6>
-                                                    <p>
-                                                        Commentaire
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="col-12">
+                                <div class="table-responsive text-wrap">
+                                    <table class="table table-bordered table-sm table-valign-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="taskNumber">N°</th>
+                                                <th class="taskTitle">Titre</th>
+                                                <th class="taskCollab">CEG</th>
+                                                <th class="taskDeadline">DeadLine</th>
+                                                <th class="taskStatus">Statut</th>
+                                                <th class="taskDesc">Description</th>
+                                                <th class="taskAction">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $compteur = 1; ?>
+                                            @foreach ($tasks as $task)
+                                                <tr>
+                                                    <td>{{ $compteur }}</td>
+                                                    <td>{{ $task->title }}</td>
+                                                    <td>{{ \App\Models\User::where('id', $task->project_user_id)->value('fullname') }}</td>
+                                                    <td>
+                                                        @if ($task->deadline != null)
+                                                            {{ \Carbon\Carbon::parse($task->deadline)->format('d-m-Y') }}
+                                                        @else
+                                                            Non Limité
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($task->status == 0)
+                                                            A FAIRE
+                                                        @elseif ($task->status == 1)
+                                                            EN COURS
+                                                        @else
+                                                            TERMINE
+                                                        @endif
+                                                    </td>
+                                                    <td class="desc">{{ \Illuminate\Support\Str::substr($task->description, 0, 55) . '....' }}</td>
+                                                    <td>
+                                                        @if (session()->get('accessLevel') == 'Owner')
+                                                            <div class="btn-group" role="group" aria-label="Button group">
+                                                                <a href="#!" data-toggle="modal" data-target="#showTask{{ $task->id }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                                                <a href="#" data-toggle="modal" data-target="#editTask{{ $task->id }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                                                <a href="{{ route('admin.task.destroy', $task) }}" class="btn btn-sm btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?')"><i class="fas fa-trash"></i></a>
+                                                                <div class="btn-group" role="group">
+                                                                    <button id="dropdownId" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                                                            aria-expanded="false">
+                                                                        statut
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                                                        <a class="dropdown-item" href="{{ route('admin.task.updateStatus', [$project, $task, 0]) }}">A faire</a>
+                                                                        <a class="dropdown-item" href="{{ route('admin.task.updateStatus', [$project, $task, 1]) }}">En cours</a>
+                                                                        <a class="dropdown-item" href="{{ route('admin.task.updateStatus', [$project, $task, 2]) }}">Terminé</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
 
-                                        <div class="card card-light card-outline">
-                                            <div class="card-header addTask-btn" data-toggle="modal" data-target="#addTaskList">
-                                                <h5 class="card-title small-card-title">Nouvelle tâche</h5>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool text-light">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <!-- <div class="input-group">
-                                                    <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+                                                        @if (session()->get('accessLevel') == 'Collab')
+                                                            <a href="#!" data-toggle="modal" data-target="#showTask{{ $task->id }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i> Detail</a>
+                                                        @endif
+                                                    </td>
+                                                </tr>
 
-                                                    <div class="input-group-append">
-                                                    <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
-                                                    </div>
-                                                </div> -->
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="addTaskLis" role="dialog">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content bg-secondary">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-uppercase">Ajouter une tâche</h5>
-                                                <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h6 class="pb-4 text-dark text-uppercase">Liste des tâches</h6>
-                                                <form action="#" method="">
-                                                    <div class="form-group">
-                                                        <label for="taskTitle">Titre de la tâche</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="taskNote">Commentaire</label>
-                                                        <textarea name="note" id="note" class="form-control" placeholder="Veuillez laisser un commentaire"></textarea>
-                                                    </div>
-                                                    <div class="form-group text-center pt-4 pb-3">
-                                                        <div class="d-flex justify-content-center">
-                                                            <button type="submit" class="btn btn-success text-uppercase">Ajouter la tâche</button>
+                                                <div id="showTask{{ $task->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title">Détail de tâche</h6>
+                                                                <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body task-show">
+                                                                <h4><b>Titre : </b> {{ $task->title }}</h4>
+                                                                <h4><b>Date de fin : </b> @if ($task->deadline != null)
+                                                                    {{ \Carbon\Carbon::parse($task->deadline)->format('d-m-Y') }}
+                                                                @else
+                                                                    Non Limité
+                                                                @endif</h4>
+                                                                <h4><b>Collaborateur en charge : </b> {{ \App\Models\User::where('id', $task->project_user_id)->value('fullname') }}</h4>
+                                                                <h4><b>Statut : </b> @if ($task->status == 0) A FAIRE @elseif ($task->status == 1) EN COURS @else TERMINE @endif</h4>
+                                                                <h4><b>Description : </b></h4>
+                                                                <p>{{ $task->description }}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
+
+                                                <div id="editTask{{ $task->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title">Modifier une tâche</h6>
+                                                                <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{{ route('admin.task.update', [$project, $task]) }}" method="post">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <div class="form-group">
+                                                                        <label for="task_title">Titre de tâche: </label>
+                                                                        <input type="text" name="task_title" id="task_title" value="{{ $task->title }}" class="form-control" placeholder="Saisir le titre de la tâche...">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="task_date_end">Date de fin de la tâche: </label>
+                                                                        <input type="date" name="task_date_end" value="{{ $task->deadline }}" id="task_date_end" class="form-control"s>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="task_description">Description</label>
+                                                                        <textarea name="task_description" id="task_description" class="form-control" rows="5" placeholder="Saisir une description à la tâche...">
+                                                                            {{ $task->description }}
+                                                                        </textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="project_user">Lier un collaborateur à la tâche</label>
+                                                                        <select name="project_user" id="project_user" class="form-control">
+                                                                            @foreach ($users as $user)
+                                                                                <option value="{{ $user->id }}" {{ $user->id == $task->project_user_id }}>{{ $user->fullname }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="d-flex justify-content-end">
+                                                                            <button type="submit" class="btn btn-sm btn-success text-uppercase">Modifier la tâche</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <?php $compteur++; ?>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="addTask" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title">Ajouter une tâche</h6>
+                                        <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('admin.task.store', $project) }}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="task_title">Titre de tâche: </label>
+                                                <input type="text" name="task_title" id="task_title" class="form-control" placeholder="Saisir le titre de la tâche...">
                                             </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="task_date_end">Date de fin de la tâche: </label>
+                                                <input type="date" name="task_date_end" id="task_date_end" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="task_description">Description</label>
+                                                <textarea name="task_description" id="task_description" class="form-control" rows="5" placeholder="Saisir une description à la tâche..."></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="project_user">Lier un collaborateur à la tâche</label>
+                                                <select name="project_user" id="project_user" class="form-control">
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}">{{ $user->fullname }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-sm btn-success text-uppercase">Ajouter la tâche</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-3">
-                                <div class="card card-primary board-card">
-                                    <div class="card-header">
-                                        <h3 class="card-title board-card-title">
-                                        À FAIRE
-                                        </h3>
-                                        <div class="board-card-icon">
-                                            <a href="#">
-                                                <i class="bi bi-x-circle"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body bg-secondary">
-                                        <div id="external-events">
-                                            <div class="card card-primary card-outline collapsed-card external-event">
-                                                <div class="card-header bg-light " id="headingTwo ">  
-                                                    <div class="small-card-title-block">
-                                                        <h5 class="card-title small-card-title">1er solution</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="card-tools">
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                            <i class="bi bi-chat-left-dots"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-tool">
-                                                            <i class="bi bi-x-lg"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body bg-light">
-                                                    <h6 class="text-justify text-secondary">1er solution :</h6>
-                                                    <p>
-                                                        Commentaire
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card card-light card-outline">
-                                            <div class="card-header addTask-btn" data-toggle="modal" data-target="#addTaskTodo">
-                                                <h5 class="card-title small-card-title">Nouvelle tâche</h5>
-                                                    <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool text-light">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="addTaskTodo" role="dialog">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content bg-secondary">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-uppercase">Ajouter une tâche</h5>
-                                                <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h6 class="pb-4 text-dark text-uppercase">À FAIRE</h6>
-                                                <form action="#" method="">
-                                                    <div class="form-group">
-                                                        <label for="taskTitle">Titre de la tâche</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="taskNote">Commentaire</label>
-                                                        <textarea name="note" id="note" class="form-control" placeholder="Veuillez laisser un commentaire"></textarea>
-                                                    </div>
-                                                    <div class="form-group text-center pt-4 pb-3">
-                                                        <div class="d-flex justify-content-center">
-                                                            <button type="submit" class="btn btn-success text-uppercase">Ajouter la tâche</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-12 col-lg-3">
-                                <div class="card card-default board-card">
-                                    <div class="card-header bg-info">
-                                        <h3 class="card-title small-card-title">
-                                        EN COURS
-                                        </h3>
-                                        <div class="board-card-icon">
-                                            <a href="#">
-                                                <i class="bi bi-x-circle"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body bg-secondary">
-                                        <div class="accordion" id="accordionThree">
-                                            <div id="external-events">
-                                                <div class="card card-info card-outline collapsed-card external-event">
-                                                    <div class="card-header bg-light">
-                                                        <div class="small-card-title-block">
-                                                            <h5 class="card-title small-card-title">Créer le dépôt</h5>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="card-tools">
-                                                            <a href="#" class="btn btn-tool">
-                                                                <i class="fas fa-pen"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                                <i class="bi bi-chat-left-dots"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-tool">
-                                                                <i class="bi bi-x-lg"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body bg-light">
-                                                        <h6 class="text-justify text-secondary">Créer le dépôt :</h6>
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card card-light card-outline">
-                                            <div class="card-header addTask-btn" data-toggle="modal" data-target="#addTaskLoad">
-                                                <h5 class="card-title small-card-title">Nouvelle tâche</h5>
-                                                    <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool text-light">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="addTaskLoad" role="dialog">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content bg-secondary">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-uppercase">Ajouter une tâche</h5>
-                                                <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h6 class="pb-4 text-dark text-uppercase">En COURS</h6>
-                                                <form action="#" method="">
-                                                    <div class="form-group">
-                                                        <label for="taskTitle">Titre de la tâche</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="taskNote">Commentaire</label>
-                                                        <textarea name="note" id="note" class="form-control" placeholder="Veuillez laisser un commentaire"></textarea>
-                                                    </div>
-                                                    <div class="form-group text-center pt-4 pb-3">
-                                                        <div class="d-flex justify-content-center">
-                                                            <button type="submit" class="btn btn-success text-uppercase">Ajouter la tâche</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-12 col-lg-3">
-                                <div class="card card-success board-card">
-                                    <div class="card-header">
-                                        <h3 class="card-title board-card-title">
-                                        TERMINÉ
-                                        </h3>
-                                        <div class="board-card-icon">
-                                            <a href="#"><i class="bi bi-x-circle"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body bg-secondary">
-                                        <div class="accordion" id="accordionFour">
-                                            <div id="external-events">
-                                                <div class="card card-success card-outline collapsed-card external-event">
-                                                    <div class="card-header bg-light">
-                                                        <div class="small-card-title-block">
-                                                            <h5 class="card-title small-card-title">Créer le logo</h5>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="card-tools">
-                                                            <a href="#" class="btn btn-tool">
-                                                                <i class="fas fa-pen"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                                <i class="bi bi-chat-left-dots"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-tool">
-                                                                <i class="bi bi-x-lg"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body bg-light">
-                                                        <h6 class="text-justify text-secondary">Créer le logo :</h6>
-                                                        <p>
-                                                            Commentaire
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card card-light card-outline">
-                                            <div class="card-header addTask-btn" data-toggle="modal" data-target="#addTaskEnd">
-                                                <h5 class="card-title small-card-title">Nouvelle tâche</h5>
-                                                    <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool text-light">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="addTaskEnd" role="dialog">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content bg-secondary">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-uppercase">Ajouter une tâche</h5>
-                                                <button type="button" class="close" aria-label="close" data-dismiss="modal" style="outline: 0;">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h6 class="pb-4 text-dark text-uppercase">TERMINÉ</h6>
-                                                <form action="#" method="">
-                                                    <div class="form-group">
-                                                        <label for="taskTitle">Titre de la tâche</label>
-                                                        <input type="text" class="form-control">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="taskNote">Commentaire</label>
-                                                        <textarea name="note" id="note" class="form-control" placeholder="Veuillez laisser un commentaire"></textarea>
-                                                    </div>
-                                                    <div class="form-group text-center pt-4 pb-3">
-                                                        <div class="d-flex justify-content-center">
-                                                            <button type="submit" class="btn btn-success text-uppercase">Ajouter la tâche</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div> 
+                        </div>
                     </div>
                 </section>
             </div>
@@ -433,7 +264,7 @@
         //         return
         //     }
 
-          
+
         //     // Create events
         //     var event = $('<div />')
         //     event.addClass('external-event')
@@ -459,7 +290,7 @@
                 $( this )
                 .addClass( "deplacer" )
                 .find( "<div/>" )
-                    
+
             }
             });
         } );

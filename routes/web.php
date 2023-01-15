@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Project\ChatController as AdminProjectChatControl
 use App\Http\Controllers\Admin\Project\PartnerController as AdminProjectPartnerController;
 use App\Http\Controllers\Admin\Project\ProjectController as AdminProjectProjectController;
 use App\Http\Controllers\Admin\Project\CalendarController as AdminProjectCalendarController;
+use App\Http\Controllers\Admin\Project\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +82,7 @@ Route::prefix('projects')->group( function() {
             // Route::get('/', [AdminProjectController:: class, 'update_index'])->name('admin.project.projectUpdate');
 
             Route::get('/{project}/edition', [AdminProjectController::class, 'edit'])->name('admin.project.edit');
-            
+
             Route::patch('/{project}/update-processing', [AdminProjectController::class, 'update'])->name('admin.project.update');
 
             Route::get('/{project}/destroy-project-processing', [AdminProjectController::class, 'destroy_edit'])->name('admin.project.edit.destroy');
@@ -89,7 +90,7 @@ Route::prefix('projects')->group( function() {
             // depuis projectBoard
 
             Route::get('/{project}/project-edition', [AdminProjectProjectController::class, 'edit'])->name('admin.projectBoard.project.edit');
-            
+
             Route::patch('/{project}/update-project-processing', [AdminProjectProjectController::class, 'update'])->name('admin.projectBoard.project.update');
 
             Route::get('/{project}/destroy-processing', [AdminProjectProjectController::class, 'destroy_edit'])->name('admin.projectBoard.project.edit.destroy');
@@ -113,7 +114,9 @@ Route::prefix('projects')->group( function() {
 
         Route::get('/{project}/client', [AdminProjectPartnerController::class, 'client'])->name('admin.projectBoard.client');
 
-        Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
+        // Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
+
+        Route::post('{project}/envoi-demande', [AdminProjectPartnerController::class, 'sendInvitationForCollab'])->name('admin.projectBoard.sendInvitationForCollab');
 
         Route::get('/{project}/diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
 
@@ -123,7 +126,17 @@ Route::prefix('projects')->group( function() {
 
         Route::get('/{project}/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
 
-        Route::prefix('rapport')->group(function(){ 
+        Route::prefix('taches/')->group(function () {
+            Route::post('{project}/storeProccesing', [TaskController::class, 'store'])->name('admin.task.store');
+
+            Route::patch('{project}/{task}/updateProccesing', [TaskController::class, 'update'])->name('admin.task.update');
+
+            Route::get('{project}/{task}/{value}/updateStatusProccesing', [TaskController::class, 'updateStatus'])->name('admin.task.updateStatus');
+
+            Route::get('{task}/destroyProccesing', [TaskController::class, 'destroy'])->name('admin.task.destroy');
+        });
+
+        Route::prefix('rapport')->group(function(){
 
             Route::get('{project}/', [AdminProjectPartnerController::class, 'index'])->name('admin.projectBoard.rapport.index');
 

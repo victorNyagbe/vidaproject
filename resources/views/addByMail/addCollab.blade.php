@@ -47,17 +47,18 @@
         .refuse-btn:hover {
             background-color:#cc6562;
         }
+        strong {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="mail-content">
-        <h3>Demande de participation au projet gozem</h3>
-        <p><b>Titre de la demande : Collaborateur</b></p>
-        <P>Acceptez-vous la demande ?</P>
-        <div class="block-btn">
-            <a href="{{ route('partners.inviteLogin') }}" class="accept-btn"><i class="bi bi-check-lg"></i> Oui</a>
-            <a href="{{-- route('partners.inviteLogin') --}}" class="refuse-btn"><i class="bi bi-x-lg"></i> Non</a>
-        </div>
+        <h3>Vous avez reçu une demande d'invitation sur le projet <strong>{{ $data["name"] }}</strong></h3><br>
+
+        <p>Veuillez cliquer sur le lien ci-dessous pour voir l'invitation</p>
+        <br>
+        <a href="{{ $data['collabLink'] }}">{{ $data["collabLink"] }}</a>
     </div>
 </body>
 </html>

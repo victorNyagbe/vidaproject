@@ -7,11 +7,19 @@ use App\Models\ProjectType;
 use Illuminate\Http\Request;
 use App\Models\ProjectStatus;
 use App\Http\Controllers\Controller;
+use App\Models\ProjectTypePivot;
+use App\Models\ProjectUser;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('accessProject');
+    }
+
     public function createProjectLogin()
     {
         $types = ProjectType::all();
@@ -27,7 +35,7 @@ class ProjectController extends Controller
             'project_name.required' => 'Veuillez renseigner le nom du projet',
             'project_type.required' => 'Veuillez choisir le type du projet'
         ]);
-        
+
         Project::create([
             'nom' => $request->project_name,
             'type' => $request->project_type
@@ -38,10 +46,30 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where([
+            'owner_id' => session()->get('id')
+        ])->get();
+
+        $getProjectsCollab = ProjectUser::where([
+            ['user_mail', '=', session()->get('email')],
+            ['status', '<>', 2]
+        ])->get('project_id');
+
+        $collabProjectArray = [];
+
+        if ($getProjectsCollab->count() > 0) {
+            foreach ($getProjectsCollab as $getProjectCollab) {
+                $collabProject = Project::where('id', $getProjectCollab->project_id)->first();
+                $collabProjectArray[] = $collabProject;
+            }
+            $projectCollabs = collect($collabProjectArray);
+        } else {
+            $projectCollabs = collect([]);
+        }
+
         $types = ProjectType::all();
         $page = 'admin.project';
-        return view('admin.project.project', compact('projects', 'types', 'page') );
+        return view('admin.project.project', compact('projects', 'types', 'page', 'projectCollabs'));
     }
 
     public function store(Request $request)
@@ -67,14 +95,21 @@ class ProjectController extends Controller
 
         ]);
 
-        Project::create([
+        $project = Project::create([
+            'owner_id' => session()->get('id'),
             'logo' => request('logo')->store('logo_projects', 'public'),
             'nom' => $request->project_name,
-            'type' => $request->project_type,
             'date_debut' => $request->date_debut,
             'date_fin' => $request->date_debut,
             'description' => $request->description
         ]);
+
+        foreach ($request->project_type as $project_type) {
+            ProjectTypePivot::create([
+                'project_id' =>  $project->id,
+                'project_type_id' => $project_type
+            ]);
+        }
 
         return redirect()->route('admin.project.project')->with('success', 'Le projet a été ajouté avec succès');
     }
@@ -90,13 +125,13 @@ class ProjectController extends Controller
     {
         $statuses = ProjectStatus::all();
         $verify_project = Project::where('id', $project->id)->first();
-        
+
         if ($verify_project == null) {
             abort('404');
         }
 
         $types = ProjectType::all();
-        
+
         $page = 'admin.project';
         return view('admin.project.edit', compact('project', 'statuses', 'types', 'page'));
     }
@@ -212,8 +247,36 @@ class ProjectController extends Controller
         if ($project == null) {
             abort('404');
         }
-        
+
         $page = 'admin.projectBoard.project.showBoard';
+
+        return $this->accessToProjectDetailPolicy($project, $page);
+    }
+
+    public function accessToProjectDetailPolicy(Project $project, $page)
+    {
+        $ifOwnerProject = Project::where([
+            ['owner_id', '=', session()->get('id')],
+            ['id', '=', $project->id]
+        ])->first();
+
+        $ifUserIsProjectCollab = ProjectUser::where([
+            ['user_id', '=', session()->get('id')],
+            ['project_id', '=', $project->id]
+        ])->first();
+
+        if ($ifOwnerProject == null && $ifUserIsProjectCollab == null) {
+            return redirect()->route('admin.project.project')->with('error', 'Vous n\'avez pas l\'autorisation d\'accéder au panel');
+        }
+
+        if ($ifUserIsProjectCollab == null) {
+            session()->put('accessLevel', 'Collab');
+        }
+
+        if ($ifOwnerProject != null) {
+            session()->put('accessLevel', 'Owner');
+        }
+
         return view('admin.projectBoard.project.showBoard', compact('page', 'project'));
     }
 }

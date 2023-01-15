@@ -15,7 +15,7 @@ class Project extends Model
 
     public function project_types()
     {
-        return $this->hasMany(ProjectType::class);
+        return $this->belongsToMany(ProjectType::class, 'project_type_pivots');
     }
 
     public function project_status()
@@ -26,6 +26,16 @@ class Project extends Model
     public function project_level()
     {
         return $this->belongsTo(ProjectLevel::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
 }

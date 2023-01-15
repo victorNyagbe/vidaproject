@@ -3,7 +3,7 @@
 @section('style')
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
@@ -19,12 +19,16 @@
               </div>
               <div class="inner">
                 <div class="box-info">
-                  <h3>12</h3>
-
+                    <h3>{{
+                        \App\Models\ProjectUser::where([
+                            ['project_id', '=', $project->id],
+                            ['status', '=', 1]
+                        ])->count()
+                    }}</td></h3>
                   <p>Collaborateurs</p>
                 </div>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -42,7 +46,7 @@
                       <p>Tâches en cours</p>
                 </div>
               </div>
-              
+
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
@@ -81,66 +85,6 @@
             </div>
           </div>
           <!-- ./col -->
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="card bg-secondary">
-              <div class="card-header cardHeader">
-                Projets
-                <div class="card-tools">
-                  <ul class="pagination pagination-sm">
-                    <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive text-nowrap table-responsive-md">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Nom du projet</th>
-                        <th scope="col">Nombre de Collaborateur</th>
-                        <th scope="col">Chef projet</th>
-                        <th scope="col">Type de projet</th>
-                        <th scope="col">Nombre de ressource</th>
-                        <th scope="col">Progression</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                      <tr>
-                        <td>Mark</td>
-                        <td>5</td>
-                        <td>Vic</td>
-                        <td>informatique</td>
-                        <td>2</td>
-                        <td>55%</td>
-                      </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>6</td>
-                        <td>Thornton</td>
-                        <td>construction</td>
-                        <td>6</td>
-                        <td>70%</td>
-                      </tr>
-                      <tr>
-                        <td>Alex</td>
-                        <td>4</td>
-                        <td>Gordonne</td>
-                        <td>Fabrication</td>
-                        <td>8</td>
-                        <td>30%</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="row">
           <div class="col-12">

@@ -6,13 +6,14 @@ use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProjectType extends Model
+class Task extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function projects()
+    public function project()
     {
-        return $this->belongsToMany(Project::class, 'project_type_pivots');
+        return $this->belongsTo(Project::class);
     }
 }

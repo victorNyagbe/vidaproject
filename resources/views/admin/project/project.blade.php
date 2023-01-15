@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('styles/admin/projects/index.css') }}">
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
@@ -44,9 +44,18 @@
                   @foreach ($projects as $project)
                   <tr>
                     <td>{{ $project->nom }}</td>
-                    <td>5</td>
-                    <td>Vic</td>
-                    <td>{{ $project->type }}</td>
+                    <td>{{
+                        \App\Models\ProjectUser::where([
+                            ['project_id', '=', $project->id],
+                            ['status', '=', 1]
+                        ])->count()
+                    }}</td>
+                    <td>{{ $project->user->fullname }}</td>
+                    <td>|
+                        @foreach ($project->project_types as $project_type)
+                            {{ $project_type->nom . ' |' }}
+                        @endforeach
+                    </td>
                     <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
                     <td>
@@ -55,12 +64,12 @@
                       <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                     </td>
                   </tr>
-                  @endforeach                
+                  @endforeach
                 </tbody>
               </table>
             </div>
           </div>
-          
+
           <div class="modal fade" id="addProject" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -83,7 +92,7 @@
                         </div>
                         <div class="form-group">
                           <label for="project_type">Type de projet (vous pouvez en choisir plusieurs)</label>
-                          <select name="project_type" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
+                          <select name="project_type[]" id="project_type" class="select2 form-control" multiple="multiple" data-placeholder="Choisir le type de projet" style="width: 100%;">
                             @foreach ($types as $type)
                               <option value="{{ $type->id }}">{{ $type->nom }}</option>
                             @endforeach
@@ -141,7 +150,6 @@
                 <thead>
                   <tr>
                     <th scope="col">Nom du projet</th>
-                    <th scope="col">Nombre de Collaborateur</th>
                     <th scope="col">Chef projet</th>
                     <th scope="col">Type de projet</th>
                     <th scope="col">Date de début</th>
@@ -150,21 +158,28 @@
                   </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                  @foreach ($projects as $project)
-                  <tr>
-                    <td>{{ $project->nom }}</td>
-                    <td>5</td>
-                    <td>Vic</td>
-                    <td>{{ $project->type }}</td>
-                    <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
-                    <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
-                    <td>
-                      <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
-                      <a href="{{ route('admin.projectBoard.project.edit', $project) }}" class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i class="fas fa-edit"></i></a>
-                      <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                    </td>
-                  </tr>
-                  @endforeach                
+                    @forelse ($projectCollabs as $project)
+                        <tr>
+                            <td>{{ $project->nom }}</td>
+                            <td>{{ $project->user->fullname }}</td>
+                            <td>|
+                                @foreach ($project->project_types as $project_type)
+                                    {{ $project_type->nom . ' |' }}
+                                @endforeach
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
+                            <td>
+                                <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('admin.projectBoard.project.edit', $project) }}" class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center">Pas de projet trouvé</td>
+                        </tr>
+                    @endforelse
                 </tbody>
               </table>
             </div>
@@ -235,7 +250,7 @@
         $('#customCheckbox2').prop('checked', false);
         $('.start-input').css('display', 'none')
         $('.end-input').css('display', 'none')
-        
+
 
 
       } else {
@@ -252,9 +267,9 @@
 
             $('.end-input').css('display', 'block')
             $('.start-input').css('display', 'block')
-            
+
           }
-          
+
         })
 
       }
@@ -297,7 +312,7 @@
         if ( document.getElementById('inputAnnonce') ){
 
           $('#annonce').modal('show');
-          
+
         }
 
       }

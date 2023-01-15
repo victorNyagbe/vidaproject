@@ -4,11 +4,12 @@
     <link rel="stylesheet" href="{{ asset('styles/admin/collaborateur.css') }}">
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <section class="content pt-4">
        <div class="container-fluid">
+        @include('admin.includes.messageReturned')
           <div class="row">
               <div class="col-12 pb-5">
                   <a href="#" class="name-project">{{ $project->nom }}</a><span class="page-name">/ Collaborateurs</span>
@@ -171,7 +172,7 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                  <form action="{{ route('admin.projectBoard.client.add',$project) }}" method="post" enctype="multipart/form-data">
+                  <form action="{{ route('admin.projectBoard.sendInvitationForCollab', $project) }}" method="post" enctype="multipart/form-data">
                       @csrf
                       <div class="form-group">
                       <label for="email">Email</label>
@@ -189,7 +190,7 @@
                   </div>
               </div>
           </div>
-        </div>   
+        </div>
        </div>
     </section>
 </div>
