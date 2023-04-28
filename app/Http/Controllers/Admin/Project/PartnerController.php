@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Project;
 
-use App\Events\sendInvitationMailForCollabEvent;
 use App\Models\User;
 use App\Models\Partner;
 use App\Models\Project;
@@ -14,6 +13,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Events\sendInvitationMailForClientEvent;
+use App\Events\sendInvitationMailForCollabEvent;
 
 class PartnerController extends Controller
 {
@@ -48,10 +49,6 @@ class PartnerController extends Controller
             'email.required' => 'Veuillez renseigner votre email',
             'status.required' => 'Veuillez renseigner votre statut sur le projet'
         ]);
-
-        // dd($request->lastName);
-
-        // dd($request->firstName);
 
         $user = User::create([
             'fullname' => $request->firstName . ' ' . $request->lastName,
@@ -258,6 +255,9 @@ class PartnerController extends Controller
     //     }
     // }
 
+
+    // inviter un collaborateur
+
     public function sendInvitationForCollab(Request $request, Project $project)
     {
 
@@ -273,6 +273,8 @@ class PartnerController extends Controller
             ['user_mail', '=', $request->email],
             ['project_id', '=', $project->id]
         ])->first();
+
+        // dd(session()->get('email'));
 
         if ($findIfInvitationHasAlreadySent != null) {
             if ($findIfInvitationHasAlreadySent->status == 0) {
@@ -300,6 +302,62 @@ class PartnerController extends Controller
             'project_id' => $project->id,
             'status' => 0
         ]);
+
+        return redirect()->back()->with('success', 'Votre demande a été envoyée avec succès');
+    }
+
+    // inviter un client
+
+    public function sendInvitationForClient(Request $request, Project $project)
+    {
+
+        $request->validate([
+            'email' => 'required'
+        ], [
+            'email.required' => 'Veuillez renseigner le mail du client'
+        ]);
+
+        $clientLink = route('admin.projectBoard.project.showBoard', $project);
+
+        $findIfInvitationHasAlreadySent = ProjectUser::where([
+            ['user_mail', '=', $request->email],
+            ['project_id', '=', $project->id]
+        ])->first();
+
+        if ($findIfInvitationHasAlreadySent != null) {
+            if ($findIfInvitationHasAlreadySent->status == 0) {
+                return redirect()->back()->with('error', 'Une demande du projet a déjà été envoyée à ce mail');
+            } else if ($findIfInvitationHasAlreadySent->status == 1) {
+                return redirect()->back()->with('error', 'Ce mail est déjà client sur ce projet');
+            } else {
+                return redirect()->back()->with('error', 'La demande au projet a été refusée par ce mail');
+            }
+        }
+
+        if (session()->get('email') == $request->email) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas vous envoyer une demande. Vous êtes le gestionnaire du projet');
+        }
+
+        $data = [
+            'name' => $project->nom,
+            'clientLink' =>  $clientLink
+        ];
+
+        event(new sendInvitationMailForClientEvent($data));
+
+        $client = ProjectUser::create([
+            'user_mail' => $request->email,
+            'project_id' => $project->id,
+            'status' => 0
+        ]);
+
+        if ($project->id = $client->project_id){
+
+            $project->update([
+                'project_client' => $client->id
+            ]);
+            
+        }
 
         return redirect()->back()->with('success', 'Votre demande a été envoyée avec succès');
     }

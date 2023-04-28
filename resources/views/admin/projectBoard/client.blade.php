@@ -86,7 +86,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        <form action="{{ route('admin.projectBoard.client.add',$project) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('admin.projectBoard.sendInvitationForClient',$project) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                             <label for="email">Email</label>
