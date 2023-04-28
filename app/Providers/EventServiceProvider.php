@@ -24,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         sendInvitationMailForCollabEvent::class => [
             sendInvitationMailForCollabListener::class,
         ],
+
+        sendInvitationMailForClientEvent::class => [
+            sendInvitationMailForClientListener::class,
+        ],
     ];
 
     /**

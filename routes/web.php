@@ -112,11 +112,13 @@ Route::prefix('projects')->group( function() {
 
         Route::get('/{project}/collaborateur', [AdminProjectPartnerController::class, 'collaborateur'])->name('admin.projectBoard.collaborateur');
 
+        Route::post('{project}/envoi-demande', [AdminProjectPartnerController::class, 'sendInvitationForCollab'])->name('admin.projectBoard.sendInvitationForCollab');
+
         Route::get('/{project}/client', [AdminProjectPartnerController::class, 'client'])->name('admin.projectBoard.client');
 
-        // Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
+        Route::post('{project}/envoi-demande-client', [AdminProjectPartnerController::class, 'sendInvitationForClient'])->name('admin.projectBoard.sendInvitationForClient');
 
-        Route::post('{project}/envoi-demande', [AdminProjectPartnerController::class, 'sendInvitationForCollab'])->name('admin.projectBoard.sendInvitationForCollab');
+        // Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
 
         Route::get('/{project}/diagrammes', [AdminChartController::class, 'projectChart'])->name('admin.projectBoard.charts');
 
@@ -157,7 +159,7 @@ Route::prefix('projects')->group( function() {
 });
 
 
-Route::get('client', [AdminPartnerController::class, 'client'])->name('admin.client');
+// Route::get('client', [AdminPartnerController::class, 'client'])->name('admin.client');
 
 Route::get('diagrammes', [AdminChartController::class, 'chart'])->name('admin.charts');
 
