@@ -1,0 +1,18 @@
+.name-project {
+    color: #2781cd;
+    padding-left: 2em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.name-project:hover {
+    text-decoration: none;
+    color: #2781cd;
+}
+
+.page-name {
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.2em;
+    color: #0000005a;
+}

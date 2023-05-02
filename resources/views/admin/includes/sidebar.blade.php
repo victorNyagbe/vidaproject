@@ -52,23 +52,15 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{-- route('admin.client') --}}" class="nav-link {{ $page == 'admin.client' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                 Client
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{ route('admin.charts') }}" class="nav-link {{ $page == 'admin.charts' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                  Diagrammes
               </p>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a href="{{ route('admin.calendar') }}" class="nav-link {{ $page == 'admin.calendar' ? 'active' : '' }}">
               <i class="nav-icon bi bi-calendar-date-fill pl-1"></i>
               <p>
@@ -76,7 +68,7 @@
                 <span class="badge badge-primary badge-background right">2</span>
               </p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a href="{{ route('admin.collaborateur') }}" class="nav-link {{ $page == 'admin.collaborateur' ? 'active' : '' }}">
               <i class="nav-icon fas fa-user-plus"></i>
@@ -93,20 +85,28 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{ route('admin.email.mail') }}" class="nav-link {{ $page == 'admin.email' ? 'active' : '' }}">
               <i class="nav-icon far fa-envelope"></i>
               <p>
                 Boite Mail
               </p>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a href="{{ route('admin.message.chat') }}" class="nav-link {{ $page == 'admin.message' ? 'active' : '' }}">
               <i class="nav-icon far fa-comments"></i>
               <p>
                 Messages
                 <span class="badge badge-primary badge-background right">3</span>
+              </p>
+            </a>
+          </li> -->
+          <li class="nav-item">
+            <a href="{{ route('admin.clientSpace.index') }}" class="nav-link {{ $page == 'admin.clientSpace' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                 Espace client
               </p>
             </a>
           </li>

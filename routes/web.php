@@ -3,14 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Guests\MainController;
-use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\RegisterController;
+use App\Http\Controllers\Admin\ClientSpaceController as AdminClientSpaceController;
+use App\Http\Controllers\Admin\Project\TaskController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\MailController as AdminMailController;
 use App\Http\Controllers\Admin\MainController as AdminMainController;
 use App\Http\Controllers\Admin\BoardController as AdminBoardController;
-use App\Http\Controllers\Admin\ChartController as AdminChartController;
 
+use App\Http\Controllers\Admin\ChartController as AdminChartController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
@@ -18,7 +20,6 @@ use App\Http\Controllers\Admin\Project\ChatController as AdminProjectChatControl
 use App\Http\Controllers\Admin\Project\PartnerController as AdminProjectPartnerController;
 use App\Http\Controllers\Admin\Project\ProjectController as AdminProjectProjectController;
 use App\Http\Controllers\Admin\Project\CalendarController as AdminProjectCalendarController;
-use App\Http\Controllers\Admin\Project\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -168,6 +169,19 @@ Route::get('collaborateur', [AdminPartnerController::class, 'collaborateur'])->n
 Route::get('calendrier', [AdminCalendarController::class, 'calendar'])->name('admin.calendar');
 
 Route::get('gallerie', [AdminGalleryController::class, 'gallery'])->name('admin.gallery');
+
+Route::prefix('espace-client')->group(function() {
+
+    Route::prefix('/projets')->group(function() {
+
+        Route::get('', [AdminClientSpaceController::class, 'index'])->name('admin.clientSpace.index');
+
+        Route::get('/projet', [AdminClientSpaceController::class, 'show'])->name('admin.clientSpace.show');
+
+    });
+
+});
+
 
 Route::get('messages', [AdminChatController::class, 'chat'])->name('admin.message.chat');
 
