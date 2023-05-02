@@ -20,15 +20,23 @@ class PartnerController extends Controller
         return view('admin.client', compact('page', 'project'));
     }
 
+    // public function collaborateur(Project $project)
+    // {
+    //     $project = Project::where('id', $project->id)->first();
+
+    //     if ($project == null) {
+    //         abort('404');
+    //     }
+
+    //     $page = 'admin.collaborateur';
+    //     return view('admin.collaborateur', compact('project', 'page'));
+    // }
+
     public function collaborateur()
     {
-        $project = Project::where('id', $project->id)->first();
 
-        if ($project == null) {
-            abort('404');
-        }
 
         $page = 'admin.collaborateur';
-        return view('admin.collaborateur', compact('project', 'page'));
+        return view('admin.collaborateur', compact('page'));
     }
 }
