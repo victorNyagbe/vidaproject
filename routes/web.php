@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Guests\MainController;
 use App\Http\Controllers\Admin\RegisterController;
-use App\Http\Controllers\Admin\ClientSpaceController as AdminClientSpaceController;
+use App\Http\Controllers\Admin\Project\MailController;
 use App\Http\Controllers\Admin\Project\TaskController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
-use App\Http\Controllers\Admin\MailController as AdminMailController;
+// use App\Http\Controllers\Admin\MailController as AdminMailController;
 use App\Http\Controllers\Admin\MainController as AdminMainController;
 use App\Http\Controllers\Admin\BoardController as AdminBoardController;
 
@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\CalendarController as AdminCalendarController;
+use App\Http\Controllers\Admin\ClientSpaceController as AdminClientSpaceController;
 use App\Http\Controllers\Admin\Project\ChatController as AdminProjectChatController;
 use App\Http\Controllers\Admin\Project\PartnerController as AdminProjectPartnerController;
 use App\Http\Controllers\Admin\Project\ProjectController as AdminProjectProjectController;
@@ -125,6 +126,22 @@ Route::prefix('projects')->group( function() {
 
         Route::get('/{project}/calendrier', [AdminProjectCalendarController::class, 'calendar'])->name('admin.projectBoard.calendar');
 
+        Route::prefix('email')->group( function() {
+
+            Route::get('/{project}', [MailController::class, 'mail'])->name('admin.projectBoard.email.mail');
+
+            Route::get('/{project}/boite-de-reception', [MailController::class, 'getInbox'])->name('admin.projectBoard.email.inboxMail');
+
+            Route::get('/{project}/envoyer-un-message', [MailController::class, 'getNewMail'])->name('admin.projectBoard.email.newMail');
+
+            Route::get('/{project}/message-envoyé', [MailController::class, 'getSentMail'])->name('admin.projectBoard.email.sentMail');
+
+            Route::get('/{project}/brouillon', [MailController::class, 'getDraftMail'])->name('admin.projectBoard.email.draftMail');
+
+            Route::get('/{project}/Corbeille', [MailController::class, 'getTrashMail'])->name('admin.projectBoard.email.trashMail');
+
+        });
+
         Route::get('/{project}/messages', [AdminProjectChatController::class, 'chat'])->name('admin.projectBoard.message.chat');
 
         Route::get('/{project}/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
@@ -185,21 +202,21 @@ Route::prefix('espace-client')->group(function() {
 
 Route::get('messages', [AdminChatController::class, 'chat'])->name('admin.message.chat');
 
-Route::prefix('email')->group( function() {
+// Route::prefix('email')->group( function() {
 
-    Route::get('', [AdminMailController::class, 'mail'])->name('admin.email.mail');
+//     Route::get('', [AdminMailController::class, 'mail'])->name('admin.email.mail');
 
-    Route::get('boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.email.inboxMail');
+//     Route::get('boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.email.inboxMail');
 
-    Route::get('envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.email.newMail');
+//     Route::get('envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.email.newMail');
 
-    Route::get('message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.email.sentMail');
+//     Route::get('message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.email.sentMail');
 
-    Route::get('brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.email.draftMail');
+//     Route::get('brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.email.draftMail');
 
-    Route::get('Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
+//     Route::get('Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
 
-});
+// });
 
 
 // Login du lien d'invitation

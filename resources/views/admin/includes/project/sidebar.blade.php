@@ -96,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
               <i class="nav-icon far fa-envelope"></i>
               <p>
                 Boite Mail
