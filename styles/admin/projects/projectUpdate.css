@@ -6,6 +6,23 @@
     display: inline-block;
 }
 
+.page-name a {
+    color: #5cb85c;
+}
+
+
+.page-name a:hover {
+    text-decoration: none;
+    color: #399239;
+}
+
+.page-name2 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.2em;
+    color: #0000005a;
+}
+
 .delete-link {
     font-weight: bold;
     font-size: 0.9em;

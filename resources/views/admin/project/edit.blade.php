@@ -13,8 +13,9 @@
     <div class="container-fluid">
       @include('admin.includes.messageReturned')
       <div class="row">
-        <div class="col-12 pb-5">
-            <h6 class="page-title">Kozah 3</h6><span>/ détails</span>
+        <div class="col-12 pt-3 pb-5">
+            <h6 class="page-title">{{ $project->nom }}</h6>
+            <h6 class="page-name mt-2"><i class="bi bi-arrow-right"></i> <a href="{{ route('admin.project.project') }}">Projets</a> <span>/ détails</span></h6>
             <a href="{{ route('admin.project.edit.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');"  class="btn btn-danger delete-link"><i class="fas fa-trash-alt"></i> <b>Supprimer</b></a>
         </div>
       </div>

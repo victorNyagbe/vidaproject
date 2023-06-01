@@ -9,6 +9,7 @@
 <div class="content-wrapper">
   <section class="content pt-4">
     <div class="container-fluid">
+        @include('admin.includes.messageReturned')
        <div class="row">
         <div class="col-12">
             <!-- Main content -->
