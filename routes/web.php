@@ -134,6 +134,8 @@ Route::prefix('projects')->group( function() {
 
             Route::get('/{project}/envoyer-un-message', [MailController::class, 'getNewMail'])->name('admin.projectBoard.email.newMail');
 
+            Route::post('/{project}/envoi-du-message', [MailController::class, 'createMail'])->name('admin.projectBoard.email.create');
+
             Route::get('/{project}/message-envoyé', [MailController::class, 'getSentMail'])->name('admin.projectBoard.email.sentMail');
 
             Route::get('/{project}/brouillon', [MailController::class, 'getDraftMail'])->name('admin.projectBoard.email.draftMail');

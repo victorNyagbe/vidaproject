@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Project;
 
+use App\Models\Mail;
 use App\Models\Project;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,13 +14,15 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
+        $client = ProjectUser::where('id', $project->project_client)->first();
+
         if ($project == null) {
             abort('404');
         }
 
         $page = 'admin.projectBoard.email';
 
-        return view('admin.projectBoard.email.mail', compact('page', 'project'));
+        return view('admin.projectBoard.email.mail', compact('page', 'project', 'client'));
     }
 
     public function getInbox(Project $project)
@@ -36,11 +40,54 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
+        $client = ProjectUser::where('id', $project->project_client)->first();
+
         if ($project == null) {
             abort('404');
         }
 
-        return view('admin.projectBoard.email.newMail', compact('project'));
+        return view('admin.projectBoard.email.newMail', compact('project', 'client'));
+    }
+
+    public function createMail(Request $request, Project $project)
+    {
+        $request->validate([
+            'mail_message' => 'required'
+        ], [
+            'mail_message.required' => 'vous devez saisir un message'
+        ]);
+
+        $project = Project::where('id', $project->id)->first();
+
+        $receiver = ProjectUser::where('id', $project->project_client)->first();
+
+        if (request('file') == null) {
+
+            Mail::create([
+                'sender_id' => session()->get('id'),
+                'receiver_id' => $receiver->id,
+                'subject' => $request->subject,
+                'message' => $request->mail_message,
+                'dateTime' => now()
+
+            ]);
+
+        }else{
+
+            Mail::create([
+                'sender_id' => session()->get('id'),
+                'receiver_id' => $receiver->id,
+                'subject' => $request->subject,
+                'message' => $request->mail_message,
+                'file' => request('file')->store('mail_files', 'public'),
+                'dateTime' => now()
+
+            ]);
+
+        }
+
+        return redirect()->route('admin.projectBoard.email.mail', $project)->with('success', 'Votre Mail a été envoyé!');
+
     }
 
     public function getSentMail(Project $project)

@@ -14,9 +14,9 @@
         <div class="image" style="padding-left: 5em;">
           <!-- <img src=" {{ asset('assets/logos/kozah 3 logo.jpg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
           @if($project->logo)
-            <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
+            <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img" alt="Project Image" style="opacity: .8; width:80px; height:70px;">
           @else
-            <img src=" {{ asset('assets/logos/avatar.svg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:70px;">
+            <img src=" {{ asset('assets/logos/no_image.jpg') }} " class="logo-img" alt="Project Image" style="opacity: .8; width:80px; height:70px;">
           @endif
         </div>
       </div>
@@ -96,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
+            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>
                 Boite Mail
