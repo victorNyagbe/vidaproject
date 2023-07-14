@@ -15,32 +15,40 @@
 <div class="table-responsive bg-light mailbox-messages">
     <table class="table table-hover">
         <tbody>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="sent-check1"
-                            class="sent-delete-check"
-                        />
-                        <label for="sent-check1"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">08 : 00</td>
-            </tr>
-            <tr>
+            @foreach ($mails as $mail)
+                <tr>
+                    <td>
+                        <div class="icheck-danger">
+                            <input
+                                type="checkbox"
+                                value=""
+                                id="sent-check{{ $mail->id }}"
+                                class="sent-delete-check"
+                            />
+                            <label for="sent-check{{ $mail->id }}"></label>
+                        </div>
+                    </td>
+                    <td class="mailbox-name">
+                        @php
+                            $value = App\Models\ProjectUser::where('id', $mail->receiver_id)->value('user_mail');
+                            $name = explode('@',$value);
+                            $first_name = $name[0];
+                        @endphp
+                        <span>À :</span> <a href="#">{{ $first_name }}</a>
+                    </td>
+                    <td class="mailbox-subject">
+                        {{-- <b>{{ $mail->subject }}</b> - Trying to find a ... --}}
+                        {{-- $textToBeReturned --}}
+                    </td>
+                    <td class="mailbox-attachment delete-icons">
+                        <a href="#">
+                            <i class="fas fa-trash-alt text-dark"></i>
+                        </a>
+                    </td>
+                    <td class="mailbox-date inbox-date">{{ \Carbon\Carbon::parse($mail->dateTime)->format('h:i:s A') }}</td>
+                </tr>
+            @endforeach
+            {{-- <tr>
                 <td>
                     <div class="icheck-danger">
                         <input
@@ -246,10 +254,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check10"
+                            id="0"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check10"></label>
+                        <label for="0"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -271,10 +279,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check11"
+                            id="1"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check11"></label>
+                        <label for="1"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -296,10 +304,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check12"
+                            id="2"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check12"></label>
+                        <label for="2"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -321,10 +329,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check13"
+                            id="3"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check13"></label>
+                        <label for="3"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -346,10 +354,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check14"
+                            id="4"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check14"></label>
+                        <label for="4"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -371,10 +379,10 @@
                         <input
                             type="checkbox"
                             value=""
-                            id="sent-check15"
+                            id="5"
                             class="sent-delete-check"
                         />
-                        <label for="sent-check15"></label>
+                        <label for="5"></label>
                     </div>
                 </td>
                 <td class="mailbox-name">
@@ -389,7 +397,7 @@
                     </a>
                 </td>
                 <td class="mailbox-date inbox-date">1 sept</td>
-            </tr>
+            </tr> --}}
         </tbody>
     </table>
     <!-- /.table -->
