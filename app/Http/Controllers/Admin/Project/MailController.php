@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Project;
 use App\Models\Mail;
 use App\Models\Project;
 use App\Models\ProjectUser;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -94,11 +95,44 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
+        // $mails = Mail::where('sender_id', session()->get('id'));
+
+        $mails = Mail::all();
+
+        $characters = 200;
+
+        $titre = $mails->subject;
+
+        for ($i = 0; $i <COUNT($mails); $i++) {
+
+            $getTitre = strlen($titre);
+
+            dd($getTitre);
+        }
+
+        $getTitre = strlen($titre);
+
+        $charactersLeft = $characters - $getTitre;
+
+        $message = $mails->message;
+
+        $textToBeReturned = "";
+
+        if($getTitre == 200) {
+            $textToBeReturned = $titre . '...';
+        } else if ($getTitre > 200) {
+            $textToBeReturned = Str::substr($titre, 0, 200). '...';
+        } else {
+            $getMessage = Str::substr($message, 0, $charactersLeft);
+
+            $textToBeReturned = $titre.$getMessage . '...';
+        }
+
         if ($project == null) {
             abort('404');
         }
 
-        return view('admin.projectBoard.email.sentMail', compact('project'));
+        return view('admin.projectBoard.email.sentMail', compact('project', 'mails', 'textToBeReturned'));
     }
 
     public function getDraftMail(Project $project)
