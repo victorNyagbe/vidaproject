@@ -37,8 +37,38 @@
                         <span>À :</span> <a href="#">{{ $first_name }}</a>
                     </td>
                     <td class="mailbox-subject">
-                        {{-- <b>{{ $mail->subject }}</b> - Trying to find a ... --}}
-                        {{-- $textToBeReturned --}}
+                        <?php
+                            $characters = 30;
+                            $titre = $mail->subject;
+                            $getTitre = strlen($titre);
+                            $charactersLeft = $characters - $getTitre;
+                            $description = $mail->message;
+                        ?>
+                        @if ($getTitre == 30)
+
+                            <a class="mailbox-title" href="#!">
+                                <b>{{ $mail->subject }}</b> ...
+                            </a>
+
+                        @elseif ($getTitre > 30)
+
+                            <a class="mailbox-title" href="#!">
+                                <b>{{ \Illuminate\Support\Str::substr($mail->subject, 0, 30) . '...' }}</b>
+                            </a>
+
+                        @elseif($getTitre == 0)
+
+                            <a class="mailbox-title" href="#!">
+                                <span>{{$mail->subtitle}}...</span>
+                            </a>
+
+                        @else
+
+                            <a class="mailbox-title" href="#!">
+                                <b>{{ $mail->subject }}</b> - {{\Illuminate\Support\Str::substr($mail->subtitle, 0, $charactersLeft) . '...'}}
+                            </a>
+
+                        @endif
                     </td>
                     <td class="mailbox-attachment delete-icons">
                         <a href="#">
@@ -171,7 +201,7 @@
                         <i class="fas fa-trash-alt text-dark"></i>
                     </a>
                 </td>
-                <td class="mailbox-date inbox-date">20 sept</td>
+                <td class="mailbox-date inbox-date">30 sept</td>
             </tr>
             <tr>
                 <td>

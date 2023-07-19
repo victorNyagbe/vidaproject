@@ -4,7 +4,7 @@
     }
 </style>
 
-<form action="{{ route('admin.projectBoard.email.create', $project) }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('admin.projectBoard.email.create', $project) }}" method="post" enctype="multipart/form-data" id="createForm">
     @csrf
     <div class="form-group">
         <input class="form-control" disabled value="{{ $client->user_mail }}" placeholder="À">
@@ -13,15 +13,9 @@
         <input class="form-control" name="subject" id="subject" placeholder="Sujet">
     </div>
     <div class="form-group textarea-block">
-        <textarea id="compose-textarea" name="mail_message" class="form-control textarea" plac>
-            <p>
-                Saisir votre texte
-            </p>
-            <div class="justify-content-end d-flex">
-                <p class="d-block pr-4" >{{ session()->get('fullname') }}</p>
-            </div>
-        </textarea>
+        <textarea id="compose-textarea" name="mail_message" class="form-control textarea"></textarea>
     </div>
+    <textarea name="descriptionText" id="descriptionText" class="d-none"></textarea>
     <div class="form-group">
         <div class="btn btn-light btn-file">
             <i class="fas fa-paperclip"></i> Joindre

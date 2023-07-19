@@ -53,9 +53,11 @@ class MailController extends Controller
     public function createMail(Request $request, Project $project)
     {
         $request->validate([
-            'mail_message' => 'required'
+            'mail_message' => 'required',
+            'subject' => 'required',
         ], [
-            'mail_message.required' => 'vous devez saisir un message'
+            'mail_message.required' => 'vous devez saisir un message',
+            'subject.required' => 'vous devez saisir l\'ojet'
         ]);
 
         $project = Project::where('id', $project->id)->first();
@@ -69,6 +71,7 @@ class MailController extends Controller
                 'receiver_id' => $receiver->id,
                 'subject' => $request->subject,
                 'message' => $request->mail_message,
+                'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'dateTime' => now()
 
             ]);
@@ -80,6 +83,7 @@ class MailController extends Controller
                 'receiver_id' => $receiver->id,
                 'subject' => $request->subject,
                 'message' => $request->mail_message,
+                'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'file' => request('file')->store('mail_files', 'public'),
                 'dateTime' => now()
 
@@ -99,40 +103,40 @@ class MailController extends Controller
 
         $mails = Mail::all();
 
-        $characters = 200;
+        // $characters = 200;
 
-        $titre = $mails->subject;
+        // $titre = $mails->subject;
 
-        for ($i = 0; $i <COUNT($mails); $i++) {
+        // for ($i = 0; $i <COUNT($mails); $i++) {
 
-            $getTitre = strlen($titre);
+        //     $getTitre = strlen($titre);
 
-            dd($getTitre);
-        }
+        //     dd($getTitre);
+        // }
 
-        $getTitre = strlen($titre);
+        // $getTitre = strlen($titre);
 
-        $charactersLeft = $characters - $getTitre;
+        // $charactersLeft = $characters - $getTitre;
 
-        $message = $mails->message;
+        // $message = $mails->message;
 
-        $textToBeReturned = "";
+        // $textToBeReturned = "";
 
-        if($getTitre == 200) {
-            $textToBeReturned = $titre . '...';
-        } else if ($getTitre > 200) {
-            $textToBeReturned = Str::substr($titre, 0, 200). '...';
-        } else {
-            $getMessage = Str::substr($message, 0, $charactersLeft);
+        // if($getTitre == 200) {
+        //     $textToBeReturned = $titre . '...';
+        // } else if ($getTitre > 200) {
+        //     $textToBeReturned = Str::substr($titre, 0, 200). '...';
+        // } else {
+        //     $getMessage = Str::substr($message, 0, $charactersLeft);
 
-            $textToBeReturned = $titre.$getMessage . '...';
-        }
+        //     $textToBeReturned = $titre.$getMessage . '...';
+        // }
 
         if ($project == null) {
             abort('404');
         }
 
-        return view('admin.projectBoard.email.sentMail', compact('project', 'mails', 'textToBeReturned'));
+        return view('admin.projectBoard.email.sentMail', compact('project', 'mails'));
     }
 
     public function getDraftMail(Project $project)

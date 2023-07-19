@@ -201,7 +201,17 @@
           $('.mail-content').html(status);
           $('#search').css('display', 'none');
           $.activeButtonClicked($('.toSend'));
-          $('#compose-textarea').summernote()
+          $('#createForm').on('submit', function(e) {
+                const editorCode = $('.textarea').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+                $('#descriptionText').val(editorCode);
+            });
+          $('#compose-textarea').summernote({
+                lang: 'fr-FR',
+                minHeight: 200,
+                tabsize: 2,
+                placeholder: 'Veuillez rensigner le texte ici...',
+           });
         }
       });
     });
@@ -348,6 +358,23 @@
 
 //     })
 //   }
+
+// $(document).ready(function () {
+
+//     $('#createForm').on('submit', function(e) {
+//         const editorCode = $('.description').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+//         $('#descriptionText').val(editorCode);
+//     });
+
+//     $('#compose-textarea').summernote({
+//         lang: 'fr-FR',
+//         minHeight: 400,
+//         tabsize: 2,
+//         placeholder: 'Veuillez rensigner le texte ici...',
+//     });
+// });
+
 </script>
 
 @endsection
