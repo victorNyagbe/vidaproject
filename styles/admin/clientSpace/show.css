@@ -25,6 +25,10 @@
     color: #0000005a;
 }
 
+.mail-btn {
+    float: right;
+}
+
 fieldset.scheduler-border {
     border: 2px groove #20b085 !important;
     padding: 0 1.4em 1.4em 1.4em !important;

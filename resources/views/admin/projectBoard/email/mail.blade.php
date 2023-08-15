@@ -376,5 +376,72 @@
 // });
 
 </script>
+{{-- <script>
+
+    const fileInput = document.getElementById('fileInput');
+    const fileListDiv = document.getElementById('fileList');
+
+    console.log(fileInput);
+
+    console.log(fileListDiv);
+
+    fileInput.addEventListener('change', function(event) {
+        fileListDiv.innerHTML = '';
+
+        const files = event.target.files;
+
+        console.log(files);
+
+        const files = event.target.files;
+        for (const file of files) {
+            const fileName = document.createElement('p');
+            fileName.textContent = file.name;
+            fileListDiv.appendChild(fileName);
+        }
+    });
+
+</script> --}}
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById("fileSelector");
+        const fileListDiv = document.getElementById('fileList');
+
+        // const jqueryFileInput = $('#fileSelector');
+        // console.log(jqueryFileInput);
+
+        // console.log(jqueryFileInput[0]);
+
+        console.log(fileInput);
+
+        console.log(fileListDiv);
+
+        // console.log($('#fileSelector'));
+
+        // console.log($('#fileList'));
+    });
+</script> --}}
+
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById('fileInput');
+        const fileListDiv = document.getElementById('fileList');
+        $('#fileInput').change(function() {
+            const fileListDiv = $('#fileList');
+            fileListDiv.empty();
+            console.log("heloo");
+            const files = this.files;
+            for (const file of files) {
+                const fileName = $('<p>').text(file.name);
+                fileListDiv.append(fileName);
+            }
+        });
+    });
+</script> --}}
 
 @endsection
