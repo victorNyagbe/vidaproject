@@ -201,7 +201,17 @@
           $('.mail-content').html(status);
           $('#search').css('display', 'none');
           $.activeButtonClicked($('.toSend'));
-          $('#compose-textarea').summernote()
+          $('#createForm').on('submit', function(e) {
+                const editorCode = $('.textarea').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+                $('#descriptionText').val(editorCode);
+            });
+          $('#compose-textarea').summernote({
+                lang: 'fr-FR',
+                minHeight: 200,
+                tabsize: 2,
+                placeholder: 'Veuillez rensigner le texte ici...',
+           });
         }
       });
     });
@@ -348,6 +358,90 @@
 
 //     })
 //   }
+
+// $(document).ready(function () {
+
+//     $('#createForm').on('submit', function(e) {
+//         const editorCode = $('.description').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+//         $('#descriptionText').val(editorCode);
+//     });
+
+//     $('#compose-textarea').summernote({
+//         lang: 'fr-FR',
+//         minHeight: 400,
+//         tabsize: 2,
+//         placeholder: 'Veuillez rensigner le texte ici...',
+//     });
+// });
+
 </script>
+{{-- <script>
+
+    const fileInput = document.getElementById('fileInput');
+    const fileListDiv = document.getElementById('fileList');
+
+    console.log(fileInput);
+
+    console.log(fileListDiv);
+
+    fileInput.addEventListener('change', function(event) {
+        fileListDiv.innerHTML = '';
+
+        const files = event.target.files;
+
+        console.log(files);
+
+        const files = event.target.files;
+        for (const file of files) {
+            const fileName = document.createElement('p');
+            fileName.textContent = file.name;
+            fileListDiv.appendChild(fileName);
+        }
+    });
+
+</script> --}}
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById("fileSelector");
+        const fileListDiv = document.getElementById('fileList');
+
+        // const jqueryFileInput = $('#fileSelector');
+        // console.log(jqueryFileInput);
+
+        // console.log(jqueryFileInput[0]);
+
+        console.log(fileInput);
+
+        console.log(fileListDiv);
+
+        // console.log($('#fileSelector'));
+
+        // console.log($('#fileList'));
+    });
+</script> --}}
+
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById('fileInput');
+        const fileListDiv = document.getElementById('fileList');
+        $('#fileInput').change(function() {
+            const fileListDiv = $('#fileList');
+            fileListDiv.empty();
+            console.log("heloo");
+            const files = this.files;
+            for (const file of files) {
+                const fileName = $('<p>').text(file.name);
+                fileListDiv.append(fileName);
+            }
+        });
+    });
+</script> --}}
 
 @endsection

@@ -140,7 +140,11 @@ Route::prefix('projects')->group( function() {
 
             Route::get('/{project}/brouillon', [MailController::class, 'getDraftMail'])->name('admin.projectBoard.email.draftMail');
 
-            Route::get('/{project}/Corbeille', [MailController::class, 'getTrashMail'])->name('admin.projectBoard.email.trashMail');
+            Route::get('/{project}/corbeille', [MailController::class, 'getTrashMail'])->name('admin.projectBoard.email.trashMail');
+
+            Route::get('/{mail}/{project}/edit-mail', [MailController::class, 'show'])->name('admin.projectBoard.email.show');
+
+            Route::get('{mail}/{project}/destroy-processing', [MailController::class, 'destroy'])->name('admin.projectBoard.email.destroy');
 
         });
 

@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('styles/admin/clientSpace/show.css') }}">
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
@@ -14,6 +14,7 @@
                 <h6 class="name-project">ESPACE CLIENT</h6>
                 <div class="mt-4">
                     <a href="{{ route('admin.clientSpace.index') }}" class="link" ><i class="bi bi-arrow-right"></i> Projets</a><span class="page-name">/ Projet</span>
+                    <a href="{{-- route('admin.clientSpace.email.mail') --}}" class="btn btn-info mail-btn"><i class="bi bi-envelope-exclamation"></i> Boîte de messagerie</a>
                 </div>
             </div>
         </div>
@@ -31,7 +32,7 @@
                                 <div class="col-6">
                                     <label class="control-label input-label info-title" for="startTime">Type du projet :</label><span class="info-details">Site web</span>
                                 </div>
-                            </div>                
+                            </div>
                         </div>
                         <div class="control-group">
                             <div class="form-row">
@@ -81,7 +82,7 @@
                                 <div class="col-6">
                                     <label class="control-label input-label info-title" for="startTime">Prénom :</label><span class="info-details">Felix</span>
                                 </div>
-                            </div>                
+                            </div>
                         </div>
                         <div class="control-group">
                             <div class="form-row">
@@ -111,7 +112,7 @@
                                 <div class="col-6">
                                     <label class="control-label input-label info-title" for="startTime">Prénom :</label><span class="info-details">Felix</span>
                                 </div>
-                            </div>                
+                            </div>
                         </div>
                         <div class="control-group">
                             <div class="form-row">

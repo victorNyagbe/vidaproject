@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin\Project;
 
 use App\Models\Mail;
+use App\Models\Fichier;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class MailController extends Controller
 {
@@ -53,39 +57,95 @@ class MailController extends Controller
     public function createMail(Request $request, Project $project)
     {
         $request->validate([
-            'mail_message' => 'required'
+            'mail_message' => 'required',
+            'subject' => 'required',
         ], [
-            'mail_message.required' => 'vous devez saisir un message'
+            'mail_message.required' => 'vous devez saisir un message',
+            'subject.required' => 'vous devez saisir l\'ojet'
         ]);
 
         $project = Project::where('id', $project->id)->first();
 
         $receiver = ProjectUser::where('id', $project->project_client)->first();
 
-        if (request('file') == null) {
+        if ($request->hasFile('files')) {
 
-            Mail::create([
-                'sender_id' => session()->get('id'),
-                'receiver_id' => $receiver->id,
-                'subject' => $request->subject,
-                'message' => $request->mail_message,
-                'dateTime' => now()
+            $mail_created = Mail::create([
+                                'sender_id' => session()->get('id'),
+                                'receiver_id' => $receiver->id,
+                                'subject' => $request->subject,
+                                'message' => $request->mail_message,
+                                'subtitle' => Str::substr($request->descriptionText, 0, 20),
+                                'dateTime' => now()
+                            ]);
 
-            ]);
+            $files = $request->file('files');
 
-        }else{
+            foreach ($files as $file) {
 
-            Mail::create([
-                'sender_id' => session()->get('id'),
-                'receiver_id' => $receiver->id,
-                'subject' => $request->subject,
-                'message' => $request->mail_message,
-                'file' => request('file')->store('mail_files', 'public'),
-                'dateTime' => now()
+                $fileNames[] = $file->getClientOriginalName();
 
-            ]);
+                if (in_array($file->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'jfif', 'webp'])) {
+                    Fichier::create([
+                        'mail_id' => $mail_created->id,
+                        'file' => $file->store('mail_images', 'public'),
+                        'type_file' => 'image'
+                    ]);
+                }
+                elseif(in_array($file->getClientOriginalExtension(), ['docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html'])) {
+                    Fichier::create([
+                        'mail_id' => $mail_created->id,
+                        'file' => $file->store('mail_docs', 'public'),
+                        'type_file' => 'document'
+                    ]);
+                }
+                elseif(in_array($file->getClientOriginalExtension(), ['mp4'])) {
+                    Fichier::create([
+                        'mail_id' => $mail_created->id,
+                        'file' => $file->store('mail_video', 'public'),
+                        'type_file' => 'visual'
+                    ]);
+                }
+                elseif(in_array($file->getClientOriginalExtension(), ['mp3'])) {
+                    Fichier::create([
+                        'mail_id' => $mail_created->id,
+                        'file' => $file->store('mail_audio', 'public'),
+                        'type_file' => 'voice'
+                    ]);
+                }
+
+            }
 
         }
+
+        // if ($request->hasFile('files')) {
+
+        //     $files = $request->file('files');
+
+        //     Mail::create([
+        //         'sender_id' => session()->get('id'),
+        //         'receiver_id' => $receiver->id,
+        //         'subject' => $request->subject,
+        //         'message' => $request->mail_message,
+        //         'subtitle' => Str::substr($request->descriptionText, 0, 20),
+        //         'file' => request('file[]')->store('mail_files', 'public'),
+        //         'dateTime' => now()
+
+        //     ]);
+
+        // }else{
+
+        //     Mail::create([
+        //         'sender_id' => session()->get('id'),
+        //         'receiver_id' => $receiver->id,
+        //         'subject' => $request->subject,
+        //         'message' => $request->mail_message,
+        //         'subtitle' => Str::substr($request->descriptionText, 0, 20),
+        //         'dateTime' => now()
+
+        //     ]);
+
+        // }
 
         return redirect()->route('admin.projectBoard.email.mail', $project)->with('success', 'Votre Mail a été envoyé!');
 
@@ -99,40 +159,40 @@ class MailController extends Controller
 
         $mails = Mail::all();
 
-        $characters = 200;
+        // $characters = 200;
 
-        $titre = $mails->subject;
+        // $titre = $mails->subject;
 
-        for ($i = 0; $i <COUNT($mails); $i++) {
+        // for ($i = 0; $i <COUNT($mails); $i++) {
 
-            $getTitre = strlen($titre);
+        //     $getTitre = strlen($titre);
 
-            dd($getTitre);
-        }
+        //     dd($getTitre);
+        // }
 
-        $getTitre = strlen($titre);
+        // $getTitre = strlen($titre);
 
-        $charactersLeft = $characters - $getTitre;
+        // $charactersLeft = $characters - $getTitre;
 
-        $message = $mails->message;
+        // $message = $mails->message;
 
-        $textToBeReturned = "";
+        // $textToBeReturned = "";
 
-        if($getTitre == 200) {
-            $textToBeReturned = $titre . '...';
-        } else if ($getTitre > 200) {
-            $textToBeReturned = Str::substr($titre, 0, 200). '...';
-        } else {
-            $getMessage = Str::substr($message, 0, $charactersLeft);
+        // if($getTitre == 200) {
+        //     $textToBeReturned = $titre . '...';
+        // } else if ($getTitre > 200) {
+        //     $textToBeReturned = Str::substr($titre, 0, 200). '...';
+        // } else {
+        //     $getMessage = Str::substr($message, 0, $charactersLeft);
 
-            $textToBeReturned = $titre.$getMessage . '...';
-        }
+        //     $textToBeReturned = $titre.$getMessage . '...';
+        // }
 
         if ($project == null) {
             abort('404');
         }
 
-        return view('admin.projectBoard.email.sentMail', compact('project', 'mails', 'textToBeReturned'));
+        return view('admin.projectBoard.email.sentMail', compact('project', 'mails'));
     }
 
     public function getDraftMail(Project $project)
@@ -155,5 +215,45 @@ class MailController extends Controller
         }
 
         return view('admin.projectBoard.email.trashMail', compact('project'));
+    }
+
+    public function show(Mail $mail, Project $project)
+    {
+        // $project = Project::where('id', $project->id)->first();
+
+        $client = ProjectUser::where('id', $project->project_client)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
+        $mail = Mail::where('id', $mail->id)->first();
+
+        if ($mail == null) {
+            abort('404');
+        }
+
+        $page = 'admin.projectBoard.email';
+
+        return view('admin.projectBoard.email.show', compact('page', 'project', 'client', 'mail'));
+    }
+
+    public function destroy(Mail $mail, Project $project)
+    {
+        $verify_mail = Mail::where('id', $mail->id)->first();
+
+        if ($verify_mail == null) {
+            abort('404');
+        }
+
+        $old_file = $mail->file;
+
+        $mail->delete();
+
+        if (Storage::disk('public')->exists($old_file)) {
+            File::delete('storage/app/public/' . $old_file);
+        }
+
+        return redirect()->back()->with('success', 'Opération de suppression réussie');
     }
 }

@@ -84,3 +84,20 @@
     font-size: 0.7em;
     font-weight: bold;
 }
+
+/* all */
+
+.table td {
+    vertical-align: middle;
+}
+
+.mailbox-title {
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+}
+
+.mailbox-title:hover {
+    color: #0275d8;
+    text-decoration: none;
+}
