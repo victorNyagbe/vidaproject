@@ -70,15 +70,15 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.charts', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.charts' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                  Diagrammes
               </p>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.calendar', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.calendar' ? 'active' : '' }}">
               <i class="nav-icon bi bi-calendar-date-fill pl-1"></i>
               <p>
@@ -86,7 +86,7 @@
                 <span class="badge badge-primary badge-background right">2</span>
               </p>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a href="{{ route('admin.projectBoard.gallery', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.gallery' ? 'active' : '' }}">
               <i class="nav-icon far fa-image"></i>

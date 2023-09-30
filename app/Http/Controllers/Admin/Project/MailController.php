@@ -61,95 +61,121 @@ class MailController extends Controller
             'subject' => 'required',
         ], [
             'mail_message.required' => 'vous devez saisir un message',
-            'subject.required' => 'vous devez saisir l\'ojet'
+            'subject.required' => 'vous devez saisir l\'objet'
         ]);
 
         $project = Project::where('id', $project->id)->first();
 
         $receiver = ProjectUser::where('id', $project->project_client)->first();
 
+        $filesToBeUploaded = $request->input('filesToBeUploaded');
+
+        $collection = collect($filesToBeUploaded);
+
+        $jsonString = $collection->get('0');
+
+        $filesArray = json_decode($jsonString, true);
+
         if ($request->hasFile('files')) {
 
             $mail_created = Mail::create([
-                                'sender_id' => session()->get('id'),
-                                'receiver_id' => $receiver->id,
-                                'subject' => $request->subject,
-                                'message' => $request->mail_message,
-                                'subtitle' => Str::substr($request->descriptionText, 0, 20),
-                                'dateTime' => now()
+                'sender_id' => session()->get('id'),
+                'receiver_id' => $receiver->id,
+                'subject' => $request->subject,
+                'message' => $request->mail_message,
+                'subtitle' => Str::substr($request->descriptionText, 0, 20),
+                'dateTime' => now()
+            ]);
+
+            $filesSelected = $request->file('files');
+
+            if(is_array($filesSelected)) {
+
+                $filesKeeped = [];
+
+                foreach ($filesArray as $fileArray) {
+
+                    foreach ($filesSelected as $fileSelected) {
+
+                        if ($fileArray == $fileSelected->getClientOriginalName()) {
+
+                            if($fileSelected->isValid()) {
+                                $filesKeeped[] = $fileSelected;
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                foreach ($filesKeeped as $fileKeeped) {
+
+                    if (is_file($fileKeeped)) {
+
+                        if (in_array($fileKeeped->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'jfif', 'webp'])) {
+
+                            Fichier::create([
+                                'mail_id' => $mail_created->id,
+                                'file' => $fileKeeped->store('mail_images', 'public'),
+                                'type_file' => 'image'
                             ]);
 
-            $files = $request->file('files');
+                        }
+                        elseif(in_array($fileKeeped->getClientOriginalExtension(), ['docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html'])) {
 
-            foreach ($files as $file) {
+                            Fichier::create([
+                                'mail_id' => $mail_created->id,
+                                'file' => $fileKeeped->store('mail_docs', 'public'),
+                                'type_file' => 'document'
+                            ]);
 
-                $fileNames[] = $file->getClientOriginalName();
+                        }
+                        elseif(in_array($fileKeeped->getClientOriginalExtension(), ['mp4'])) {
 
-                if (in_array($file->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'jfif', 'webp'])) {
-                    Fichier::create([
-                        'mail_id' => $mail_created->id,
-                        'file' => $file->store('mail_images', 'public'),
-                        'type_file' => 'image'
-                    ]);
-                }
-                elseif(in_array($file->getClientOriginalExtension(), ['docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html'])) {
-                    Fichier::create([
-                        'mail_id' => $mail_created->id,
-                        'file' => $file->store('mail_docs', 'public'),
-                        'type_file' => 'document'
-                    ]);
-                }
-                elseif(in_array($file->getClientOriginalExtension(), ['mp4'])) {
-                    Fichier::create([
-                        'mail_id' => $mail_created->id,
-                        'file' => $file->store('mail_video', 'public'),
-                        'type_file' => 'visual'
-                    ]);
-                }
-                elseif(in_array($file->getClientOriginalExtension(), ['mp3'])) {
-                    Fichier::create([
-                        'mail_id' => $mail_created->id,
-                        'file' => $file->store('mail_audio', 'public'),
-                        'type_file' => 'voice'
-                    ]);
+                            Fichier::create([
+                                'mail_id' => $mail_created->id,
+                                'file' => $fileKeeped->store('mail_video', 'public'),
+                                'type_file' => 'visual'
+                            ]);
+
+                        }
+                        elseif(in_array($fileKeeped->getClientOriginalExtension(), ['mp3'])) {
+
+                            Fichier::create([
+                                'mail_id' => $mail_created->id,
+                                'file' => $fileKeeped->store('mail_audio', 'public'),
+                                'type_file' => 'voice'
+                            ]);
+
+                        } else {
+
+                            return redirect()->back()->with('error', 'Erreur dans les fichiers sélectionnés.');
+
+                        }
+
+                    }
+
                 }
 
             }
 
+        } else {
+
+            Mail::create([
+                'sender_id' => session()->get('id'),
+                'receiver_id' => $receiver->id,
+                'subject' => $request->subject,
+                'message' => $request->mail_message,
+                'subtitle' => Str::substr($request->descriptionText, 0, 20),
+                'dateTime' => now()
+            ]);
+
         }
 
-        // if ($request->hasFile('files')) {
-
-        //     $files = $request->file('files');
-
-        //     Mail::create([
-        //         'sender_id' => session()->get('id'),
-        //         'receiver_id' => $receiver->id,
-        //         'subject' => $request->subject,
-        //         'message' => $request->mail_message,
-        //         'subtitle' => Str::substr($request->descriptionText, 0, 20),
-        //         'file' => request('file[]')->store('mail_files', 'public'),
-        //         'dateTime' => now()
-
-        //     ]);
-
-        // }else{
-
-        //     Mail::create([
-        //         'sender_id' => session()->get('id'),
-        //         'receiver_id' => $receiver->id,
-        //         'subject' => $request->subject,
-        //         'message' => $request->mail_message,
-        //         'subtitle' => Str::substr($request->descriptionText, 0, 20),
-        //         'dateTime' => now()
-
-        //     ]);
-
-        // }
-
         return redirect()->route('admin.projectBoard.email.mail', $project)->with('success', 'Votre Mail a été envoyé!');
-
     }
+
 
     public function getSentMail(Project $project)
     {
@@ -194,6 +220,11 @@ class MailController extends Controller
 
         return view('admin.projectBoard.email.sentMail', compact('project', 'mails'));
     }
+
+    // public function createDraftMail(Request $request, Project $project)
+    // {
+    //     d
+    // }
 
     public function getDraftMail(Project $project)
     {
