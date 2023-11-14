@@ -61,6 +61,7 @@ class LoginController extends Controller
                 ];
 
                 return route('admin.dashboard');
+
             } else {
                 $status = 'password_error';
                 return $response = [

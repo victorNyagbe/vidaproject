@@ -3,14 +3,14 @@
 @section('style')
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -39,15 +39,15 @@
                 <div class="box-info">
                       <h3>8</h3>
 
-                      <p>Tâches en cours</p>
+                      <p>Tâches</p>
                 </div>
               </div>
-              
+
               <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          {{-- <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -62,9 +62,9 @@
               </div>
               <a href="#" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
+          </div> --}}
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -87,7 +87,7 @@
             <div class="card bg-secondary">
               <div class="card-header cardHeader">
                 Projets
-                <div class="card-tools">
+                {{-- <div class="card-tools">
                   <ul class="pagination pagination-sm">
                     <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
                     <li class="page-item"><a href="#" class="page-link">1</a></li>
@@ -95,7 +95,7 @@
                     <li class="page-item"><a href="#" class="page-link">3</a></li>
                     <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
                   </ul>
-                </div>
+                </div> --}}
               </div>
               <div class="card-body">
                 <div class="table-responsive text-nowrap table-responsive-md">
@@ -147,7 +147,7 @@
             <div class="card bg-secondary">
               <div class="card-header cardHeader">
                 Avancement des tâches
-                <div class="card-tools">
+                {{-- <div class="card-tools">
                   <ul class="pagination pagination-sm">
                     <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
                     <li class="page-item"><a href="#" class="page-link">1</a></li>
@@ -155,7 +155,7 @@
                     <li class="page-item"><a href="#" class="page-link">3</a></li>
                     <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
                   </ul>
-                </div>
+                </div> --}}
               </div>
               <div class="card-body">
                 <div class="row">
@@ -244,7 +244,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-12 col-lg-6">
             <!-- Calendar -->
             <div class="card bg-gradient-secondary calendar-block">
@@ -385,7 +385,7 @@
             </div>
             <!-- /.card -->
           </div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col-12 col-lg-4 col-sm-4">
             <div class="card card-outline balance-card">

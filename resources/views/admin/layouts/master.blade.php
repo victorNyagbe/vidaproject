@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{ asset('styles/admin/plugins/fontawesome-free/css/all.css') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{ asset('styles/admin/plugins/ionicons/ionicons.css') }}">
-  
+
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="{{ asset('styles/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css') }}">
   <!-- iCheck -->

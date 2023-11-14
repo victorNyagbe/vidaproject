@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ActivationAccountToken;
 use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
@@ -40,6 +42,25 @@ class RegisterController extends Controller
         session()->put('fullname', $user->fullname);
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
+
+        $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
+
+        if($add_confirmation != null) {
+
+            if($add_confirmation->is_confirmated == 0) {
+
+                $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
+
+                $project_user->update([
+                    'user_id' => $user->id
+                ]);
+
+                $add_confirmation->update([
+                    'is_confirmated' => 1
+                ]);
+            }
+
+        }
 
         return route('admin.dashboard');
     }
@@ -76,5 +97,25 @@ class RegisterController extends Controller
         session()->put('fullname', $user->fullname);
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
+
+        $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
+
+        if($add_confirmation != null) {
+
+            if($add_confirmation->is_confirmated == 0) {
+
+                $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
+
+                $project_user->update([
+                    'user_id' => $user->id
+                ]);
+
+                $add_confirmation->update([
+                    'is_confirmated' => 1
+                ]);
+            }
+
+        }
+
     }
 }

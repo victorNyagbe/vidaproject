@@ -7,6 +7,7 @@ use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Rapport;
 use App\Models\ProjectUser;
+use Illuminate\Support\Str;
 use App\Models\ProjectLevel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Events\sendInvitationMailForClientEvent;
 use App\Events\sendInvitationMailForCollabEvent;
+use App\Models\ActivationAccountToken;
 
 class PartnerController extends Controller
 {
@@ -22,12 +24,16 @@ class PartnerController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
+        $project_client = ProjectUser::where('project_id', $project->id)->where('id', $project->project_client)->first();
+
+        $client = User::where('id', $project_client->user_id)->first();
+
         if ($project == null) {
             abort('404');
         }
 
         $page = 'admin.projectBoard.client';
-        return view('admin.projectBoard.client', compact('page', 'project'));
+        return view('admin.projectBoard.client', compact('page', 'project', 'client'));
     }
 
     public function client_store(Request $request)
@@ -197,17 +203,17 @@ class PartnerController extends Controller
     //     return $pdf->stream();
     // }
 
-    // public function downloadPdf(Rapport $rapport)
-    // {
-    //     // $rapports = Rapport::all();
-    //     // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
+    public function downloadPdf(Rapport $rapport)
+    {
+        // $rapports = Rapport::all();
+        // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
 
-    //     $rapport = Rapport::where('id', $rapport->id)->first();
-    //     $level = ProjectLevel::where('id', $rapport->stade)->first();
-    //     $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
-    //     ->setPaper('a4', 'portrait');
-    //     return $pdf->download('Rapport.pdf');
-    // }
+        $rapport = Rapport::where('id', $rapport->id)->first();
+        $level = ProjectLevel::where('id', $rapport->stade)->first();
+        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
+        ->setPaper('a4', 'portrait');
+        return $pdf->download('Rapport.pdf');
+    }
 
     public function destroy_rapport(Rapport $rapport)
     {
@@ -345,18 +351,51 @@ class PartnerController extends Controller
 
         event(new sendInvitationMailForClientEvent($data));
 
-        $client = ProjectUser::create([
-            'user_mail' => $request->email,
-            'project_id' => $project->id,
-            'status' => 0
-        ]);
+        $email = $request->input('email');
 
-        if ($project->id = $client->project_id){
+        $user = User::where('email', $email)->first();
 
-            $project->update([
-                'project_client' => $client->id
+        if($user == null) {
+
+            $client = ProjectUser::create([
+
+                'user_mail' => $request->email,
+                'project_id' => $project->id,
+
             ]);
-            
+
+            if ($project->id = $client->project_id){
+
+                $project->update([
+                    'project_client' => $client->id
+                ]);
+
+            }
+
+            ActivationAccountToken::create([
+                'email' => $request->email,
+                'project_user_id' => $client->id,
+                'token' => Str::random(60)
+            ]);
+
+        } else {
+
+            $client = ProjectUser::create([
+
+                'user_id' => $user->id,
+                'user_mail' => $request->email,
+                'project_id' => $project->id,
+
+            ]);
+
+            if ($project->id = $client->project_id){
+
+                $project->update([
+                    'project_client' => $client->id
+                ]);
+
+            }
+
         }
 
         return redirect()->back()->with('success', 'Votre demande a été envoyée avec succès');

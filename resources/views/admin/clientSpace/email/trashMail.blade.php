@@ -4,14 +4,14 @@
             <input
                 type="checkbox"
                 value=""
-                id="inbox-check0"
+                id="check0"
             />
-            <label for="inbox-check0">Tout</label>
+            <label for="check0">Tout</label>
         </div>
         <a href="#" id="hide-trash-btn" class="btn btn-danger trash-btn">Supprimer</a>
+        <a href="#" id="hide-restore-btn" class="btn btn-primary trash-btn trash-restore-btn">Restaurer</a>
     </div>
 </div>
-
 <div class="table-responsive bg-light mailbox-messages">
     <table class="table table-hover">
         <tbody>
@@ -30,11 +30,11 @@
                     </td>
                     <td class="mailbox-name">
                         @php
-                            $value = App\Models\User::where('id', $mail->sender_id)->value('email');
+                            $value = App\Models\ProjectUser::where('id', $mail->receiver_id)->value('user_mail');
                             $name = explode('@',$value);
                             $first_name = $name[0];
                         @endphp
-                        <a href="#">{{ $first_name }}</a>
+                        <span>À :</span> <a href="#">{{ $first_name }}</a>
                     </td>
                     <td class="mailbox-subject">
                         <?php

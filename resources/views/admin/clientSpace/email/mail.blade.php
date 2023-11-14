@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('style')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{ asset('styles/admin/email/mail.css') }}">
 @endsection
 
@@ -9,6 +10,7 @@
 <div class="content-wrapper">
   <section class="content pt-4">
     <div class="container-fluid">
+        @include('admin.includes.messageReturned')
        <div class="row">
         <div class="col-12">
             <!-- Main content -->
@@ -142,7 +144,7 @@
     // Load by default the inbox view
     $.ajax({
       type : "GET",
-      url : "{{ route('admin.email.inboxMail') }}",
+      url : "{{ route('admin.clientSpace.email.inboxMail', $project) }}",
       success : function(status){
         $('#cardMail').text('Boîte de reception')
         $('.mail-content').html(status);
@@ -167,7 +169,7 @@
       e.preventDefault()
       $.ajax({
         type : "GET",
-        url : "{{ route('admin.email.inboxMail') }}",
+        url : "{{ route('admin.clientSpace.email.inboxMail', $project) }}",
         success : function(status){
           $('#cardMail').text('Boîte de reception')
 
@@ -194,13 +196,23 @@
       e.preventDefault()
       $.ajax({
         type : "GET",
-        url : "{{ route('admin.email.newMail') }}",
+        url : "{{ route('admin.clientSpace.email.newMail', $project) }}",
         success : function(status){
           $('#cardMail').text('Envoyer un message')
           $('.mail-content').html(status);
           $('#search').css('display', 'none');
           $.activeButtonClicked($('.toSend'));
-          $('#compose-textarea').summernote()
+          $('#createForm').on('submit', function(e) {
+                const editorCode = $('.textarea').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+                $('#descriptionText').val(editorCode);
+            });
+          $('#compose-textarea').summernote({
+                lang: 'fr-FR',
+                minHeight: 200,
+                tabsize: 2,
+                placeholder: 'Veuillez rensigner le texte ici...',
+           });
         }
       });
     });
@@ -209,7 +221,7 @@
       e.preventDefault()
       $.ajax({
         type : "GET",
-        url : "{{ route('admin.email.sentMail') }}",
+        url : "{{ route('admin.clientSpace.email.sentMail', $project) }}",
         success : function(status){
           $('#cardMail').text('Messages envoyés')
           $('.mail-content').html(status);
@@ -234,7 +246,7 @@
       e.preventDefault()
       $.ajax({
         type : "GET",
-        url : "{{ route('admin.email.draftMail') }}",
+        url : "{{ route('admin.clientSpace.email.draftMail', $project) }}",
         success : function(status){
           $('#cardMail').text('Brouillons')
           $('.mail-content').html(status);
@@ -259,7 +271,7 @@
       e.preventDefault()
       $.ajax({
         type : "GET",
-        url : "{{ route('admin.email.trashMail') }}",
+        url : "{{ route('admin.clientSpace.email.trashMail', $project) }}",
         success : function(status){
           $('#cardMail').text('Corbeille')
           $('.mail-content').html(status);
@@ -347,6 +359,90 @@
 
 //     })
 //   }
+
+// $(document).ready(function () {
+
+//     $('#createForm').on('submit', function(e) {
+//         const editorCode = $('.description').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+//         $('#descriptionText').val(editorCode);
+//     });
+
+//     $('#compose-textarea').summernote({
+//         lang: 'fr-FR',
+//         minHeight: 400,
+//         tabsize: 2,
+//         placeholder: 'Veuillez rensigner le texte ici...',
+//     });
+// });
+
 </script>
+{{-- <script>
+
+    const fileInput = document.getElementById('fileInput');
+    const fileListDiv = document.getElementById('fileList');
+
+    console.log(fileInput);
+
+    console.log(fileListDiv);
+
+    fileInput.addEventListener('change', function(event) {
+        fileListDiv.innerHTML = '';
+
+        const files = event.target.files;
+
+        console.log(files);
+
+        const files = event.target.files;
+        for (const file of files) {
+            const fileName = document.createElement('p');
+            fileName.textContent = file.name;
+            fileListDiv.appendChild(fileName);
+        }
+    });
+
+</script> --}}
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById("fileSelector");
+        const fileListDiv = document.getElementById('fileList');
+
+        // const jqueryFileInput = $('#fileSelector');
+        // console.log(jqueryFileInput);
+
+        // console.log(jqueryFileInput[0]);
+
+        console.log(fileInput);
+
+        console.log(fileListDiv);
+
+        // console.log($('#fileSelector'));
+
+        // console.log($('#fileList'));
+    });
+</script> --}}
+
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        const fileInput = document.getElementById('fileInput');
+        const fileListDiv = document.getElementById('fileList');
+        $('#fileInput').change(function() {
+            const fileListDiv = $('#fileList');
+            fileListDiv.empty();
+            console.log("heloo");
+            const files = this.files;
+            for (const file of files) {
+                const fileName = $('<p>').text(file.name);
+                fileListDiv.append(fileName);
+            }
+        });
+    });
+</script> --}}
 
 @endsection

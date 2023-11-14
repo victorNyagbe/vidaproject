@@ -32,33 +32,33 @@
         <div class="col-12 col-md-9 col-lg-8 pb-5">
           <form action="" method="" enctype="">
             <div class="form-row">
-              <div class="col-3 info-title">Titre :</div>
-              <div class="col-9 info-detail">{{ $rapport->title }}</div>
+              <div class="col-4 info-title">Titre :</div>
+              <div class="col-8 info-detail">{{ $rapport->title }}</div>
             </div>
             <hr>
             <div class="form-row">
-              <div class="col-3 info-title">Clée :</div>
-              <div class="col-9 info-detail">{{ $rapport->key }}</div>
+              <div class="col-4 info-title">Clée :</div>
+              <div class="col-8 info-detail">{{ $rapport->key }}</div>
             </div>
             <hr>
             <div class="form-row">
-              <div class="col-3 info-title">Date de début :</div>
-              <div class="col-9 info-detail">{{ \Carbon\Carbon::parse($rapport->date_debut)->format('d-m-Y') }}</div>
+              <div class="col-4 info-title">Date de début :</div>
+              <div class="col-8 info-detail">{{ \Carbon\Carbon::parse($rapport->date_debut)->format('d-m-Y') }}</div>
             </div>
             <hr>
             <div class="form-row">
-              <div class="col-3 info-title">Date de fin :</div>
-              <div class="col-9 info-detail">{{ \Carbon\Carbon::parse($rapport->date_fin)->format('d-m-Y') }}</div>
+              <div class="col-4 info-title">Date de fin :</div>
+              <div class="col-8 info-detail">{{ \Carbon\Carbon::parse($rapport->date_fin)->format('d-m-Y') }}</div>
             </div>
             <hr>
             <div class="form-row">
-              <div class="col-3 info-title">Montant du budget :</div>
-              <div class="col-9 info-detail">{{ $rapport->budget }}</div>
+              <div class="col-4 info-title">Montant du budget :</div>
+              <div class="col-8 info-detail">{{ $rapport->budget }}</div>
             </div>
             <hr>
             <div class="form-row">
-              <div class="col-3 info-title">Stade du projet :</div>
-              <div class="col-9 info-detail">{{ $level->nom }}</div>
+              <div class="col-4 info-title">Stade du projet :</div>
+              <div class="col-8 info-detail">{{ $level->nom }}</div>
             </div>
             <hr>
             <div class="form-row">
@@ -67,8 +67,8 @@
             </div>
             <hr>
           </form>
-        </div> 
-        
+        </div>
+
         <!-- modals of show all rapports -->
 
         <!-- <div class="modal fade" id="showRapport" role="dialog">
@@ -96,7 +96,7 @@
     </div>
   </section>
 </div>
-    
+
 @endsection
 
 @section('script')
