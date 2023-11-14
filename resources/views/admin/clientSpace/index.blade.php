@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('styles/admin/clientSpace/index.css') }}">
 @endsection
 
-@section('content') 
+@section('content')
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content pt-4">
@@ -31,56 +31,40 @@
                 </tr>
               </thead>
               <tbody class="table-group-divider">
+                @forelse ($projects as $project)
                 <tr>
-                  <td>Golfe1</td>
-                  <td>Vic</td>
-                  <td>Application web</td>
-                  <td>02/05/2023</td>
-                  <td>12/06/2023</td>
-                  <td>
-                    <a href="{{ route('admin.clientSpace.show') }}" class="btn btn-info btn-sm {{ $page == 'admin.clientSpace' ? 'active' : '' }}"><i class="bi bi-patch-plus"> Détails</i></a>
+                  <td>{{ $project->nom }}</td>
+                  <td>{{ $project->user->fullname }}</td>
+                  <td>|
+                    {{-- @dd($project->project_types) --}}
+                        @foreach ($project->project_types as $project_type)
+                            {{ $project_type->nom . ' |' }}
+                        @endforeach
                   </td>
-                </tr>               
+                  @if ( ($project->date_debut && $project->date_fin) != null)
+                    <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
+                  @elseif ($project->date_debut != null)
+                    <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
+                    <td>Aucun</td>
+                  @else
+                  <td>Aucune</td>
+                  <td>Aucune</td>
+                  @endif
+                  <td>
+                    <a href="{{ route('admin.clientSpace.show', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.clientSpace' ? 'active' : '' }}"><i class="bi bi-patch-plus"> Détails</i></a>
+                  </td>
+                </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Pas de projet trouvé</td>
+                    </tr>
+                @endforelse
               </tbody>
             </table>
           </div>
         </div>
       </div>
-
-      <!-- <div class="row">
-          <div class="col-12">
-            <div class="table-responsive text-nowrap table-responsive-md">
-              <table class="table bg-secondary">
-                <thead>
-                  <tr>
-                    <th scope="col">Nom du projet</th>
-                    <th scope="col">Chef projet</th>
-                    <th scope="col">Type de projet</th>
-                    <th scope="col">Date de début</th>
-                    <th scope="col">Date de finalisation</th>
-                    <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                  @foreach ($projects as $project)
-                  <tr>
-                    <td>{{ $project->nom }}</td>
-                    <td>Vic</td>
-                    <td>{{ $project->type }}</td>
-                    <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
-                    <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
-                    <td>
-                      <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i class="fas fa-eye"></i></a>
-                      <a href="{{ route('admin.projectBoard.project.edit', $project) }}" class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i class="fas fa-edit"></i></a>
-                      <a href="{{ route('admin.project.project.destroy', $project) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                    </td>
-                  </tr>
-                  @endforeach                
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div> -->
 
     </div>
   </section>

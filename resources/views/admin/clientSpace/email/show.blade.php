@@ -1,4 +1,4 @@
-@extends('admin.layouts.project.master')
+@extends('admin.layouts.master')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('styles/admin/.css') }}">
@@ -6,37 +6,6 @@
         /* #droppable: {height: 10vh;}
         #droppable:hover { height: 20vh; } */
         .deplacer: { height: 20vh; }
-        /* Style des images */
-        img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-            margin: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Style des liens pour télécharger des documents, vidéos et audio */
-        .file-link {
-            text-decoration: none;
-            background-color: #007BFF;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
-            margin: 10px;
-        }
-
-        .file-link:hover {
-            text-decoration: none;
-            color: #222;
-        }
-
-        /* Style des vidéos et audio */
-        video, audio {
-            max-width: 100%;
-            border: 1px solid #ccc;
-            margin: 10px;
-        }
   </style>
 @endsection
 
@@ -48,7 +17,7 @@
         @include('admin.includes.messageReturned')
         <div class="row">
             <div class="col-12 pb-5">
-                <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="btn btn-success btn-Clicked"><i class="bi bi-arrow-left"></i> Retour</a>
+                <a href="{{ route('admin.clientSpace.email.mail', $project) }}" class="btn btn-success btn-Clicked {{ $page == 'admin.clientSpace' ? 'active' : '' }}"><i class="bi bi-arrow-left"></i> Retour</a>
             </div>
         </div>
         <div class="row">
@@ -57,10 +26,10 @@
                     <div class="container-fluid">
                         <div class="card">
                             <div class="card-header">
-                                @if ($mail->receiver_id == session()->get('id'))
+                                @if ($mail->receiver_id == $project->project_client)
                                     <p>À <span class="text-info">moi</span></p>
                                 @else
-                                    <p>Envoyé à <span class="text-info">{{ $client->user_mail }}</span></p>
+                                    <p>Envoyé à <span class="text-info">{{ $project->user->email }}</span></p>
                                 @endif
 
                                 <?php \Carbon\Carbon::setLocale('fr_FR'); ?>
@@ -126,6 +95,7 @@
                                     </div>
 
                                 @endforeach
+
                                 <p class="d-flex justify-content-end">{{ \Carbon\Carbon::parse($mail->dateTime)->isoFormat('HH:mm:ss') }}</p>
                             </div>
                         </div>

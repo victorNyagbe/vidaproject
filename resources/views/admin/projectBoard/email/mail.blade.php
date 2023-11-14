@@ -1,6 +1,7 @@
 @extends('admin.layouts.project.master')
 
 @section('style')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{ asset('styles/admin/email/mail.css') }}">
 @endsection
 

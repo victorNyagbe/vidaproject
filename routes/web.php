@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\Project\MailController;
 use App\Http\Controllers\Admin\Project\TaskController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
-// use App\Http\Controllers\Admin\MailController as AdminMailController;
+use App\Http\Controllers\Admin\MailController as AdminMailController;
 use App\Http\Controllers\Admin\MainController as AdminMainController;
 use App\Http\Controllers\Admin\BoardController as AdminBoardController;
 
@@ -138,13 +138,23 @@ Route::prefix('projects')->group( function() {
 
             Route::get('/{project}/message-envoyé', [MailController::class, 'getSentMail'])->name('admin.projectBoard.email.sentMail');
 
+            Route::post('/{project}/enregistrement-du-brouillon', [MailController::class, 'createDraftMail'])->name('admin.projectBoard.email.createDraftMail');
+
             Route::get('/{project}/brouillon', [MailController::class, 'getDraftMail'])->name('admin.projectBoard.email.draftMail');
 
             Route::get('/{project}/corbeille', [MailController::class, 'getTrashMail'])->name('admin.projectBoard.email.trashMail');
 
             Route::get('/{mail}/{project}/edit-mail', [MailController::class, 'show'])->name('admin.projectBoard.email.show');
 
+            Route::get('{mail}/{project}/send-to-trash-processing', [MailController::class, 'goToTrash'])->name('admin.projectBoard.email.sendToTrash');
+
             Route::get('{mail}/{project}/destroy-processing', [MailController::class, 'destroy'])->name('admin.projectBoard.email.destroy');
+
+            // Affichage et téléchargement des fichiers Mails
+
+            // Route::get('/{fichier_id}/show-processing', [MailController::class, 'show'])->name('admin.projectBoard.email.fileShow');
+
+            // Route::get('/{fichier_id}/download-processing', [MailController::class, 'download'])->name('admin.projectBoard.email.fileDownload');
 
         });
 
@@ -199,7 +209,33 @@ Route::prefix('espace-client')->group(function() {
 
         Route::get('', [AdminClientSpaceController::class, 'index'])->name('admin.clientSpace.index');
 
-        Route::get('/projet', [AdminClientSpaceController::class, 'show'])->name('admin.clientSpace.show');
+        Route::get('{project}/edit', [AdminClientSpaceController::class, 'show'])->name('admin.clientSpace.show');
+
+        Route::prefix('email')->group( function() {
+
+            Route::get('/{project}', [AdminMailController::class, 'mail'])->name('admin.clientSpace.email.mail');
+
+            Route::get('/{project}/boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.clientSpace.email.inboxMail');
+
+            Route::get('/{project}/envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.clientSpace.email.newMail');
+
+            Route::post('/{project}/envoi-du-message', [AdminMailController::class, 'createMail'])->name('admin.clientSpace.email.create');
+
+            Route::get('/{project}/message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.clientSpace.email.sentMail');
+
+            Route::post('/{project}/enregistrement-du-brouillon', [AdminMailController::class, 'createDraftMail'])->name('admin.clientSpace.email.createDraftMail');
+
+            Route::get('/{project}/brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.clientSpace.email.draftMail');
+
+            Route::get('/{project}/corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.clientSpace.email.trashMail');
+
+            Route::get('/{mail}/{project}/edit-mail', [AdminMailController::class, 'show'])->name('admin.clientSpace.email.show');
+
+            Route::get('{mail}/{project}/send-to-trash-processing', [AdminMailController::class, 'goToTrash'])->name('admin.clientSpace.email.sendToTrash');
+
+            Route::get('{mail}/{project}/destroy-processing', [AdminMailController::class, 'destroy'])->name('admin.clientSpace.email.destroy');
+
+        });
 
     });
 
@@ -208,21 +244,6 @@ Route::prefix('espace-client')->group(function() {
 
 Route::get('messages', [AdminChatController::class, 'chat'])->name('admin.message.chat');
 
-// Route::prefix('email')->group( function() {
-
-//     Route::get('', [AdminMailController::class, 'mail'])->name('admin.email.mail');
-
-//     Route::get('boite-de-reception', [AdminMailController::class, 'getInbox'])->name('admin.email.inboxMail');
-
-//     Route::get('envoyer-un-message', [AdminMailController::class, 'getNewMail'])->name('admin.email.newMail');
-
-//     Route::get('message-envoyé', [AdminMailController::class, 'getSentMail'])->name('admin.email.sentMail');
-
-//     Route::get('brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.email.draftMail');
-
-//     Route::get('Corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.email.trashMail');
-
-// });
 
 
 // Login du lien d'invitation

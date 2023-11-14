@@ -71,7 +71,7 @@
                         @endif
                     </td>
                     <td class="mailbox-attachment delete-icons">
-                        <a href="{{ route('admin.projectBoard.email.destroy', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
+                        <a href="{{ route('admin.projectBoard.email.sendToTrash', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
                             <i class="fas fa-trash-alt text-dark"></i>
                         </a>
                     </td>

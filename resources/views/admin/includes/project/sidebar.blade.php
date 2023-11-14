@@ -66,7 +66,7 @@
             <a href="{{ route('admin.projectBoard.client', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
               <i class="nav-icon fas fa-user-plus"></i>
               <p>
-                 Clients
+                 Client
               </p>
             </a>
           </li>
@@ -96,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link">
+            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
               <i class="nav-icon far fa-envelope"></i>
               <p>
                 Boite Mail

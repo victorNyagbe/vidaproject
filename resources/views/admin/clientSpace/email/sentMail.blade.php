@@ -4,9 +4,9 @@
             <input
                 type="checkbox"
                 value=""
-                id="inbox-check0"
+                id="sent-check0"
             />
-            <label for="inbox-check0">Tout</label>
+            <label for="sent-check0">Tout</label>
         </div>
         <a href="#" id="hide-trash-btn" class="btn btn-danger trash-btn">Supprimer</a>
     </div>
@@ -30,11 +30,11 @@
                     </td>
                     <td class="mailbox-name">
                         @php
-                            $value = App\Models\User::where('id', $mail->sender_id)->value('email');
+                            $value = $project->user->email;
                             $name = explode('@',$value);
                             $first_name = $name[0];
                         @endphp
-                        <a href="#">{{ $first_name }}</a>
+                        <span>À :</span> <a href="#">{{ $first_name }}</a>
                     </td>
                     <td class="mailbox-subject">
                         <?php
@@ -46,32 +46,32 @@
                         ?>
                         @if ($getTitre == 30)
 
-                            <a class="mailbox-title" href="{{ route('admin.projectBoard.email.show', [$mail, $project]) }}">
+                            <a class="mailbox-title" href="{{ route('admin.clientSpace.email.show', [$mail, $project]) }}">
                                 <b>{{ $mail->subject }}</b> ...
                             </a>
 
                         @elseif ($getTitre > 30)
 
-                            <a class="mailbox-title" href="{{ route('admin.projectBoard.email.show', [$mail, $project]) }}">
+                            <a class="mailbox-title" href="{{ route('admin.clientSpace.email.show', [$mail, $project]) }}">
                                 <b>{{ \Illuminate\Support\Str::substr($mail->subject, 0, 30) . '...' }}</b>
                             </a>
 
                         @elseif($getTitre == 0)
 
-                            <a class="mailbox-title" href="{{ route('admin.projectBoard.email.show', [$mail, $project]) }}">
+                            <a class="mailbox-title" href="{{ route('admin.clientSpace.email.show', [$mail, $project]) }}">
                                 <span>{{$mail->subtitle}}...</span>
                             </a>
 
                         @else
 
-                            <a class="mailbox-title" href="{{ route('admin.projectBoard.email.show', [$mail, $project]) }}">
+                            <a class="mailbox-title" href="{{ route('admin.clientSpace.email.show', [$mail, $project]) }}">
                                 <b>{{ $mail->subject }}</b> - {{\Illuminate\Support\Str::substr($mail->subtitle, 0, $charactersLeft) . '...'}}
                             </a>
 
                         @endif
                     </td>
                     <td class="mailbox-attachment delete-icons">
-                        <a href="{{ route('admin.projectBoard.email.sendToTrash', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
+                        <a href="{{ route('admin.clientSpace.email.sendToTrash', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
                             <i class="fas fa-trash-alt text-dark"></i>
                         </a>
                     </td>

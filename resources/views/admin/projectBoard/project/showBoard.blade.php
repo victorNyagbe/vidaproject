@@ -10,7 +10,7 @@
     <div class="container-fluid">
       <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -32,7 +32,7 @@
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -43,7 +43,7 @@
                 <div class="box-info">
                       <h3>8</h3>
 
-                      <p>Tâches en cours</p>
+                      <p>Tâches</p>
                 </div>
               </div>
 
@@ -51,7 +51,7 @@
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          {{-- <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -66,9 +66,9 @@
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div>
+          </div> --}}
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-6">
             <!-- small box -->
             <div class="small-box bg-secondary">
               <div class="icon">
@@ -91,7 +91,7 @@
             <div class="card bg-secondary">
               <div class="card-header cardHeader">
                 Avancement des tâches
-                <div class="card-tools">
+                {{-- <div class="card-tools">
                   <ul class="pagination pagination-sm">
                     <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
                     <li class="page-item"><a href="#" class="page-link">1</a></li>
@@ -99,11 +99,31 @@
                     <li class="page-item"><a href="#" class="page-link">3</a></li>
                     <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
                   </ul>
-                </div>
+                </div> --}}
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-3 col-md-3 col-6">
+                  <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card bg-light mb-3 small-task-card">
+                      <div class="card-header small-task-header">Nom du projet</div>
+                      <div class="card-body">
+                        <h5 class="card-title small-task-title">Tâches éffectués : 10/20</h5>
+                        <div class="card-text">
+                          <div class="progressbar">
+                            <div class="progressbar-content"></div>
+                          </div>
+                          <div class="task-profil">
+                            <img src=" {{ asset('styles/admin/dist/img/user2-160x160.jpg') }} " class="task-img1" alt="User Image">
+                            <img src=" {{ asset('styles/admin/dist/img/user8-128x128.jpg') }} " class="task-img2" alt="User Image">
+                            <img src=" {{ asset('styles/admin/dist/img/user1-128x128.jpg') }} " class="task-img3" alt="User Image">
+                            <img src=" {{ asset('styles/admin/dist/img/user3-128x128.jpg') }} " class="task-img4" alt="User Image">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {{-- <div class="col-lg-3 col-md-3 col-6">
                     <div class="card bg-light mb-3 small-task-card" style="max-width: 18rem;">
                       <div class="card-header small-task-header">Nom du projet</div>
                       <div class="card-body">
@@ -161,34 +181,15 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>--}}
 
-                  <div class="col-lg-3 col-md-3 col-6">
-                    <div class="card bg-light mb-3 small-task-card" style="max-width: 18rem;">
-                      <div class="card-header small-task-header">Nom du projet</div>
-                      <div class="card-body">
-                        <h5 class="card-title small-task-title">Tâches éffectués : 10/20</h5>
-                        <div class="card-text">
-                          <div class="progressbar">
-                            <div class="progressbar-content"></div>
-                          </div>
-                          <div class="task-profil">
-                            <img src=" {{ asset('styles/admin/dist/img/user2-160x160.jpg') }} " class="task-img1" alt="User Image">
-                            <img src=" {{ asset('styles/admin/dist/img/user8-128x128.jpg') }} " class="task-img2" alt="User Image">
-                            <img src=" {{ asset('styles/admin/dist/img/user1-128x128.jpg') }} " class="task-img3" alt="User Image">
-                            <img src=" {{ asset('styles/admin/dist/img/user3-128x128.jpg') }} " class="task-img4" alt="User Image">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-12 col-lg-6">
             <!-- Calendar -->
             <div class="card bg-gradient-secondary calendar-block">
@@ -328,6 +329,50 @@
               </div>
             </div>
             <!-- /.card -->
+          </div>
+        </div> --}}
+        <div class="row">
+          <div class="col-12 col-lg-4 col-sm-4">
+            <div class="card card-outline balance-card">
+              <div class="card-header bg-secondary ">
+                <h3 class="balance-header-title">Progression</h3>
+              </div>
+              <div class="card-body bg-secondary">
+                <div class="text-center">
+                   <div class="number-circle">
+                    <p class="number">80%</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4 col-sm-4">
+            <div class="card card-outline count-card">
+              <div class="card-header bg-secondary">
+                <h3 class="card-title count-header-title">Nombre total de clients</h3>
+              </div>
+              <div class="card-body bg-secondary">
+                <div class="text-center">
+                   <div class="number-circle">
+                    <p class="number">10</p>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4 col-sm-4">
+            <div class="card card-outline count-card">
+              <div class="card-header bg-secondary">
+                <h3 class="card-title count-header-title">Nombre total de collaborateurs</h3>
+              </div>
+              <div class="card-body bg-secondary">
+                <div class="text-center">
+                   <div class="number-circle">
+                    <p class="number">6</p>
+                   </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     </div>

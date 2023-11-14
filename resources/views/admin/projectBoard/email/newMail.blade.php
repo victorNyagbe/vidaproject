@@ -1,3 +1,7 @@
+@section('style')
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 <style>
     .textarea-block {
         color : #000000;
@@ -14,7 +18,7 @@
         padding-right: 1rem;
     }
 
-    .file-name-container {
+    /* .file-name-container {
         display: flex;
         align-items: center;
         margin: 5px;
@@ -30,13 +34,40 @@
 
     .file-close {
         cursor: pointer;
+    } */
+
+    /* Styles pour le conteneur de chaque fichier */
+    .file-name-container {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        margin-right: 8px;
+        margin-bottom: 8px;
     }
+
+    /* Styles pour le nom du fichier */
+    .file-name {
+        flex-grow: 1; /* Le nom du fichier prend l'espace disponible */
+        margin-right: 8px; /* Marge à droite pour l'espace du bouton "x" */
+        word-break: break-word; /* Permet de casser le texte long si nécessaire */
+    }
+
+    /* Styles pour le bouton "x" de suppression */
+    .file-close {
+        cursor: pointer;
+        font-weight: bold;
+        color: red;
+        margin-right: 8px;*/ /* Marge à gauche pour séparer du nom du fichier */
+    }
+
 </style>
 
 <form action="{{ route('admin.projectBoard.email.create', $project) }}" method="post" enctype="multipart/form-data" id="createForm">
     @csrf
     <div class="form-group">
-        <input class="form-control" disabled value="{{ $client->user_mail }}" placeholder="À">
+        <input class="form-control" name="to" disabled value="{{ $client->user_mail }}" placeholder="À">
     </div>
     <div class="form-group">
         <input class="form-control" name="subject" id="subject" placeholder="Sujet">
@@ -54,15 +85,13 @@
     </div>
     <input type="hidden" name="filesToBeUploaded[]" value="[]" id="filesToBeUploaded">
 
-    {{-- <input type="hidden" name="filesToBeUploaded[]" value="" id="filesToBeUploaded"> --}}
-
 
     <div class="form-group">
         <div class="btn btn-light btn-file">
             <i class="fas fa-paperclip"></i> Joindre
             <input type="file" name="files[]" multiple id="fileSelector">
         </div>
-        <button type="button" class="btn btn-light"><i class="fas fa-pencil-alt"></i> Brouillon</button>
+        <button type="button" id="saveDraft" href="{{-- route('admin.projectBoard.email.createDraftMail') --}}" onclick="saveAsDraft()" class="btn btn-light"><i class="fas fa-pencil-alt"></i> Brouillon</button>
         <button type="submit" class="btn btn-success"><i class="fas fa-envelope"></i> Envoyer</button>
         {{-- <p class="help-block">Max. 32MB</p> --}}
     </div>
@@ -222,6 +251,119 @@
         //     }
         // })
     }
+
+    // Fonction pour sauvegarder les données du formulaire en tant que brouillon
+    function saveAsDraft() {
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Capturer les valeurs des champs de formulaire
+        const to = document.querySelector('input[name="to"]').value;
+        const subject = document.querySelector('input[name="subject"]').value;
+        const message = document.querySelector('textarea[name="mail_message"]').value;
+
+        // Créer un objet pour stocker les données du brouillon
+        const draftData = {
+            to: to,
+            subject: subject,
+            message: message
+            // Ajoutez d'autres champs si nécessaire
+        };
+
+        console.log(draftData);
+
+        // Stocker les données du brouillon localement, par exemple dans le stockage local
+        localStorage.setItem('draftEmail', JSON.stringify(draftData));
+
+        // Vous pouvez également afficher un message ou effectuer d'autres actions ici
+        alert('Brouillon sauvegardé avec succès !');
+
+        fetch('{{ route("admin.projectBoard.email.createDraftMail", $project) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken // Assurez-vous d'ajouter le jeton CSRF
+            },
+                body: JSON.stringify(draftData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'enregistrement du brouillon :', error);
+        });
+    }
+
+    // function saveAsDraft(draftId) {
+    // // Capturer les valeurs des champs de formulaire
+    //     const to = document.querySelector('input[name="to"]').value;
+    //     const subject = document.querySelector('input[name="subject"]').value;
+    //     const message = document.querySelector('textarea[name="mail_message"]').value;
+
+    //     // Définir la durée de vie du brouillon en minutes (par exemple, 30 minutes)
+    //     const draftExpirationMinutes = 120;
+    //     const expirationDate = new Date();
+    //     expirationDate.setMinutes(expirationDate.getMinutes() + draftExpirationMinutes);
+
+    //     // Créer un objet pour stocker les données du brouillon, y compris la date d'expiration
+    //     const draftData = {
+    //         to: to,
+    //         subject: subject,
+    //         message: message,
+    //         expiration: expirationDate
+    //         // Ajoutez d'autres champs si nécessaire
+    //     };
+
+    //     // Stocker les données du brouillon localement, en utilisant une clé unique pour chaque brouillon
+    //     localStorage.setItem('draftEmail_' + draftId, JSON.stringify(draftData));
+
+    //     // Vous pouvez également afficher un message ou effectuer d'autres actions ici
+    //     alert('Brouillon sauvegardé avec succès !');
+    // }
+
+    // function getAllDrafts() {
+    //     const drafts = [];
+
+    //     // Parcourez toutes les clés du localStorage
+    //     for (let i = 0; i < localStorage.length; i++) {
+    //         const key = localStorage.key(i);
+
+    //         // Vérifiez si la clé correspond à un brouillon (par exemple, en commençant par "draftEmail_")
+    //         if (key.startsWith('draftEmail_')) {
+    //             // Récupérez les données du brouillon associé
+    //             const draftData = JSON.parse(localStorage.getItem(key));
+    //             drafts.push(draftData);
+    //         }
+    //     }
+
+    //     return drafts;
+    // }
+
+    // const allDrafts = getAllDrafts();
+    // console.log(allDrafts); // Vous obtiendrez un tableau contenant tous les brouillons
+
+    // document.getElementById('saveDraft').addEventListener('click', function() {
+    //     var formData = new FormData(document.getElementById('createForm'));
+    //     formData.append('_token', '{{ csrf_token() }}'); // Ajout du token CSRF
+
+    //     fetch('/goproject/projects/email/4/enregistrement-du-brouillon', {
+    //         method: 'POST',
+    //         body: formData
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             alert('Brouillon enregistré avec succès !');
+    //         } else {
+    //             alert('Erreur lors de l\'enregistrement du brouillon.');
+    //         }
+    //     })
+    //     .catch(error => console.error('Erreur :', error));
+    // });
+
+
+
 
 
 

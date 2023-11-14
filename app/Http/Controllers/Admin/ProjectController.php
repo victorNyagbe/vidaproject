@@ -48,12 +48,12 @@ class ProjectController extends Controller
     {
         $projects = Project::where([
             'owner_id' => session()->get('id')
-        ])->get();
+        ])->latest()->get();
 
         $getProjectsCollab = ProjectUser::where([
             ['user_mail', '=', session()->get('email')],
             ['status', '<>', 2]
-        ])->get('project_id');
+        ])->latest()->get('project_id');
 
         $collabProjectArray = [];
 
