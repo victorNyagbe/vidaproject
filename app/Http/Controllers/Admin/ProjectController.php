@@ -262,14 +262,16 @@ class ProjectController extends Controller
 
         $ifUserIsProjectCollab = ProjectUser::where([
             ['user_id', '=', session()->get('id')],
-            ['project_id', '=', $project->id]
+            ['project_id', '=', $project->id],
+            ['status', '=', 1],
+            ['id', '!=', $project->project_client]
         ])->first();
 
         if ($ifOwnerProject == null && $ifUserIsProjectCollab == null) {
             return redirect()->route('admin.project.project')->with('error', 'Vous n\'avez pas l\'autorisation d\'accéder au panel');
         }
 
-        if ($ifUserIsProjectCollab == null) {
+        if ($ifUserIsProjectCollab != null) {
             session()->put('accessLevel', 'Collab');
         }
 

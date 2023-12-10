@@ -6,6 +6,37 @@
         /* #droppable: {height: 10vh;}
         #droppable:hover { height: 20vh; } */
         .deplacer: { height: 20vh; }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            margin: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style des liens pour télécharger des documents, vidéos et audio */
+        .file-link {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .file-link:hover {
+            text-decoration: none;
+            color: #222;
+        }
+
+        /* Style des vidéos et audio */
+        video, audio {
+            max-width: 100%;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
   </style>
 @endsection
 

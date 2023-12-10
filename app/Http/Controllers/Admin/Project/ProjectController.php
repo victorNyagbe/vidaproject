@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Project;
 
 use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use App\Models\ProjectStatus;
 use App\Http\Controllers\Controller;
@@ -12,55 +13,38 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
-   public function index()
+    public function __construct()
     {
-        $projects = Project::all();
+        $this->middleware('accessProject');
+    }
+
+    public function index(Project $project)
+    {
+        $projects = Project::where([
+            'owner_id' => session()->get('id'),
+        ])->where('id', '<>', $project->id)->latest()->get();
+
+        $getProjectsCollab = ProjectUser::where([
+            ['user_mail', '=', session()->get('email')],
+            ['status', '<>', 2]
+        ])->latest()->get('project_id');
+
+        $collabProjectArray = [];
+
+        if ($getProjectsCollab->count() > 0) {
+            foreach ($getProjectsCollab as $getProjectCollab) {
+                $collabProject = Project::where('id', $getProjectCollab->project_id)->first();
+                $collabProjectArray[] = $collabProject;
+            }
+            $projectCollabs = collect($collabProjectArray);
+        } else {
+            $projectCollabs = collect([]);
+        }
+
         $types = ProjectType::all();
         $page = 'admin.projectBoard.project';
-        return view('admin.projectBoard.project.project', compact('projects', 'types', 'page') );
+        return view('admin.projectBoard.project.project', compact('projects', 'types', 'page', 'projectCollabs'));
     }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'logo' => 'file|image|mimes:png,jpg,jpeg,jfif,webp',
-            'project_name' => 'required',
-            'project_type' => 'required',
-            // 'date_debut' => 'date|date_format:Y-m-d|after:yesterday',
-            // 'date_fin' => 'date|date_format:Y-m-d|after:yesterday'
-        ], [
-            'logo.file' => 'Le fichier choisi est invalide',
-            'logo.image' => 'Le fichier choisi est invalide',
-            'logo.mimes' => 'Veuillez choisir une image valide',
-            'project_name.required' => 'Veuillez renseigner le nom du projet',
-            'project_type.required' => 'Veuillez choisir le type du projet',
-            // 'date_debut.date' => 'Veuillez renseigner correctement la date de début',
-            // 'date_debut.date_format:Y-m-d' =>'Veuillez respecter le format de date jour/mois/année',
-            // 'date_debut.after' => 'Erreur de renseignement de la date de début',
-            // 'date_fin.date' => 'Veuillez renseigner correctement la date de finalisation',
-            // 'date_fin.date_format:Y-m-d' =>'Veuillez respecter le format de date jour/mois/année',
-            // 'date_fin.after' => 'Erreur de renseignement de la date de finalisation'
-
-        ]);
-
-        Project::create([
-            'logo' => request('logo')->store('logo_projects', 'public'),
-            'nom' => $request->project_name,
-            'type' => $request->project_type,
-            'date_debut' => $request->date_debut,
-            'date_fin' => $request->date_debut,
-            'description' => $request->description
-        ]);
-
-        return redirect()->route('admin.project.project')->with('success', 'Le projet a été ajouté avec succès');
-    }
-
-    // public function update_index(Project $project)
-    // {
-    //     $verify_project = Project::where('id', $project->id)->first();
-    //     $page = 'admin.project';
-    //     return view('admin.project.projectUpdate', compact('project','page'));
-    // }
 
     public function edit(Project $project)
     {
@@ -72,9 +56,9 @@ class ProjectController extends Controller
         }
 
         $types = ProjectType::all();
-        
-        $page = 'admin.project';
-        return view('admin.project.edit', compact('project', 'statuses', 'types', 'page'));
+
+        $page = 'admin.projectBoard.project';
+        return view('admin.projectBoard.project.edit', compact('project', 'statuses', 'types', 'page'));
     }
 
     public function destroy_edit(Project $project)
@@ -93,7 +77,7 @@ class ProjectController extends Controller
             File::delete('storage/app/public/' . $old_logo);
         }
 
-        return redirect()->route('admin.project.project')->with('success', 'Opération de suppression réussie!');
+        return redirect()->route('admin.projectBoard.project.project')->with('success', 'Opération de suppression réussie!');
     }
 
 
@@ -181,27 +165,43 @@ class ProjectController extends Controller
     }
 
 
-    // public function show(Request $request, Project $project)
-    // {
-    //     $verify_project = Project::where('id', $project->id)->first();
-    //     if ($verify_project != null) {
+    public function show(Project $project)
+    {
+        $project = Project::where('id', $project->id)->first();
 
-    //         session()->put('id', $verify_project->id);
-    //         session()->put('owner_id', $verify_project->owner_id);
-    //         session()->put('project_client', $verify_project->project_client);
-    //         session()->put('logo', $verify_project->logo);
-    //         session()->put('nom', $verify_project->nom);
-    //         session()->put('type', $verify_project->type);
-    //         session()->put('cle', $verify_project->cle);
-    //         session()->put('description', $verify_project->description);
-    //         session()->put('status', $verify_project->status);
-    //         session()->put('date_debut', $verify_project->date_debut);
-    //         session()->put('date_fin', $verify_project->date_fin);
-    //         session()->put('auth-check', true);
+        if ($project == null) {
+            abort('404');
+        }
 
-    //     }
-    //     $project = Project::where('id', $project->id)->first();
-    //     $page = 'admin.projectBoard.project.showBord';
-    //     return view('admin.projectBoard.project.showBoard', compact('page', 'project'));
-    // }
+        $page = 'admin.projectBoard.project.showBoard';
+
+        return $this->accessToProjectDetailPolicy($project, $page);
+    }
+
+    public function accessToProjectDetailPolicy(Project $project, $page)
+    {
+        $ifOwnerProject = Project::where([
+            ['owner_id', '=', session()->get('id')],
+            ['id', '=', $project->id]
+        ])->first();
+
+        $ifUserIsProjectCollab = ProjectUser::where([
+            ['user_id', '=', session()->get('id')],
+            ['project_id', '=', $project->id]
+        ])->first();
+
+        if ($ifOwnerProject == null && $ifUserIsProjectCollab == null) {
+            return redirect()->route('admin.projectBoard.project.project')->with('error', 'Vous n\'avez pas l\'autorisation d\'accéder au panel');
+        }
+
+        if ($ifUserIsProjectCollab == null) {
+            session()->put('accessLevel', 'Collab');
+        }
+
+        if ($ifOwnerProject != null) {
+            session()->put('accessLevel', 'Owner');
+        }
+
+        return view('admin.projectBoard.project.showBoard', compact('page', 'project'));
+    }
 }

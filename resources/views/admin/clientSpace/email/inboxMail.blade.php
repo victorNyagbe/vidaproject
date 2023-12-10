@@ -34,7 +34,7 @@
                             $name = explode('@',$value);
                             $first_name = $name[0];
                         @endphp
-                        <a href="#">{{ $first_name }}</a>
+                        <span class="text-primary">{{ $first_name }}</span>
                     </td>
                     <td class="mailbox-subject">
                         <?php

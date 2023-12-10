@@ -39,9 +39,9 @@
                             $first_name2 = $name2[0];
                         @endphp
                         @if ($first_name)
-                            <span>À :</span> <a href="#">{{ $first_name }}</a>
+                            <span>À :</span> <span class="text-primary">{{ $first_name }}</span>
                         @elseif ($first_name2)
-                            <a href="#">{{ $first_name2 }}</a>
+                            <span class="text-primary" >{{ $first_name2 }}</span>
                         @endif
                     </td>
                     <td class="mailbox-subject">
@@ -79,7 +79,7 @@
                         @endif
                     </td>
                     <td class="mailbox-attachment delete-icons">
-                        <a href="{{ route('admin.projectBoard.email.sendToTrash', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
+                        <a href="{{ route('admin.projectBoard.email.destroy', [$mail, $project]) }}" onclick="return confirm('Êtes-vous certain(e) de vouloir supprimer ce mail ? Cette action est définitive et toutes les données associées seront perdues.');">
                             <i class="fas fa-trash-alt text-dark"></i>
                         </a>
                     </td>

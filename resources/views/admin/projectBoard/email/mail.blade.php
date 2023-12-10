@@ -70,7 +70,7 @@
                     <div class="card-header bg-dark">
                         <h3 class="card-title" id="cardMail"></h3>
 
-                        <div id="search" class="card-tools">
+                        {{-- <div id="search" class="card-tools">
                             <div class="input-group input-group-sm">
                                 <input
                                     type="text"
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- /.card-tools -->
                     </div>
                     <!-- /.card-header -->

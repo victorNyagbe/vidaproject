@@ -15,7 +15,9 @@
       <div class="row">
         <div class="col-12 pb-5">
           <h6 class="name-project">{{ $project->nom }}</h6><span class="page-name">/ Gallerie</span>
-          <a href="#!" data-toggle="modal" data-target="#addImage" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter une image</a>
+          @if (session()->get('accessLevel') == 'Owner')
+            <a href="#!" data-toggle="modal" data-target="#addImage" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Ajouter une image</a>
+          @endif
         </div>
       </div>
       <div class="row">
@@ -26,16 +28,22 @@
             </div>
             <div class="card-body bg-secondary">
               <div class="row">
-                @foreach ($galleries as $gallerie)
+                @forelse ($galleries as $gallerie)
                   <div class="col-sm-2">
                     <a href="{{ asset('storage/app/public/' . $gallerie->image) }}" data-toggle="lightbox" data-title="{{ $gallerie->title }}" data-gallery="gallery">
                       <img src="{{ asset('storage/app/public/' . $gallerie->image) }}" class="img-fluid gallery-img" alt="image"/>
                     </a>
-                    <div class="col-12 delete-img-block">
-                      <a href="{{ route('admin.projectBoard.gallery.destroy', $gallerie) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer cette image ? Cette action est irréversible.');">supprimer</a> 
-                    </div>  
+                    @if (session()->get('accessLevel') == 'Owner')
+                        <div class="col-12 delete-img-block">
+                            <a href="{{ route('admin.projectBoard.gallery.destroy', $gallerie) }}" onclick="return confirm('Êtes-vous certain de vouloir supprimer cette image ? Cette action est irréversible.');">supprimer</a>
+                        </div>
+                    @endif
                   </div>
-                @endforeach
+                @empty
+                  <div class="col-12">
+                    <h6 class="text-center">Auncune image</h6>
+                  </div>
+                @endforelse
                 <!-- <div class="col-sm-2">
                   <a href="{{ asset('assets/images/gozem2.jpg') }}" data-toggle="lightbox" data-title="sample 2 - black" data-gallery="gallery">
                     <img src="{{ asset('assets/images/gozem2.jpg') }}" class="img-fluid gallery-img" alt="black sample"/>
@@ -130,7 +138,7 @@
     </div>
   </section>
 </div>
-    
+
 @endsection
 
 @section('script')

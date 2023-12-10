@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Partner;
 use App\Models\Project;
 use App\Models\Rapport;
+use App\Models\Invitation;
 use App\Models\ProjectUser;
 use Illuminate\Support\Str;
 use App\Models\ProjectLevel;
@@ -14,9 +15,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ActivationAccountToken;
 use App\Events\sendInvitationMailForClientEvent;
 use App\Events\sendInvitationMailForCollabEvent;
-use App\Models\ActivationAccountToken;
 
 class PartnerController extends Controller
 {
@@ -26,14 +27,15 @@ class PartnerController extends Controller
 
         $project_client = ProjectUser::where('project_id', $project->id)->where('id', $project->project_client)->first();
 
-        $client = User::where('id', $project_client->user_id)->first();
+        // $client = User::where('id', $project_client->user_id)->first();
 
         if ($project == null) {
             abort('404');
         }
 
         $page = 'admin.projectBoard.client';
-        return view('admin.projectBoard.client', compact('page', 'project', 'client'));
+        // return view('admin.projectBoard.client', compact('page', 'project', 'client'));
+        return view('admin.projectBoard.client', compact('page', 'project'));
     }
 
     public function client_store(Request $request)
@@ -273,7 +275,9 @@ class PartnerController extends Controller
             'email.required' => 'Veuillez renseigner le mail du collaborateur'
         ]);
 
-        $collabLink = route('admin.projectBoard.project.showBoard', $project);
+        // $collabLink = route('admin.projectBoard.project.showBoard', $project);
+
+        $project = Project::where('id', $project->id)->first();
 
         $findIfInvitationHasAlreadySent = ProjectUser::where([
             ['user_mail', '=', $request->email],
@@ -296,6 +300,68 @@ class PartnerController extends Controller
             return redirect()->back()->with('error', 'Vous ne pouvez pas vous envoyer une demande. Vous êtes le gestionnaire du projet');
         }
 
+        $user = User::where('email', $request->input('email'))->first();
+
+        // Générez un jeton d'invitation unique
+        // $invitationToken = Str::random(60);
+
+        // dd($project->id);
+        // if($user != null) {
+        //     // Ajoutez une nouvelle invitation à la table invitations
+        //     Invitation::create([
+        //         'user_id' => $user->id,
+        //         'email' => $request->input('email'),
+        //         'token' => $invitationToken,
+        //         'status' => 'en_attente',
+        //         'project_id' => $project->id,
+        //     ]);
+
+        // } else {
+        //     // Ajoutez une nouvelle invitation à la table invitations
+        //     Invitation::create([
+        //         'email' => $request->input('email'),
+        //         'token' => $invitationToken,
+        //         'status' => 'en_attente',
+        //         'project_id' => $project->id,
+        //     ]);
+        // }
+
+        $invitationToken = Str::random(60);
+
+        if ($user != null) {
+            // Si un utilisateur existe
+            $invitationData = [
+                'user_id' => $user->id,
+                'email' => $request->input('email'),
+                'token' => $invitationToken,
+                'status' => 'en_attente',
+            ];
+
+            if ($project->id !== null) {
+                $invitationData['project_id'] = $project->id;
+            }
+
+            Invitation::create($invitationData);
+        } else {
+            // Si l'utilisateur n'existe pas
+            $invitationData = [
+                'email' => $request->input('email'),
+                'token' => $invitationToken,
+                'status' => 'en_attente',
+            ];
+
+            if ($project->id !== null) {
+                $invitationData['project_id'] = $project->id;
+            }
+
+            Invitation::create($invitationData);
+        }
+
+
+        // setcookie('invitation_token', $invitationToken, time() + 3600, '/', '', false, false);
+
+        $collabLink = route('invitation.accept', $invitationToken);
+
         $data = [
             'name' => $project->nom,
             'collabLink' =>  $collabLink
@@ -304,6 +370,7 @@ class PartnerController extends Controller
         event(new sendInvitationMailForCollabEvent($data));
 
         ProjectUser::create([
+            'user_id' => $user->id,
             'user_mail' => $request->email,
             'project_id' => $project->id,
             'status' => 0

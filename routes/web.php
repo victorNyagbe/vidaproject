@@ -6,11 +6,12 @@ use App\Http\Controllers\Guests\MainController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\Project\MailController;
 use App\Http\Controllers\Admin\Project\TaskController;
+use App\Http\Controllers\Admin\Project\InvitationController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Admin\MailController as AdminMailController;
 use App\Http\Controllers\Admin\MainController as AdminMainController;
-use App\Http\Controllers\Admin\BoardController as AdminBoardController;
 
+use App\Http\Controllers\Admin\BoardController as AdminBoardController;
 use App\Http\Controllers\Admin\ChartController as AdminChartController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
@@ -119,6 +120,12 @@ Route::prefix('projects')->group( function() {
         Route::get('/{project}/client', [AdminProjectPartnerController::class, 'client'])->name('admin.projectBoard.client');
 
         Route::post('{project}/envoi-demande-client', [AdminProjectPartnerController::class, 'sendInvitationForClient'])->name('admin.projectBoard.sendInvitationForClient');
+
+        Route::get('/invitation/accept/{token}', [InvitationController::class, 'accept'])->name('invitation.accept');
+
+        Route::get('/invitation/acceptee/{invitation}', [InvitationController::class, 'accepter'])->name('invitation.acceptee');
+
+        Route::get('/invitation/rejetee/{invitation}', [InvitationController::class, 'rejeter'])->name('invitation.rejetee');
 
         // Route::post('envoi-de-la-demande', [AdminProjectPartnerController::class, 'mailForAdd'])->name('admin.projectBoard.client.add');
 

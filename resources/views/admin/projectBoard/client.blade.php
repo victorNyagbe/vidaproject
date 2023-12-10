@@ -27,7 +27,7 @@
                             <div class="row small-card">
                                 <div class="col-12 col-md-4">
 
-                                    @if ($client != null)
+                                    {{-- @if ($client != null) --}}
                                         <!-- Widget: user widget style 1 -->
                                         <div class="card card-widget widget-user shadow">
                                             <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -35,35 +35,35 @@
                                             </div>
                                             <div class="widget-user-image">
                                                 {{-- @dd($client->profile) --}}
-                                                <img class="img-circle elevation-2" src="{{ $client->profile }}" alt="User Avatar">
+                                                <img class="img-circle elevation-2" src="{{-- $client->profile --}}" alt="User Avatar">
                                             </div>
-                                            @php
+                                            {{-- @php
                                                 $parts = explode(' ', $client->fullname);
                                                 $firstName = $parts[0];
                                                 $lastName = $parts[1];
-                                            @endphp
+                                            @endphp --}}
                                             <div class="card-footer bg-light p-5">
                                                 <div class="row">
                                                     <label for="">NOM : </label>
-                                                    <p class="info-client1">{{ $lastName }}</p>
+                                                    <p class="info-client1">{{-- $lastName --}}</p>
                                                 </div>
                                                 <div class="row">
                                                     <label for="">PRENOM : </label>
-                                                    <p class="info-client">{{ $firstName }}</p>
+                                                    <p class="info-client">{{-- $firstName --}}</p>
                                                 </div>
                                                 <div class="row">
                                                     <label for="">EMAIL : </label>
-                                                    <p class="info-client">{{ $client->email }}</p>
+                                                    <p class="info-client">{{-- $client->email --}}</p>
                                                 </div>
                                                 <!-- /.row -->
                                             </div>
                                         </div>
                                         <!-- /.widget-user -->
-                                    @else
+                                    {{-- @else --}}
 
                                     <h6>Aucune utilisateur ajouté</h6>
 
-                                    @endif
+                                    {{-- @endif --}}
 
                                 </div>
                                 <!-- /.col -->

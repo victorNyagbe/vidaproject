@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Project;
 
+use Log;
 use App\Models\Mail;
 use App\Models\Fichier;
 use App\Models\Project;
@@ -34,7 +35,7 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
-        $mails = Mail::where('receiver_id', session()->get('id'))->where('project_id', $project->id)->latest()->get();
+        $mails = Mail::where('receiver_id', session()->get('id'))->where('project_id', $project->id)->where('type', 'received')->latest()->get();
 
         if ($project == null) {
             abort('404');
@@ -88,7 +89,8 @@ class MailController extends Controller
                 'message' => $request->mail_message,
                 'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'dateTime' => now(),
-                'type' => 'sent'
+                'type' => 'sent',
+                'client_mail_type' => 'received'
             ]);
 
             $filesSelected = $request->file('files');
@@ -176,7 +178,7 @@ class MailController extends Controller
 
                             $fileType = 'image';
 
-                        } elseif (in_array($extension, ['doc', 'docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html'])) {
+                        } elseif (in_array($extension, ['doc', 'docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html', 'sql'])) {
 
                             $fileType = 'document';
 
@@ -216,7 +218,8 @@ class MailController extends Controller
                 'message' => $request->mail_message,
                 'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'dateTime' => now(),
-                'type' => 'sent'
+                'type' => 'sent',
+                'client_mail_type' => 'received'
             ]);
 
         }
@@ -317,6 +320,10 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
+        if ($project == null) {
+            abort('404');
+        }
+
         // $mails = Mail::where(('receiver_id', session()->get('id'))->orWhere('sender_id', session()->get('id')))->where('type', 'trash')->where('project_id', $project->id)->get();
 
         $mails = Mail::where(function ($query) {
@@ -327,25 +334,22 @@ class MailController extends Controller
         ->where('project_id', $project->id)
         ->get();
 
-
-        if ($project == null) {
-            abort('404');
-        }
-
         return view('admin.projectBoard.email.trashMail', compact('project', 'mails'));
     }
 
     public function show(Mail $mail, Project $project)
     {
-        // $project = Project::where('id', $project->id)->first();
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
 
         $client = ProjectUser::where('id', $project->project_client)->first();
 
         $files = Fichier::where('mail_id', $mail->id)->get();
 
-        if ($project == null) {
-            abort('404');
-        }
+
 
         $mail = Mail::where('id', $mail->id)->first();
 
@@ -370,25 +374,70 @@ class MailController extends Controller
             'type' => 'trash'
         ]);
 
-        return redirect()->back()->with('success', 'Opération de suppression réussie');
+        return redirect()->back()->with('success', 'Message transféré dans la corbeille');
     }
 
     public function destroy(Mail $mail, Project $project)
     {
+        $project = Project::where('id', $project->id)->first();
+
+        if ($project == null) {
+            abort('404');
+        }
+
         $verify_mail = Mail::where('id', $mail->id)->first();
 
         if ($verify_mail == null) {
             abort('404');
         }
 
-        $old_file = $mail->file;
+        $old_files = Fichier::where('mail_id', $mail->id)->pluck('file')->all();
 
         $mail->delete();
 
-        if (Storage::disk('public')->exists($old_file)) {
-            File::delete('storage/app/public/' . $old_file);
+        foreach ($old_files as $old_file)
+        {
+            if (Storage::disk('public')->exists($old_file))
+            {
+                dd($old_file);
+                File::delete('storage/app/public/' . $old_file);
+            }
         }
+
+        // foreach ($old_files as $old_file) {
+
+        //     $filePath = 'storage/app/public/' . $old_file;
+
+        //     if (Storage::disk('public')->exists($filePath)) {
+        //         Storage::disk('public')->delete($filePath);
+        //     }
+        // }
 
         return redirect()->back()->with('success', 'Opération de suppression réussie');
     }
+
+    // public function destroy(Mail $mail, Project $project)
+    // {
+    //     $verify_mail = Mail::where('id', $mail->id)->first();
+
+    //     if ($verify_mail == null) {
+    //         abort(404);
+    //     }
+
+    //     $old_files = Fichier::where('mail_id', $mail->id)->get(file);
+
+    //     $mail->delete();
+
+    //     foreach ($old_files as $old_file) {
+    //         $filePath = 'storage/app/public/' . $old_file->file;
+
+    //         if (Storage::disk('public')->exists($filePath)) {
+    //             Storage::disk('public')->delete($filePath);
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'Opération de suppression réussie');
+    // }
+
+
 }
