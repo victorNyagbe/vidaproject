@@ -369,12 +369,29 @@ class PartnerController extends Controller
 
         event(new sendInvitationMailForCollabEvent($data));
 
-        ProjectUser::create([
-            'user_id' => $user->id,
-            'user_mail' => $request->email,
-            'project_id' => $project->id,
-            'status' => 0
-        ]);
+        $user = User::where('email', $request->input('email'))->first();
+
+        if($user != null) {
+
+            ProjectUser::create([
+                'user_id' => $user->id,
+                'user_mail' => $request->email,
+                'project_id' => $project->id,
+                'status' => 0
+            ]);
+
+        }else {
+
+            ProjectUser::create([
+                'user_mail' => $request->email,
+                'project_id' => $project->id,
+                'status' => 0
+            ]);
+
+            ActivationAccountToken::create([
+                'email' => $request->email,
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Votre demande a été envoyée avec succès');
     }

@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('activation_account_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->unsignedBigInteger('project_user_id');
-            $table->string('token')->nullable();
             $table->unsignedBigInteger('is_confirmated')->default(0);
             $table->timestamps();
         });
