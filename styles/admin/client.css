@@ -52,3 +52,13 @@
     text-transform: capitalize;
     margin-left: 0.8em;
 }
+
+.info-client-link {
+    color: #1dbe70;
+    margin-left: 0.8em;
+}
+
+.info-client-link:hover {
+    color: #06a056;
+    text-decoration: none;
+}

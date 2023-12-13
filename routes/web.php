@@ -104,7 +104,7 @@ Route::prefix('projects')->group( function() {
 
             Route::get('{project}/', [AdminGalleryController::class, 'projectGallery'])->name('admin.projectBoard.gallery');
 
-            Route::post('/store-processing', [AdminGalleryController::class, 'store'])->name('admin.projectBoard.gallery.store');
+            Route::post('/store-processing{project}', [AdminGalleryController::class, 'store'])->name('admin.projectBoard.gallery.store');
 
             Route::get('/{gallerie}/destroy-processing', [AdminGalleryController::class, 'destroy'])->name('admin.projectBoard.gallery.destroy');
         });

@@ -47,10 +47,19 @@
 }
 
 .collab-link {
-    color: #000000;
+    color: #1dbe70;
     font-size: 1.2em;
 }
 
 .collab-link:hover {
     color: #1dbe70;
+}
+
+.collab-mail-link {
+    font-size: 1rem;
+    color: #222222;
+}
+
+.collab-mail-link:hover {
+    color: #2781cd;
 }

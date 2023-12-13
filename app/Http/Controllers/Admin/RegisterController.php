@@ -44,25 +44,6 @@ class RegisterController extends Controller
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
 
-        // $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
-
-        // if($add_confirmation != null) {
-
-        //     if($add_confirmation->is_confirmated == 0) {
-
-        //         $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
-
-        //         $project_user->update([
-        //             'user_id' => $user->id
-        //         ]);
-
-        //         $add_confirmation->update([
-        //             'is_confirmated' => 1
-        //         ]);
-        //     }
-
-        // }
-
        $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 
         if ($add_confirmation != null) {
@@ -85,10 +66,6 @@ class RegisterController extends Controller
 
             ActivationAccountToken::where('email', $add_confirmation->email)->delete();
         }
-
-        // $token = $request->input('token');
-
-        // dd($token);
 
         return route('admin.dashboard');
     }
@@ -126,34 +103,23 @@ class RegisterController extends Controller
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
 
-        // $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
-
-        // if($add_confirmation != null) {
-
-        //     if($add_confirmation->is_confirmated == 0) {
-
-        //         $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
-
-        //         $project_user->update([
-        //             'user_id' => $user->id
-        //         ]);
-
-        //         $add_confirmation->update([
-        //             'is_confirmated' => 1
-        //         ]);
-        //     }
-
-        // }
-
         $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 
         if ($add_confirmation != null) {
 
             $project_users = ProjectUser::where('user_mail', $add_confirmation->email)->get();
 
+            $invitations = Invitation::where('email', $add_confirmation->email)->get();
+
             foreach ($project_users as $project_user) {
 
                 $project_user->update(['user_id' => $user->id]);
+
+            }
+
+            foreach ($invitations as $invitation) {
+
+                $invitation->update(['user_id' => $user->id]);
 
             }
 

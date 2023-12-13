@@ -18,11 +18,6 @@ class InvitationController extends Controller
             abort(404); // Lien d'invitation invalide
         }
 
-        // Connectez l'utilisateur ici si nécessaire
-
-        // Mettez à jour le statut de l'invitation
-        // $invitation->update(['status' => 'acceptee']);
-
         return view('guests.login')->with('invitation', true);
 
     }
@@ -59,7 +54,9 @@ class InvitationController extends Controller
 
         $collab = ProjectUser::where('user_mail', $invitation->email)->where('project_id', $invitation->project_id)->first();
 
-        $collab->update(['status' => 0]);
+        $collab->delete();
+
+        // $collab->update(['status' => 0]);
 
         return redirect()->route('admin.dashboard')->with('failureModal', true);
 

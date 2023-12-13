@@ -52,7 +52,8 @@ class ProjectController extends Controller
 
         $getProjectsCollab = ProjectUser::where([
             ['user_mail', '=', session()->get('email')],
-            ['status', '<>', 2]
+            ['status', '<>', 2],
+            ['status', '=', 1]
         ])->latest()->get('project_id');
 
         $collabProjectArray = [];

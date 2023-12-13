@@ -22,12 +22,17 @@ class ProjectController extends Controller
     {
         $projects = Project::where([
             'owner_id' => session()->get('id'),
-        ])->where('id', '<>', $project->id)->latest()->get();
+        ])->get();
+
+        $other_projects = Project::where([
+            'owner_id' => session()->get('id'),
+        ])->where('id', '!=', $project->id)->latest()->get();
 
         $getProjectsCollab = ProjectUser::where([
             ['user_mail', '=', session()->get('email')],
-            ['status', '<>', 2]
-        ])->latest()->get('project_id');
+            ['status', '<>', 2],
+            ['status', '=', 1]
+        ])->where('id', '<>', $project->id)->latest()->get('project_id');
 
         $collabProjectArray = [];
 
@@ -43,7 +48,7 @@ class ProjectController extends Controller
 
         $types = ProjectType::all();
         $page = 'admin.projectBoard.project';
-        return view('admin.projectBoard.project.project', compact('projects', 'types', 'page', 'projectCollabs'));
+        return view('admin.projectBoard.project.project', compact('projects', 'other_projects', 'types', 'page', 'projectCollabs'));
     }
 
     public function edit(Project $project)
@@ -187,14 +192,16 @@ class ProjectController extends Controller
 
         $ifUserIsProjectCollab = ProjectUser::where([
             ['user_id', '=', session()->get('id')],
-            ['project_id', '=', $project->id]
+            ['project_id', '=', $project->id],
+            ['status', '=', 1],
+            ['id', '!=', $project->project_client]
         ])->first();
 
         if ($ifOwnerProject == null && $ifUserIsProjectCollab == null) {
             return redirect()->route('admin.projectBoard.project.project')->with('error', 'Vous n\'avez pas l\'autorisation d\'accéder au panel');
         }
 
-        if ($ifUserIsProjectCollab == null) {
+        if ($ifUserIsProjectCollab != null) {
             session()->put('accessLevel', 'Collab');
         }
 

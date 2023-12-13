@@ -519,7 +519,11 @@
                             </div>
                             <div class="d-flex justify-content-center flex-column mt-3">
                                 <img src="" alt="" class="img-fluid">
-                                <p class="text-center my-2">Vous avez été ajouté à (1) nouveau(x) projet(s)!</p>
+                                @if($invitation->project->project_client == null)
+                                    <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que collaborateur!</p>
+                                @else
+                                    <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que client!</p>
+                                @endif
                                 <p class="text-center pt-4">
                                     <a href="{{ route('invitation.acceptee', $invitation) }}" class="btn btn-success mr-4">Accepter</a>
                                     {{-- <a href="#" class="btn btn-success mr-4 accepter-invitation" data-url="{{ route('invitation.acceptee', $invitation) }}">Accepter</a> --}}
@@ -549,7 +553,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                         </div>
                         <p class="successMessage">
-                            Vous êtes désormais collaborateur sur ce projet!
+                            Projet accepté!
                         </p>
                     </div>
                     <div class="text-center mb-2 pb-3">

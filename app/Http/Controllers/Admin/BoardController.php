@@ -72,7 +72,9 @@ class BoardController extends Controller
             $users = collect($userFindArray);
         }
 
-        $tasks = Task::all();
+        $tasks = Task::where([
+            ['project_id', '=', $project->id],
+        ])->get();
 
         $page = 'admin.projectBoard.board';
         return view('admin.board', compact('project', 'page', 'projectUsers', 'users', 'tasks'));

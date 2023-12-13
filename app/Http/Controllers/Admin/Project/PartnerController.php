@@ -25,17 +25,18 @@ class PartnerController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
-        $project_client = ProjectUser::where('project_id', $project->id)->where('id', $project->project_client)->first();
-
-        // $client = User::where('id', $project_client->user_id)->first();
+        $client = ProjectUser::where([
+            ['project_id', '=', $project->id],
+            ['status', '=', 1],
+            ['id', '=', $project->project_client]
+        ])->first();
 
         if ($project == null) {
             abort('404');
         }
 
         $page = 'admin.projectBoard.client';
-        // return view('admin.projectBoard.client', compact('page', 'project', 'client'));
-        return view('admin.projectBoard.client', compact('page', 'project'));
+        return view('admin.projectBoard.client', compact('page', 'project', 'client'));
     }
 
     public function client_store(Request $request)
@@ -85,8 +86,14 @@ class PartnerController extends Controller
             abort('404');
         }
 
+        $projectUsers = ProjectUser::where([
+            ['project_id', '=', $project->id],
+            ['status', '=', 1],
+            ['id', '!=', $project->project_client]
+        ])->get();
+
         $page = 'admin.projectBoard.collaborateur';
-        return view('admin.projectBoard.collaborateur', compact('page', 'project'));
+        return view('admin.projectBoard.collaborateur', compact('page', 'project', 'projectUsers'));
     }
 
     public function collab_store(Request $request)
@@ -407,7 +414,7 @@ class PartnerController extends Controller
             'email.required' => 'Veuillez renseigner le mail du client'
         ]);
 
-        $clientLink = route('admin.projectBoard.project.showBoard', $project);
+        // $clientLink = route('admin.projectBoard.project.showBoard', $project);
 
         $findIfInvitationHasAlreadySent = ProjectUser::where([
             ['user_mail', '=', $request->email],
@@ -428,6 +435,41 @@ class PartnerController extends Controller
             return redirect()->back()->with('error', 'Vous ne pouvez pas vous envoyer une demande. Vous êtes le gestionnaire du projet');
         }
 
+        $user = User::where('email', $request->input('email'))->first();
+
+        $invitationToken = Str::random(60);
+
+        if ($user != null) {
+            // Si un utilisateur existe
+            $invitationData = [
+                'user_id' => $user->id,
+                'email' => $request->input('email'),
+                'token' => $invitationToken,
+                'status' => 'en_attente',
+            ];
+
+            if ($project->id !== null) {
+                $invitationData['project_id'] = $project->id;
+            }
+
+            Invitation::create($invitationData);
+        } else {
+            // Si l'utilisateur n'existe pas
+            $invitationData = [
+                'email' => $request->input('email'),
+                'token' => $invitationToken,
+                'status' => 'en_attente',
+            ];
+
+            if ($project->id !== null) {
+                $invitationData['project_id'] = $project->id;
+            }
+
+            Invitation::create($invitationData);
+        }
+
+        $clientLink = route('invitation.accept', $invitationToken);
+
         $data = [
             'name' => $project->nom,
             'clientLink' =>  $clientLink
@@ -439,12 +481,32 @@ class PartnerController extends Controller
 
         $user = User::where('email', $email)->first();
 
-        if($user == null) {
+        if($user != null) {
+
+            $client = ProjectUser::create([
+
+                'user_id' => $user->id,
+                'user_mail' => $request->email,
+                'project_id' => $project->id,
+                'status' => 0
+
+            ]);
+
+            if ($project->id = $client->project_id){
+
+                $project->update([
+                    'project_client' => $client->id
+                ]);
+
+            }
+
+        } else {
 
             $client = ProjectUser::create([
 
                 'user_mail' => $request->email,
                 'project_id' => $project->id,
+                'status' => 0
 
             ]);
 
@@ -458,27 +520,7 @@ class PartnerController extends Controller
 
             ActivationAccountToken::create([
                 'email' => $request->email,
-                'project_user_id' => $client->id,
-                'token' => Str::random(60)
             ]);
-
-        } else {
-
-            $client = ProjectUser::create([
-
-                'user_id' => $user->id,
-                'user_mail' => $request->email,
-                'project_id' => $project->id,
-
-            ]);
-
-            if ($project->id = $client->project_id){
-
-                $project->update([
-                    'project_client' => $client->id
-                ]);
-
-            }
 
         }
 
