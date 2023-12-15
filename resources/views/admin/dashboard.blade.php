@@ -1,6 +1,27 @@
 @extends('admin.layouts.master')
 
 @section('style')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .success-icon {
+            font-size: 120px;
+        }
+
+        .successMessage {
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .failure-icon {
+            font-size: 120px;
+        }
+
+        .failureMessage {
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+    </style>
 @endsection
 
 @section('content')
@@ -454,11 +475,201 @@
             </div>
           </div>
         </div>
+
+        {{-- <div class="modal fade" id="annonce" tabindex="-1" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="border-radius: 15px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fa fa-bell"></i> Notification</h5>
+                        <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <div class="d-flex justify-content-center annonceBell">
+                        <span class="fa fa-bell"></span>
+                    </div>
+                    <div class="d-flex justify-content-center flex-column mt-3">
+                        <img src="" alt="" class="img-fluid">
+                        <p class="text-center my-2">Vous avez été ajouté à (1) nouveau(x) projet(s)!</p>
+                        <p class="text-center pt-4">
+                            <a href="" class="btn btn-success mr-4">Accepter</a>
+                            <a href="" class="btn btn-danger ml-4">Refuser</a>
+                        </p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        @foreach ($invitations as $invitation)
+            <!-- Modal pour chaque invitation -->
+            <div class="modal fade" id="invitationModal{{ $invitation->id }}" tabindex="-1" role="dialog" aria-labelledby="invitationModal{{ $invitation->id }}Label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" style="border-radius: 15px;">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="fa fa-bell"></i> Notification</h5>
+                            <button type="button" class="close" aria-label="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-center annonceBell">
+                                <span class="fa fa-bell"></span>
+                            </div>
+                            <div class="d-flex justify-content-center flex-column mt-3">
+                                <img src="" alt="" class="img-fluid">
+                                @if($invitation->project->project_client == null)
+                                    <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que collaborateur!</p>
+                                @else
+                                    <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que client!</p>
+                                @endif
+                                <p class="text-center pt-4">
+                                    <a href="{{ route('invitation.acceptee', $invitation) }}" class="btn btn-success mr-4">Accepter</a>
+                                    {{-- <a href="#" class="btn btn-success mr-4 accepter-invitation" data-url="{{ route('invitation.acceptee', $invitation) }}">Accepter</a> --}}
+                                    <a href="{{ route('invitation.rejetee', $invitation) }}" class="btn btn-danger ml-4">Refuser</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        @endforeach
+
+        <!-- Modal d'acceptation -->
+
+        <div class="modal fade show" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success" id="successModalLabel">Succès</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="success-icon text-center text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <p class="successMessage">
+                            Projet accepté!
+                        </p>
+                    </div>
+                    <div class="text-center mb-2 pb-3">
+                         <button type="button" class="btn btn-success" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de refus -->
+
+        <div class="modal fade show" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="failureModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success" id="failureModalLabel">Succès</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="failure-icon text-center text-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </div>
+                        <p class="failureMessage">
+                            Projet rejeté!
+                        </p>
+                    </div>
+                    <div class="text-center mb-2 pb-3">
+                         <button type="button" class="btn btn-success" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
   </section>
 </div>
 @endsection
 
 @section('script')
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modals = document.querySelectorAll('.modal');
+            modals.forEach(function(modal) {
+                // Ajoutez la classe 'show' à tous les modals pour les afficher automatiquement
+                modal.classList.add('show');
+            });
+        });
+    </script> --}}
+
+    @if(session('successModal'))
+        <script>
+            $(document).ready(function() {
+                $('#successModal').modal('show');
+            });
+        </script>
+    @endif
+
+    @if(session('failureModal'))
+        <script>
+            $(document).ready(function() {
+                $('#failureModal').modal('show');
+            });
+        </script>
+    @endif
+
+    <script>
+        $(document).ready(function() {
+            @foreach ($invitations as $invitation)
+                // Affichez automatiquement le modal pour chaque invitation
+                $("#invitationModal{{ $invitation->id }}").modal('show');
+            @endforeach
+        });
+
+        // Attendez que le document soit prêt
+        $(document).ready(function() {
+            console.log("helooo")
+            // Écoutez le clic sur le bouton d'acceptation
+            $('.accepter-invitation').on('click', function(event) {
+                // Empêchez le comportement par défaut du lien
+                event.preventDefault();
+
+                // Récupérez l'URL depuis l'attribut data-url
+                var accepterUrl = $(this).data('url');
+
+                // Effectuez une requête AJAX pour accepter l'invitation
+                $.ajax({
+                    url: accepterUrl,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#successModal').modal('show');
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Erreur lors de l\'acceptation de l\'invitation', error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- <script>
+
+        $(document).ready(function () {
+            // Affichez le modal lorsque la page est prête
+            $('#annonce').modal('show');
+        });
+
+    </script> --}}
 
 @endsection

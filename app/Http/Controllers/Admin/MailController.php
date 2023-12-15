@@ -35,7 +35,7 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
-        $mails = Mail::where('receiver_id', $project->project_client)->where('project_id', $project->id)->latest()->get();
+        $mails = Mail::where('receiver_id', $project->project_client)->where('project_id', $project->id)->where('client_mail_type', 'received')->latest()->get();
 
         if ($project == null) {
             abort('404');
@@ -86,7 +86,8 @@ class MailController extends Controller
                 'message' => $request->mail_message,
                 'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'dateTime' => now(),
-                'type' => 'sent'
+                'type' => 'received',
+                'client_mail_type' => 'sent'
             ]);
 
             $filesSelected = $request->file('files');
@@ -123,7 +124,7 @@ class MailController extends Controller
 
                             $fileType = 'image';
 
-                        } elseif (in_array($extension, ['doc', 'docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html'])) {
+                        } elseif (in_array($extension, ['doc', 'docx', 'xlsx', 'pptx', 'pdf', 'txt', 'html', 'sql'])) {
 
                             $fileType = 'document';
 
@@ -162,7 +163,8 @@ class MailController extends Controller
                 'message' => $request->mail_message,
                 'subtitle' => Str::substr($request->descriptionText, 0, 20),
                 'dateTime' => now(),
-                'type' => 'sent'
+                'type' => 'received',
+                'client_mail_type' => 'sent'
             ]);
 
         }
@@ -175,7 +177,7 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
-        $mails = Mail::where('sender_id', session()->get('id'))->where('type', 'sent')->where('project_id', $project->id)->latest()->get();
+        $mails = Mail::where('sender_id', session()->get('id'))->where('client_mail_type', 'sent')->where('project_id', $project->id)->latest()->get();
 
         return view('admin.clientSpace.email.sentMail', compact('project', 'mails'));
 
@@ -260,20 +262,29 @@ class MailController extends Controller
     {
         $project = Project::where('id', $project->id)->first();
 
-        $mails = Mail::where('type', 'trash')->get();
-
         if ($project == null) {
-            abort('404');
+            abort(404);
         }
+
+        $mails = Mail::where(function ($query) use ($project) {
+                $query->where('receiver_id', $project->project_client)
+                    ->orWhere('sender_id', session()->get('id'));
+            })
+            ->where('client_mail_type', 'trash')
+            ->where('project_id', $project->id)
+            ->get();
 
         return view('admin.clientSpace.email.trashMail', compact('project', 'mails'));
     }
+
 
     public function show(Mail $mail, Project $project)
     {
         // $project = Project::where('id', $project->id)->first();
 
         $client = ProjectUser::where('id', $project->project_client)->first();
+
+        $files = Fichier::where('mail_id', $mail->id)->get();
 
         if ($project == null) {
             abort('404');
@@ -287,7 +298,7 @@ class MailController extends Controller
 
         $page = 'admin.clientSpace';
 
-        return view('admin.clientSpace.email.show', compact('page', 'project', 'client', 'mail'));
+        return view('admin.clientSpace.email.show', compact('page', 'project', 'client', 'mail', 'files'));
     }
 
     public function goToTrash(Mail $mail, Project $project)
@@ -299,10 +310,10 @@ class MailController extends Controller
         }
 
         $mail->update([
-            'type' => 'trash'
+            'client_mail_type' => 'trash'
         ]);
 
-        return redirect()->back()->with('success', 'Opération de suppression réussie');
+        return redirect()->back()->with('success', 'Message transféré dans la corbeille');
     }
 
     public function destroy(Mail $mail, Project $project)

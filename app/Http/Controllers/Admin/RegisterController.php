@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ActivationAccountToken;
+use App\Models\Invitation;
 use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
@@ -43,23 +44,27 @@ class RegisterController extends Controller
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
 
-        $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
+       $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 
-        if($add_confirmation != null) {
+        if ($add_confirmation != null) {
 
-            if($add_confirmation->is_confirmated == 0) {
+            $project_users = ProjectUser::where('user_mail', $add_confirmation->email)->get();
 
-                $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
+            $invitations = Invitation::where('email', $add_confirmation->email)->get();
 
-                $project_user->update([
-                    'user_id' => $user->id
-                ]);
+            foreach ($project_users as $project_user) {
 
-                $add_confirmation->update([
-                    'is_confirmated' => 1
-                ]);
+                $project_user->update(['user_id' => $user->id]);
+
             }
 
+            foreach ($invitations as $invitation) {
+
+                $invitation->update(['user_id' => $user->id]);
+
+            }
+
+            ActivationAccountToken::where('email', $add_confirmation->email)->delete();
         }
 
         return route('admin.dashboard');
@@ -100,21 +105,25 @@ class RegisterController extends Controller
 
         $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 
-        if($add_confirmation != null) {
+        if ($add_confirmation != null) {
 
-            if($add_confirmation->is_confirmated == 0) {
+            $project_users = ProjectUser::where('user_mail', $add_confirmation->email)->get();
 
-                $project_user = ProjectUser::where('id', $add_confirmation->project_user_id)->first();
+            $invitations = Invitation::where('email', $add_confirmation->email)->get();
 
-                $project_user->update([
-                    'user_id' => $user->id
-                ]);
+            foreach ($project_users as $project_user) {
 
-                $add_confirmation->update([
-                    'is_confirmated' => 1
-                ]);
+                $project_user->update(['user_id' => $user->id]);
+
             }
 
+            foreach ($invitations as $invitation) {
+
+                $invitation->update(['user_id' => $user->id]);
+
+            }
+
+            ActivationAccountToken::where('email', $add_confirmation->email)->delete();
         }
 
     }

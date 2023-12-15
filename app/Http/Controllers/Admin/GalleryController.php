@@ -33,12 +33,12 @@ class GalleryController extends Controller
             abort('404');
         }
 
-        $galleries = Gallerie::all();
+        $galleries = Gallerie::where('project_id', $project->id)->get();
         $page = 'admin.projectBoard.gallery';
         return view('admin.projectBoard.gallery', compact('project', 'galleries','page'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
         $request->validate([
             'image' => 'required|file|image|mimes:png,jpg,jpeg,jfif,webp',
@@ -52,6 +52,7 @@ class GalleryController extends Controller
 
         Gallerie::create([
             'image' => request('image')->store('gallerie', 'public'),
+            'project_id' => $project->id,
             'title' => $request->title
         ]);
 

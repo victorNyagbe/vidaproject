@@ -26,7 +26,7 @@ class MainController extends Controller
         return view('guests.login');
     }
 
-    public function dashboard()
+    public function dashboard($token)
     {
         $page = 'guests.dashboard';
 

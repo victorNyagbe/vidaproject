@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Invitation;
 use App\Models\ProjectType;
 use App\Models\ProjectLevel;
 use App\Models\ProjectStatus;
@@ -36,6 +37,16 @@ class Project extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class);
+    }
+
+    public function projectUser()
+    {
+        return $this->hasOne(ProjectUser::class, 'project_id', 'id');
     }
 
 }

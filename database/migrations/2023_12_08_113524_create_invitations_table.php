@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('activation_account_tokens', function (Blueprint $table) {
+        Schema::create('invitations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('email');
-            $table->unsignedBigInteger('is_confirmated')->default(0);
+            $table->string('token');
+            $table->enum('status', ['en_attente', 'acceptee', 'refusee'])->default('en_attente');
+            $table->unsignedBigInteger('project_id');
             $table->timestamps();
+
         });
     }
 
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activation_account_tokens');
+        Schema::dropIfExists('invitations');
     }
 };

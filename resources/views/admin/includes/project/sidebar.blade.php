@@ -62,14 +62,16 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.client', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-user-plus"></i>
-              <p>
-                 Client
-              </p>
-            </a>
-          </li>
+          @if (session()->get('accessLevel') == 'Owner')
+            <li class="nav-item">
+                <a href="{{ route('admin.projectBoard.client', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user-plus"></i>
+                <p>
+                    Client
+                </p>
+                </a>
+            </li>
+          @endif
           {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.charts', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.charts' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -95,15 +97,17 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Boite Mail
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
+            @if (session()->get('accessLevel') == 'Owner')
+                <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
+                    <i class="nav-icon far fa-envelope"></i>
+                    <p>
+                        Boite Mail
+                    </p>
+                    </a>
+                </li>
+            @endif
+          {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.message.chat', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.message' ? 'active' : '' }}">
               <i class="nav-icon far fa-comments"></i>
               <p>
@@ -111,7 +115,7 @@
                 <span class="badge badge-primary badge-background right">3</span>
               </p>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a href="{{ route('admin.projectBoard.project.project', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
               <i class="nav-icon fas fa-project-diagram"></i>
