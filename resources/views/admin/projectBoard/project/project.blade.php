@@ -41,10 +41,15 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    @foreach ($other_projects as $project)
+                                    @forelse ($other_projects as $project)
                                         <tr>
                                             <td>{{ $project->nom }}</td>
-                                            <td>{{ \App\Models\ProjectUser::where([['project_id', '=', $project->id], ['status', '=', 1]])->count() }}
+                                            <td>
+                                                {{ \App\Models\ProjectUser::where([
+                                                    ['project_id', '=', $project->id],
+                                                    ['status', '=', 1],
+                                                    ['id', '!=', $project->project_client],
+                                                ])->count() }}
                                             </td>
                                             <td>{{ $project->user->fullname }}</td>
                                             <td>|
@@ -66,7 +71,11 @@
                                                     class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">Pas de projet trouvé</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

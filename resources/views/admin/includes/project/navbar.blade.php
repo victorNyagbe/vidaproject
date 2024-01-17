@@ -1,19 +1,20 @@
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-background navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('admin.home') }}" class="nav-link {{ $page == 'admin.home' ? 'active' : '' }}"><i class="nav-icon fas fa-home"></i> Accueil</a>
-      </li>
-    </ul>
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+          </li>
+          <li class="nav-item d-none d-sm-inline-block">
+              <a href="{{ route('admin.home') }}" class="nav-link {{ $page == 'admin.home' ? 'active' : '' }}"><i
+                      class="nav-icon fas fa-home"></i> Accueil</a>
+          </li>
+      </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      {{-- <li class="nav-item dropdown">
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+          <!-- Messages Dropdown Menu -->
+          {{-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
           <span class="badge badge-danger navbar-badge">3</span>
@@ -70,8 +71,8 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li> --}}
-      <!-- Notifications Dropdown Menu -->
-      {{-- <li class="nav-item dropdown">
+          <!-- Notifications Dropdown Menu -->
+          {{-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">15</span>
@@ -97,26 +98,26 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li> --}}
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="fas fa-user"></i>
-          <span class="online-btn navbar-badge"></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-user mr-2"></i> Profil
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-power-off mr-2"></i> Déconnexion
-          </a>
-        </div>
-      </li>
-    </ul>
+          <li class="nav-item">
+              <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                  <i class="fas fa-expand-arrows-alt"></i>
+              </a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link" data-toggle="dropdown" href="#">
+                  <i class="fas fa-user"></i>
+                  <span class="online-btn navbar-badge"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                  <a href="#" class="dropdown-item text-dark">
+                      <i class="fas fa-user mr-2"></i> Profil
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="{{ route('guests.logout') }}" class="dropdown-item text-dark">
+                      <i class="fas fa-power-off mr-2"></i> Déconnexion
+                  </a>
+              </div>
+          </li>
+      </ul>
   </nav>
   <!-- /.navbar -->

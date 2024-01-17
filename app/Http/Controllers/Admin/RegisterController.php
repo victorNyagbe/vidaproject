@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Invitation;
 use App\Models\ProjectUser;
 use Illuminate\Http\Request;
+use App\Models\ConnectedSession;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ActivationAccountToken;
-use App\Models\Invitation;
 use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
@@ -43,6 +44,13 @@ class RegisterController extends Controller
         session()->put('fullname', $user->fullname);
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
+
+        ConnectedSession::create([
+            'user_id' => $user->id,
+            'session_id' => session()->getId(),
+            'session_email' => $user->email,
+        ]);
+
 
        $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 
@@ -102,6 +110,12 @@ class RegisterController extends Controller
         session()->put('fullname', $user->fullname);
         session()->put('profile', $user->profile);
         session()->put('isAuthenticated', true);
+
+        ConnectedSession::create([
+            'user_id' => $user->id,
+            'session_id' => session()->getId(),
+            'session_email' => $data->email,
+        ]);
 
         $add_confirmation = ActivationAccountToken::where('email', $user->email)->first();
 

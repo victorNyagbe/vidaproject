@@ -45,4 +45,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function managedProjects()
+    {
+        return $this->hasMany(Project::class, 'owner_id', 'id');
+    }
+
+    public function collaboratorProjects()
+    {
+        return $this->belongsToMany(Project::class, 'project_users', 'user_id', 'project_id');
+    }
+
+
 }

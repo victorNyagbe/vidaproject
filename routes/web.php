@@ -149,9 +149,13 @@ Route::prefix('projects')->group( function() {
 
             Route::get('/{project}/brouillon', [MailController::class, 'getDraftMail'])->name('admin.projectBoard.email.draftMail');
 
+            Route::put('/admin/project/{project}/mail/{mail}/update-draft', [MailController::class, 'updateDraft'])->name('admin.projectBoard.email.updateDraft');
+
             Route::get('/{project}/corbeille', [MailController::class, 'getTrashMail'])->name('admin.projectBoard.email.trashMail');
 
             Route::get('/{mail}/{project}/edit-mail', [MailController::class, 'show'])->name('admin.projectBoard.email.show');
+
+            Route::get('/{mail}/{project}/edit-draft-mail', [MailController::class, 'show_draft'])->name('admin.projectBoard.email.show-draft');
 
             Route::get('{mail}/{project}/send-to-trash-processing', [MailController::class, 'goToTrash'])->name('admin.projectBoard.email.sendToTrash');
 
@@ -183,7 +187,7 @@ Route::prefix('projects')->group( function() {
 
             Route::get('{project}/', [AdminProjectPartnerController::class, 'index'])->name('admin.projectBoard.rapport.index');
 
-            Route::post('/{project1}/store_processing', [AdminProjectPartnerController::class, 'store_rapport'])->name('admin.projectBoard.rapport.store');
+            Route::post('/{project}/store_processing', [AdminProjectPartnerController::class, 'store_rapport'])->name('admin.projectBoard.rapport.store');
 
             Route::get('/{rapport}/{project}/details', [AdminProjectPartnerController::class, 'edit'])->name('admin.projectBoard.rapport.edit');
 
@@ -234,9 +238,13 @@ Route::prefix('espace-client')->group(function() {
 
             Route::get('/{project}/brouillon', [AdminMailController::class, 'getDraftMail'])->name('admin.clientSpace.email.draftMail');
 
+            Route::put('/{project}/mail/{mail}/update-draft', [AdminMailController::class, 'updateDraft'])->name('admin.clientSpace.email.updateDraft');
+
             Route::get('/{project}/corbeille', [AdminMailController::class, 'getTrashMail'])->name('admin.clientSpace.email.trashMail');
 
             Route::get('/{mail}/{project}/edit-mail', [AdminMailController::class, 'show'])->name('admin.clientSpace.email.show');
+
+            Route::get('/{mail}/{project}/edit-draft-mail', [AdminMailController::class, 'show_draft'])->name('admin.clientSpace.email.show-draft');
 
             Route::get('{mail}/{project}/send-to-trash-processing', [AdminMailController::class, 'goToTrash'])->name('admin.clientSpace.email.sendToTrash');
 

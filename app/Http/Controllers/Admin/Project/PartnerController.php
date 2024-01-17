@@ -141,7 +141,7 @@ class PartnerController extends Controller
         }
 
         $levels = ProjectLevel::all();
-        $rapports = Rapport::all();
+        $rapports = Rapport::where('project_id', $project->id)->get();
         $page = 'admin.projectBoard.rapport';
         return view('admin.projectBoard.rapport.index', compact('project','levels', 'rapports', 'page'));
     }
@@ -150,18 +150,10 @@ class PartnerController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'date_debut' => 'required|date|date_format:Y-m-d',
-            'date_fin' => 'required|date|date_format:Y-m-d',
             'stade' => 'required',
             'description' => 'required'
         ], [
             'title.required' => 'Veuillez renseigner le titre du projet',
-            'date_debut.required' => 'Veuillez renseigner la date de début du projet',
-            'date_debut.date' => 'Veuillez renseigner correctement la date de début',
-            'date_debut.date_format:Y-m-d' =>'Veuillez respecter le format de date jour/mois/année',
-            'date_fin.required' => 'Veuillez renseigner la date de finalisation du projet',
-            'date_fin.date' => 'Veuillez renseigner correctement la date de finalisation',
-            'date_fin.date_format:Y-m-d' =>'Veuillez respecter le format de date jour/mois/année',
             'stade.required' => 'Veuillez renseigner le stade d\'avancement du projet',
             'description.required' => 'Veuillez saisir le résumé'
         ]);
@@ -170,23 +162,30 @@ class PartnerController extends Controller
 
         // $date_fin = Carbon::parse($request->date_fin)->format('Y-m-d');
 
-        $project = Project::where('id', $project->id)->first();
+        // $project = Project::where('id', $project->id)->first();
 
+        // Utilisation de la clé du projet avec vérification
+        $projectKey = Str::random(6);
+
+        // Obtention du projet par ID
         if ($project == null) {
-            abort('404');
+            abort(404);
         }
 
+        // Création du rapport
         Rapport::create([
+            'user_id' => session()->get('id'),
             'project_id' => $project->id,
             'title' => $request->title,
-            'key' => $request->project_key,
-            'date_debut' => $request->date_debut,
-            'date_fin' => $request->date_fin,
+            'key' => $projectKey,
+            'date_debut' => $project->date_debut,
+            'date_fin' => $project->date_fin,
             'budget' => $request->montant,
             'stade' => $request->stade,
             'resume' => $request->description,
         ]);
 
+        // Redirection après la création
         return redirect()->back()->with('success', 'Opération d\'enregistrement réussie !!');
     }
 
@@ -194,6 +193,7 @@ class PartnerController extends Controller
     {
         $rapport = Rapport::where('id', $rapport->id)->first();
         $project = Project::where('id', $project->id)->first();
+        $user = User::where('id', $rapport->user_id)->first();
         $level = ProjectLevel::where('id', $rapport->stade)->first();
 
         if ($project == null) {
@@ -201,7 +201,7 @@ class PartnerController extends Controller
         }
 
         $page = 'admin.projectBoard.rapport';
-        return view('admin.projectBoard.rapport.edit', compact('project', 'rapport', 'level', 'page'));
+        return view('admin.projectBoard.rapport.edit', compact('project', 'rapport', 'user', 'level', 'page'));
     }
 
     // public function viewPdf()
@@ -218,10 +218,12 @@ class PartnerController extends Controller
         // $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', array('rapports' => $rapports))
 
         $rapport = Rapport::where('id', $rapport->id)->first();
+        $project = Project::where('id', $rapport->project_id)->first();
+        $user = User::where('id', $rapport->user_id)->first();
         $level = ProjectLevel::where('id', $rapport->stade)->first();
-        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'level'))
+        $pdf = Pdf::loadView('admin.projectBoard.rapport.rapportTemplate', compact('rapport', 'project', 'user', 'level'))
         ->setPaper('a4', 'portrait');
-        return $pdf->download('Rapport.pdf');
+        return $pdf->download($rapport->title . '.pdf');
     }
 
     public function destroy_rapport(Rapport $rapport)
@@ -370,6 +372,8 @@ class PartnerController extends Controller
         $collabLink = route('invitation.accept', $invitationToken);
 
         $data = [
+            'senderEmail' => session()->get('email'),
+            'recipientEmail' => $request->email,
             'name' => $project->nom,
             'collabLink' =>  $collabLink
         ];

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,9 +10,9 @@
         .table td {
             text-align: justify;
         }
-
     </style>
 </head>
+
 <body>
     <div style="width: 95%; margin: 0 auto;">
         <div style="width: 10%; float:left; margin-right: 20px;">
@@ -28,16 +29,26 @@
                 <td data-column="Title"width="50%">{{ $rapport->title }}</td>
             </tr>
             <tr>
-                <td data-column="Clee" width="20%">Clée:</td>
+                <td data-column="Project_name" width="20%">Nom du projet:</td>
+                <td data-column="Project_name"width="50%">{{ $project->nom }}</td>
+            </tr>
+            <tr>
+                <td data-column="Project_name" width="20%">Nom du chef projet:</td>
+                <td data-column="Project_name"width="50%">{{ $project->user->fullname }}</td>
+            </tr>
+            <tr>
+                <td data-column="Clee" width="20%">Numéro du projet:</td>
                 <td data-column="Clee" width="50%">{{ $rapport->key }}</td>
             </tr>
             <tr>
                 <td data-column="Date debut" width="20%">Date de début:</td>
-                <td data-column="Date debut" width="50%">{{ \Carbon\Carbon::parse($rapport->date_debut)->format('d-m-Y') }}</td>
+                <td data-column="Date debut" width="50%">
+                    {{ \Carbon\Carbon::parse($rapport->date_debut)->format('d-m-Y') }}</td>
             </tr>
             <tr>
                 <td data-column="Date fin" width="20%">Date de fin:</td>
-                <td data-column="Date fin" width="50%">{{ \Carbon\Carbon::parse($rapport->date_fin)->format('d-m-Y') }}</td>
+                <td data-column="Date fin" width="50%">
+                    {{ \Carbon\Carbon::parse($rapport->date_fin)->format('d-m-Y') }}</td>
             </tr>
             <tr>
                 <td data-column="Montant" width="20%">Montant du budget:</td>
@@ -48,12 +59,22 @@
                 <td data-column="Stade" width="50%">{{ $level->nom }}</td>
             </tr>
             <tr>
+                <td data-column="Stade" width="20%">Publié le:</td>
+                <td data-column="Stade" width="50%">
+                    {{ \Carbon\Carbon::parse($rapport->created_at)->format('d-m-Y') }}</td>
+            </tr>
+            <tr>
                 <td data-column="Resume" width="100%" colspan="2">Résumé:</td>
             </tr>
             <tr>
-                <td data-column="Resume" width="100%" colspan="2" style="text-align: justify;">{{ $rapport->resume }}</td>
+                <td data-column="Resume" width="100%" colspan="2" style="text-align: justify;">
+                    {{ $rapport->resume }}</td>
             </tr>
         </tbody>
-    </table> 
+    </table>
+    <div style="width: 100%; text-align: right;">
+        <h6>Rédigé par: {{ $user->fullname }}</h6>
+    </div>
 </body>
+
 </html>

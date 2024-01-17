@@ -1,11 +1,7 @@
 <div class="row select-all-block">
     <div class="col-12">
         <div class="icheck-danger first-checkbox">
-            <input
-                type="checkbox"
-                value=""
-                id="draft-check0"
-            />
+            <input type="checkbox" value="" id="draft-check0" />
             <label for="draft-check0">Tout</label>
         </div>
         <a href="#" id="hide-trash-btn" class="btn btn-danger trash-btn">Supprimer</a>
@@ -15,381 +11,64 @@
 <div class="table-responsive bg-light mailbox-messages">
     <table class="table table-hover">
         <tbody>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check1"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check1"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">08 : 00</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check2"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check2"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">06 : 00</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check3"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check3"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">05 : 00</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check4"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check4"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">04 : 00</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check5"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check5"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">01 : 00</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check6"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check6"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">20 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check7"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check7"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">19 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check8"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check8"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">18 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check9"
-
-                        class="draft-delete-check"                            />
-                        <label for="draft-check9"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">11 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check10"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check10"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">10 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check11"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check11"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">8 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check12"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check12"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">8 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check13"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check13"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">7 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check14"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check14"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">5 sept</td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="icheck-danger">
-                        <input
-                            type="checkbox"
-                            value=""
-                            id="draft-check15"
-                            class="draft-delete-check"
-                        />
-                        <label for="draft-check15"></label>
-                    </div>
-                </td>
-                <td class="mailbox-name">
-                    <a href="read-mail.html">Alexander Pierce</a>
-                </td>
-                <td class="mailbox-subject">
-                    <b>AdminLTE 3.0 Issue</b> - Trying to find a ...
-                </td>
-                <td class="mailbox-attachment delete-icons">
-                    <a href="#">
-                        <i class="fas fa-trash-alt text-dark"></i>
-                    </a>
-                </td>
-                <td class="mailbox-date inbox-date">1 sept</td>
-            </tr>
+            @foreach ($mails as $mail)
+                <tr>
+                    <td>
+                        <div class="icheck-danger">
+                            <input type="checkbox" value="" id="sent-check{{ $mail->id }}"
+                                class="sent-delete-check" />
+                            <label for="sent-check{{ $mail->id }}"></label>
+                        </div>
+                    </td>
+                    <td class="mailbox-name">
+                        @php
+                            $value = App\Models\ProjectUser::where('id', $mail->receiver_id)->value('user_mail');
+                            $name = explode('@', $value);
+                            $first_name = $name[0];
+                        @endphp
+                        <span>À :</span> <a href="#">{{ $first_name }}</a>
+                    </td>
+                    <td class="mailbox-subject">
+                        <?php
+                        $characters = 30;
+                        $titre = $mail->subject;
+                        $getTitre = strlen($titre);
+                        $charactersLeft = $characters - $getTitre;
+                        $description = $mail->message;
+                        ?>
+                        @if ($getTitre == 30)
+                            <a class="mailbox-title"
+                                href="{{ route('admin.projectBoard.email.show-draft', [$mail, $project]) }}">
+                                <b>{{ $mail->subject }}</b> ...
+                            </a>
+                        @elseif ($getTitre > 30)
+                            <a class="mailbox-title"
+                                href="{{ route('admin.projectBoard.email.show-draft', [$mail, $project]) }}">
+                                <b>{{ \Illuminate\Support\Str::substr($mail->subject, 0, 30) . '...' }}</b>
+                            </a>
+                        @elseif($getTitre == 0)
+                            <a class="mailbox-title"
+                                href="{{ route('admin.projectBoard.email.show-draft', [$mail, $project]) }}">
+                                <span>{{ $mail->subtitle }}...</span>
+                            </a>
+                        @else
+                            <a class="mailbox-title"
+                                href="{{ route('admin.projectBoard.email.show-draft', [$mail, $project]) }}">
+                                <b>{{ $mail->subject }}</b> -
+                                {{ \Illuminate\Support\Str::substr($mail->subtitle, 0, $charactersLeft) . '...' }}
+                            </a>
+                        @endif
+                    </td>
+                    <td class="mailbox-attachment delete-icons">
+                        <a href="{{ route('admin.projectBoard.email.sendToTrash', [$mail, $project]) }}"
+                            onclick="return confirm('Êtes-vous certain de vouloir supprimer ce mail ? Cette action est irréversible.');">
+                            <i class="fas fa-trash-alt text-dark"></i>
+                        </a>
+                    </td>
+                    <td class="mailbox-date inbox-date">
+                        {{ \Carbon\Carbon::parse($mail->dateTime)->isoFormat('HH : mm') }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
     <!-- /.table -->

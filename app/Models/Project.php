@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Invitation;
 use App\Models\ProjectType;
+use App\Models\ProjectUser;
 use App\Models\ProjectLevel;
 use App\Models\ProjectStatus;
 use Illuminate\Database\Eloquent\Model;
@@ -44,9 +45,9 @@ class Project extends Model
         return $this->hasMany(Invitation::class);
     }
 
-    public function projectUser()
+    public function projectUsers()
     {
-        return $this->hasOne(ProjectUser::class, 'project_id', 'id');
+        return $this->hasMany(ProjectUser::class, 'project_id', 'id');
     }
 
 }

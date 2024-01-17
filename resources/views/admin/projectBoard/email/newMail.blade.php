@@ -1,10 +1,8 @@
-@section('style')
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
     .textarea-block {
-        color : #000000;
+        color: #000000;
     }
 
     #fileList {
@@ -49,9 +47,12 @@
 
     /* Styles pour le nom du fichier */
     .file-name {
-        flex-grow: 1; /* Le nom du fichier prend l'espace disponible */
-        margin-right: 8px; /* Marge à droite pour l'espace du bouton "x" */
-        word-break: break-word; /* Permet de casser le texte long si nécessaire */
+        flex-grow: 1;
+        /* Le nom du fichier prend l'espace disponible */
+        margin-right: 8px;
+        /* Marge à droite pour l'espace du bouton "x" */
+        word-break: break-word;
+        /* Permet de casser le texte long si nécessaire */
     }
 
     /* Styles pour le bouton "x" de suppression */
@@ -59,12 +60,14 @@
         cursor: pointer;
         font-weight: bold;
         color: red;
-        margin-right: 8px;*/ /* Marge à gauche pour séparer du nom du fichier */
+        margin-right: 8px;
+        */
+        /* Marge à gauche pour séparer du nom du fichier */
     }
-
 </style>
 
-<form action="{{ route('admin.projectBoard.email.create', $project) }}" method="post" enctype="multipart/form-data" id="createForm">
+<form action="{{ route('admin.projectBoard.email.create', $project) }}" method="post" enctype="multipart/form-data"
+    id="createForm">
     @csrf
     <div class="form-group">
         <input class="form-control" name="to" disabled value="{{ $client->user_mail }}" placeholder="À">
@@ -78,9 +81,9 @@
     <textarea name="descriptionText" id="descriptionText" class="d-none"></textarea>
     <div class="form-group">
 
-            <div id="fileList"></div>
+        <div id="fileList"></div>
 
-            <ul id="customFileList"></ul>
+        <ul id="customFileList"></ul>
 
     </div>
     <input type="hidden" name="filesToBeUploaded[]" value="[]" id="filesToBeUploaded">
@@ -91,13 +94,39 @@
             <i class="fas fa-paperclip"></i> Joindre
             <input type="file" name="files[]" multiple id="fileSelector">
         </div>
-        <button type="button" id="saveDraft" href="{{-- route('admin.projectBoard.email.createDraftMail') --}}" onclick="saveAsDraft()" class="btn btn-light"><i class="fas fa-pencil-alt"></i> Brouillon</button>
-        <button type="submit" class="btn btn-success"><i class="fas fa-envelope"></i> Envoyer</button>
+        {{-- <button type="button" id="saveDraft" onclick="saveAsDraft()"
+            class="btn btn-light"><i class="fas fa-pencil-alt"></i> Brouillon</button> --}}
+        <button type="submit" name="action" value="toDraft" class="btn btn-light"><i class="fas fa-pencil-alt"></i>
+            Brouillon</button>
+        <button type="submit" name="action" value="toSend" class="btn btn-success"><i class="fas fa-envelope"></i>
+            Envoyer</button>
         {{-- <p class="help-block">Max. 32MB</p> --}}
     </div>
 </form>
 
 <script>
+    $(document).ready(function() {
+
+        $('#createForm').on('submit', function(e) {
+            const editorCode = $('.textarea').summernote('code').replace(/<\/?[^>]+(>|$)/g, " ");
+
+            $('#descriptionText').val(editorCode);
+        });
+
+        $('#text').summernote({
+            lang: 'fr-FR',
+            minHeight: 150,
+            tabsize: 2,
+            placeholder: 'Veuillez rensigner le texte ici...',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']]
+            ]
+        });
+    });
 
     function autoActualiserPage(interval) {
         setInterval(function() {
@@ -158,10 +187,10 @@
             // fileClose.setAttribute("aria-live", fileId)
             // fileClose.textContent = '×';
             // fileClose.addEventListener('click', function() {
-                //     const containerId = fileId; // Utiliser l'ID du conteneur
+            //     const containerId = fileId; // Utiliser l'ID du conteneur
             //     const objectURL = objectURLs[containerId];
             //     if (objectURL) {
-                //         URL.revokeObjectURL(objectURL);
+            //         URL.revokeObjectURL(objectURL);
             //         delete objectURLs[containerId];
             //         destroy(containerId); // Appeler la fonction destroy
             //     }
@@ -278,21 +307,21 @@
         // Vous pouvez également afficher un message ou effectuer d'autres actions ici
         alert('Brouillon sauvegardé avec succès !');
 
-        fetch('{{ route("admin.projectBoard.email.createDraftMail", $project) }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken // Assurez-vous d'ajouter le jeton CSRF
-            },
+        fetch('{{ route('admin.projectBoard.email.createDraftMail', $project) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Assurez-vous d'ajouter le jeton CSRF
+                },
                 body: JSON.stringify(draftData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Erreur lors de l\'enregistrement du brouillon :', error);
-        });
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'enregistrement du brouillon :', error);
+            });
     }
 
     // function saveAsDraft(draftId) {
@@ -361,12 +390,6 @@
     //     })
     //     .catch(error => console.error('Erreur :', error));
     // });
-
-
-
-
-
-
 </script>
 
 {{-- <script>
