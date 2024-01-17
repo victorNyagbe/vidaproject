@@ -34,8 +34,9 @@ class SendInvitationForClientMail extends Mailable
      */
     public function envelope()
     {
+        $senderEmail = $this->data['senderEmail'];
         return new Envelope(
-            from: new Address('gomezfelix310@gmail.com', 'Fayçal'),
+            from: new Address($senderEmail, 'goproject'),
             subject: 'Invitation For Client',
         );
     }

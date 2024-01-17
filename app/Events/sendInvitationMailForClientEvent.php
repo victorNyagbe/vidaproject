@@ -26,7 +26,6 @@ class sendInvitationMailForClientEvent
         $this->data = $data;
     }
 
-
     /**
      * Get the channels the event should broadcast on.
      *

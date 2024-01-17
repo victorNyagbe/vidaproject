@@ -178,7 +178,7 @@
                                         }
                                         
                                         ?>
-                                        <p class="number">{{ $pourcent }}%</p>
+                                        <p class="number">{{ round($pourcent) }}%</p>
                                     </div>
                                 </div>
                             </div>

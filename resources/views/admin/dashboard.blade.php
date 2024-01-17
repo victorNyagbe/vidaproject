@@ -232,7 +232,7 @@
                                                         ->count();
                                                     $percentageCompleted = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
                                                     ?>
-                                                    <td>{{ $percentageCompleted }}%</td>
+                                                    <td>{{ round($percentageCompleted) }}%</td>
                                                 </tr>
                                             @empty
                                                 <tr>
@@ -296,7 +296,7 @@
                                                         ->count();
                                                     $percentageCompleted = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
                                                     ?>
-                                                    <td>{{ $percentageCompleted }}%</td>
+                                                    <td>{{ round($percentageCompleted) }}%</td>
                                                 </tr>
                                             @empty
                                                 <tr>

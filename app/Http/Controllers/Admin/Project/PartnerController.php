@@ -475,6 +475,8 @@ class PartnerController extends Controller
         $clientLink = route('invitation.accept', $invitationToken);
 
         $data = [
+            'senderEmail' => session()->get('email'),
+            'recipientEmail' => $request->email,
             'name' => $project->nom,
             'clientLink' =>  $clientLink
         ];
