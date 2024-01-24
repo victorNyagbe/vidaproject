@@ -24,6 +24,10 @@ class ProjectController extends Controller
             'owner_id' => session()->get('id'),
         ])->get();
 
+        // $other_projects = Project::where([
+        //     'owner_id' => session()->get('id'),
+        // ])->where('id', '!=', $project->id)->latest()->get();
+
         $other_projects = Project::where([
             'owner_id' => session()->get('id'),
         ])->where('id', '!=', $project->id)->latest()->get();
@@ -45,6 +49,8 @@ class ProjectController extends Controller
         } else {
             $projectCollabs = collect([]);
         }
+
+        // $currentProject = Project::find($project->id);
 
         $types = ProjectType::all();
         $page = 'admin.projectBoard.project';

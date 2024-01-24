@@ -97,6 +97,25 @@
 @section('script')
     <script src="{{ asset('styles/admin/plugins/ekko-lightbox/ekko-lightbox.js') }}"></script>
     <script>
+        // if ("{{ session()->get('accessLevel') }}" === 'Collab') {
+        //     const dureeAutoChargement = 5000;
+
+        //     // Fonction pour effectuer une requête AJAX et mettre à jour le contenu
+        //     function autoChargementPage() {
+        //         $.ajax({
+        //             url: window.location.href, // URL de la page actuelle
+        //             type: 'GET',
+        //             success: function(data) {
+        //                 // Mettez à jour le contenu de la page avec les données reçues
+        //                 $('body').html(data);
+        //             }
+        //         });
+        //     }
+
+        //     // Déclencher le rechargement automatique à intervalles réguliers
+        //     setInterval(autoChargementPage, dureeAutoChargement);
+        // }
+
         $(function() {
             $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                 event.preventDefault();

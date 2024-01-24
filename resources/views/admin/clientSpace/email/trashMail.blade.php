@@ -1,4 +1,4 @@
-<div class="row select-all-block">
+{{-- <div class="row select-all-block">
     <div class="col-12">
         <div class="icheck-danger first-checkbox">
             <input type="checkbox" value="" id="check0" />
@@ -7,19 +7,19 @@
         <a href="#" id="hide-trash-btn" class="btn btn-danger trash-btn">Supprimer</a>
         <a href="#" id="hide-restore-btn" class="btn btn-primary trash-btn trash-restore-btn">Restaurer</a>
     </div>
-</div>
+</div> --}}
 <div class="table-responsive bg-light mailbox-messages">
     <table class="table table-hover">
         <tbody>
             @foreach ($mails as $mail)
                 <tr>
-                    <td>
+                    {{-- <td>
                         <div class="icheck-danger">
                             <input type="checkbox" value="" id="sent-check{{ $mail->id }}"
                                 class="sent-delete-check" />
                             <label for="sent-check{{ $mail->id }}"></label>
                         </div>
-                    </td>
+                    </td> --}}
                     <td class="mailbox-name">
                         @php
                             $value = App\Models\User::where('id', $mail->receiver_id)->value('email');

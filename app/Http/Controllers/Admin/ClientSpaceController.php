@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\ProjectType;
@@ -13,13 +14,13 @@ class ClientSpaceController extends Controller
 {
     public function index()
     {
-        $users = ProjectUser::where('user_mail', session()->get('email'))->get();
+        $users = ProjectUser::where([['user_mail', session()->get('email')], ['status', '=', 1]])->get();
 
         $projects = collect();
 
         foreach ($users as $user) {
 
-            $projects = $projects->merge(Project::where('project_client', $user->id)->latest()->get());
+            $projects = $projects->merge(Project::where([['project_client', '=', $user->id]])->latest()->get());
 
         }
 
@@ -39,6 +40,8 @@ class ClientSpaceController extends Controller
             abort('404');
         }
 
+        $project_tasks = Task::where('project_id', $project->id)->get();
+
         // $client = ProjectUser::where('user_mail', session()->get('email'))->get();
 
         // $project_owner = User::where('id', $verify_project->owner_id)->first();
@@ -50,6 +53,6 @@ class ClientSpaceController extends Controller
         $types = ProjectType::all();
 
         $page = 'admin.clientSpace';
-        return view('admin.clientSpace.show', compact('project', 'types', 'page'));
+        return view('admin.clientSpace.show', compact('project', 'types', 'page', 'project_tasks'));
     }
 }

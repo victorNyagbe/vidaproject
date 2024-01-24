@@ -63,7 +63,7 @@ class ProjectController extends Controller
 
         if ($getProjectsCollab->count() > 0) {
             foreach ($getProjectsCollab as $getProjectCollab) {
-                $collabProject = Project::where('id', $getProjectCollab->project_id)->first();
+                $collabProject = Project::where([['id', '=', $getProjectCollab->project_id]])->first();
                 $collabProjectArray[] = $collabProject;
             }
             $projectCollabs = collect($collabProjectArray);
@@ -337,6 +337,8 @@ class ProjectController extends Controller
         // Éliminer les doublons dans la collection
         $filteredUsers = $filteredUsers->unique('id');
 
-        return view('admin.projectBoard.project.showBoard', compact('page', 'project', 'users', 'filteredUsers'));
+        $currentProject = Project::find($project->id);
+
+        return view('admin.projectBoard.project.showBoard', compact('page', 'project', 'users', 'filteredUsers', 'currentProject'));
     }
 }

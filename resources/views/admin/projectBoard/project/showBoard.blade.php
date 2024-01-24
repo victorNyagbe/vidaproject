@@ -42,8 +42,8 @@
                                     <p>Collaborateurs</p>
                                 </div>
                             </div>
-                            <a href="" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('admin.projectBoard.collaborateur', $project) }}"
+                                class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -63,8 +63,8 @@
                                 </div>
                             </div>
 
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#!" data-toggle="modal" data-target="#taskModal" class="small-box-footer">More
+                                info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -99,11 +99,105 @@
                                     <p>En ligne</p>
                                 </div>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#!" data-toggle="modal" data-target="#onlineModal" class="small-box-footer">More
+                                info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
+                </div>
+                <div class="row">
+                    {{-- Modal de la partie des tâches --}}
+                    <div class="col-12">
+                        <div class="modal fade show" id="taskModal" tabindex="-1" role="dialog"
+                            aria-labelledby="successModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-success" id="successModalLabel">Liste des tâches</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="task-content">
+                                            <div class="row">
+                                                <div class="col-6 text-center">
+                                                    <h6>Nom de la tâche</h6>
+                                                </div>
+                                                <div class="col-6 text-center">
+                                                    <h6>Statut</h6>
+                                                </div>
+                                            </div>
+                                            <hr style="height: 0.4rem;">
+                                            <div class="row">
+                                                <?php
+                                                $allTasks = \App\Models\Task::where([['project_id', '=', $project->id]])->get();
+                                                ?>
+                                                @forelse ($allTasks as $task)
+                                                    <div class="col-6 text-center">{{ $task->title }}</div>
+                                                    <div class="col-6 text-center">
+                                                        @if ($task->status == 0)
+                                                            A FAIRE
+                                                        @elseif ($task->status == 1)
+                                                            EN COURS
+                                                        @else
+                                                            TERMINE
+                                                        @endif
+                                                    </div>
+                                                    <hr style="height: 0.2rem; color: #222; background-color: #222">
+                                                @empty
+                                                    <div class="col-12">
+                                                        <h6 class="text-center">
+                                                            Pas de tâche disponible!
+                                                        </h6>
+                                                    </div>
+                                                @endforelse
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Modale de la partie des personnes connectés --}}
+                    <div class="modal fade show" id="onlineModal" tabindex="-1" role="dialog"
+                        aria-labelledby="successModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-success" id="successModalLabel">Toutes Les Personnes
+                                        Connectés</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6>Personne connecté</h6>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        @forelse($filteredUsers as $connect_user)
+                                            <div class="col-12">
+                                                {{ $connect_user->email }}
+                                            </div>
+                                            <hr style="height: 0.2rem;">
+                                        @empty
+                                            <div class="col-12">
+                                                <h6 class="text-center">
+                                                    Pas de personne connecté!
+                                                </h6>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -231,4 +325,21 @@
 @endsection
 
 @section('script')
+    <script>
+        const dureeAutoChargement = 30000;
+
+        // Fonction pour effectuer une requête AJAX et mettre à jour le contenu
+        function autoChargementPage() {
+            $.ajax({
+                url: window.location.href, // URL de la page actuelle
+                type: 'GET',
+                success: function(data) {
+                    // Mettez à jour le contenu de la page avec les données reçues
+                    $('body').html(data);
+                }
+            });
+        }
+        // Déclencher le rechargement automatique à intervalles réguliers
+        setInterval(autoChargementPage, dureeAutoChargement);
+    </script>
 @endsection

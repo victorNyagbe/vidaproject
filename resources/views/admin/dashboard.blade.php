@@ -56,7 +56,7 @@
                                     <p>Projets</p>
                                 </div>
                             </div>
-                            <a href="#" class="small-box-footer">Voir plus <i
+                            <a href="{{ route('admin.project.project') }}" class="small-box-footer">Voir plus <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -77,9 +77,10 @@
                                 </div>
                             </div>
 
-                            <a href="#" class="small-box-footer">Voir plus <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#!" data-toggle="modal" data-target="#taskModal" class="small-box-footer">Voir
+                                plus <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
+
                     </div>
                     <!-- ./col -->
                     {{-- <div class="col-lg-3 col-6">
@@ -177,12 +178,143 @@
                                     <p>En ligne</p>
                                 </div>
                             </div>
-                            <a href="#" class="small-box-footer">Voir plus <i
-                                    class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#!" data-toggle="modal" data-target="#onlineModal" class="small-box-footer">Voir
+                                plus <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
                 </div>
+                <div class="row">
+                    {{-- Modal de la partie des tâches --}}
+                    <div class="col-12">
+                        <div class="modal fade show" id="taskModal" tabindex="-1" role="dialog"
+                            aria-labelledby="successModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-success" id="successModalLabel">Liste des tâches</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="task-content">
+                                            <div class="row">
+                                                <div class="col-6 text-center project-name">
+                                                    <h6>Projets</h6>
+                                                </div>
+                                                <div class="col-4 text-center task-counter">
+                                                    <h6>Nombre de tâches</h6>
+                                                </div>
+                                                <div class="col-2 text-center task-action">
+                                                    <h6>Action</h6>
+                                                </div>
+                                            </div>
+                                            <hr style="height: 0.4rem;">
+                                            <div class="row">
+                                                @forelse($listAllMyProjects as $project)
+                                                    <div class="col-6 text-center project-name">{{ $project->nom }}</div>
+                                                    <div class="col-4 text-center task-counter">
+                                                        {{ \App\Models\Task::where([['project_user_id', '=', session()->get('id')], ['project_id', '=', $project->id]])->count() }}
+                                                    </div>
+                                                    <div class="col-2 text-center task-action">
+                                                        <a href="{{ route('admin.board', $project) }}"
+                                                            class="btn btn-info btn-sm {{ $page == 'admin.projectBoard.board' ? 'active' : '' }}">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                    <hr style="height: 0.2rem;">
+                                                @empty
+                                                    <div class="col-12">
+                                                        <h6 class="text-center">
+                                                            Pas de tâche disponible!
+                                                        </h6>
+                                                    </div>
+                                                @endforelse
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Modale de la partie des personnes connectés --}}
+                    <div class="modal fade show" id="onlineModal" tabindex="-1" role="dialog"
+                        aria-labelledby="successModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-success" id="successModalLabel">Toutes Les Personnes
+                                        Connectés</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6 text-center project-name">
+                                            <h6>Projets</h6>
+                                        </div>
+                                        <div class="col-6 text-center connect-counter">
+                                            <h6>Nombre de Connectés</h6>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        @forelse($listAllMyProjects as $project)
+                                            <div class="col-6 text-center project-name">{{ $project->nom }}</div>
+                                            <?php
+                                            $userProjects = \App\Models\User::find(session('id'));
+                                            
+                                            $connectedUsers = \App\Models\ConnectedSession::where('session_email', '!=', $userProjects->email)->get();
+                                            
+                                            $filteredUsers = collect();
+                                            
+                                            foreach ($connectedUsers as $connectedUser) {
+                                                if ($userProjects->id == $project->owner_id) {
+                                                    // L'utilisateur actuel est le propriétaire du projet, récupérer les collaborateurs
+                                                    $projectCollabs = \App\Models\ProjectUser::where([['user_id', $connectedUser->user_id], ['project_id', $project->id]])->get();
+                                            
+                                                    foreach ($projectCollabs as $projectCollab) {
+                                                        $collabUser = \App\Models\User::find($projectCollab->user_id);
+                                                        $filteredUsers->push($collabUser);
+                                                    }
+                                                } else {
+                                                    // L'utilisateur actuel n'est pas le propriétaire du projet
+                                                    $projectOwner = \App\Models\User::find($project->owner_id);
+                                                    $filteredUsers->push($projectOwner);
+                                            
+                                                    // Ajouter les collaborateurs liés au projet à la collection
+                                                    $projectCollabs = \App\Models\ProjectUser::where([['user_id', $connectedUser->user_id], ['project_id', $project->id]])->get();
+                                            
+                                                    foreach ($projectCollabs as $projectCollab) {
+                                                        $collabUser = \App\Models\User::find($projectCollab->user_id);
+                                                        $filteredUsers->push($collabUser);
+                                                    }
+                                                }
+                                            }
+                                            
+                                            $filteredUsers = $filteredUsers->unique('id');
+                                            ?>
+                                            <div class="col-6 text-center connect-counter">
+                                                {{ $filteredUsers->count() }}
+                                            </div>
+                                            <hr style="height: 0.2rem;">
+                                        @empty
+                                            <div class="col-12">
+                                                <h6 class="text-center">
+                                                    Pas de personne connecté!
+                                                </h6>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card bg-secondary">
@@ -190,7 +322,8 @@
                                 Projets
                                 <div class="card-tools">
                                     <ul class="pagination pagination-sm">
-                                        <li class="page-item"><a href="#" class="page-link">voir plus</a></li>
+                                        <li class="page-item"><a href="{{ route('admin.project.project') }}"
+                                                class="page-link">voir plus</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -253,7 +386,8 @@
                                 Vos projets en tant que collaborateurs
                                 <div class="card-tools">
                                     <ul class="pagination pagination-sm">
-                                        <li class="page-item"><a href="#" class="page-link">voir plus</a></li>
+                                        <li class="page-item"><a href="{{ route('admin.project.project') }}"
+                                                class="page-link">voir plus</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -358,7 +492,8 @@
                                                             @foreach ($users as $index => $user)
                                                                 <img src="{{ $user->profile }}"
                                                                     class="task-img task-img{{ $index + 1 }}"
-                                                                    alt="User Image" style="left: {{ $index * 1.5 }}em;">
+                                                                    alt="User Image"
+                                                                    style="left: {{ $index * 1.5 }}em;">
                                                             @endforeach
                                                         </div>
                                                     </div>
@@ -692,14 +827,10 @@
                                     </div>
                                     <div class="d-flex justify-content-center flex-column mt-3">
                                         <img src="" alt="" class="img-fluid">
-                                        @if ($invitation->project->project_client == null)
-                                            {{-- @dd($invitation->project->project_client) --}}
-                                            <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que
-                                                collaborateur!</p>
-                                        @else
-                                            <p class="text-center my-2">Vous avez été ajouté à 1 nouveau projet en tant que
-                                                client!</p>
-                                        @endif
+                                        <p class="text-center my-2">Vous avez été ajouté à un projet nommé
+                                            <b class="text-primary">{{ $invitation->project_name }}</b> en tant que
+                                            {{ $invitation->invite_type }}
+                                        </p>
                                         <p class="text-center pt-4">
                                             <a href="{{ route('invitation.acceptee', $invitation) }}"
                                                 class="btn btn-success mr-4">Accepter</a>
@@ -784,6 +915,37 @@
             });
         });
     </script> --}}
+
+    <script>
+        // // Définir la durée en millisecondes (par exemple, 2000 pour 2 secondes)
+        // const dureeAutoChargement = 3000;
+
+        // // Fonction pour recharger la page
+        // function autoChargementPage() {
+        //     location.reload(
+        //         true); // Le paramètre true force le rechargement depuis le serveur, sans utiliser le cache du navigateur
+        // }
+
+        // // Déclencher le rechargement automatique à intervalles réguliers
+        // setInterval(autoChargementPage, dureeAutoChargement);
+        // Définir la durée en millisecondes (60 000 pour 1 minute)
+        const dureeAutoChargement = 15000;
+
+        // Fonction pour effectuer une requête AJAX et mettre à jour le contenu
+        function autoChargementPage() {
+            $.ajax({
+                url: window.location.href, // URL de la page actuelle
+                type: 'GET',
+                success: function(data) {
+                    // Mettez à jour le contenu de la page avec les données reçues
+                    $('body').html(data);
+                }
+            });
+        }
+
+        // Déclencher le rechargement automatique à intervalles réguliers
+        setInterval(autoChargementPage, dureeAutoChargement);
+    </script>
 
     @if (session('successModal'))
         <script>

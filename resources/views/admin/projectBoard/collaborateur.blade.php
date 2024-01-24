@@ -46,19 +46,29 @@
                                                 <div class="card-footer p-0">
                                                     <ul class="nav flex-column">
                                                         <li class="nav-item">
+                                                            <?php
+                                                            $nbTasks = 0;
+                                                            $nbTasksEnded = 0;
+                                                            $nbTasksInProgress = 0;
+                                                            $nbTasks = \App\Models\Task::where([['project_id', '=', $project->id], ['project_user_id', '=', $projectUser->user_id]])->count();
+                                                            $nbTasksEnded = \App\Models\Task::where([['project_id', '=', $project->id], ['project_user_id', '=', $projectUser->user_id], ['status', '=', 2]])->count();
+                                                            $nbTasksInProgress = \App\Models\Task::where([['project_id', '=', $project->id], ['project_user_id', '=', $projectUser->user_id], ['status', '=', 1]])->count();
+                                                            ?>
                                                             <a class="nav-link collab-link">
-                                                                Projets <span class="float-right badge bg-primary">31</span>
+                                                                Tâches <span
+                                                                    class="float-right badge bg-info">{{ $nbTasks }}</span>
                                                             </a>
                                                         </li>
                                                         <li class="nav-item">
                                                             <a class="nav-link collab-link">
-                                                                Tâches <span class="float-right badge bg-info">5</span>
+                                                                Tâches en cours <span
+                                                                    class="float-right badge bg-primary">{{ $nbTasksInProgress }}</span>
                                                             </a>
                                                         </li>
                                                         <li class="nav-item">
                                                             <a class="nav-link collab-link">
-                                                                Projets finalisés <span
-                                                                    class="float-right badge bg-success">12</span>
+                                                                Tâches finalisées <span
+                                                                    class="float-right badge bg-success">{{ $nbTasksEnded }}</span>
                                                             </a>
                                                         </li>
                                                         <li class="nav-item">
@@ -158,6 +168,26 @@
 @endsection
 
 @section('script')
+    <script>
+        // if ("{{ session()->get('accessLevel') }}" === 'Collab') {
+        //     const dureeAutoChargement = 5000;
+
+        //     // Fonction pour effectuer une requête AJAX et mettre à jour le contenu
+        //     function autoChargementPage() {
+        //         $.ajax({
+        //             url: window.location.href, // URL de la page actuelle
+        //             type: 'GET',
+        //             success: function(data) {
+        //                 // Mettez à jour le contenu de la page avec les données reçues
+        //                 $('body').html(data);
+        //             }
+        //         });
+        //     }
+
+        //     // Déclencher le rechargement automatique à intervalles réguliers
+        //     setInterval(autoChargementPage, dureeAutoChargement);
+        // }
+    </script>
     {{-- <script>
         $(document).ready(function () {
             // Affichez le modal lorsque la page est prête

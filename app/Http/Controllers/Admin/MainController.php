@@ -72,7 +72,9 @@ class MainController extends Controller
 
         $listAllProjects = $listProjects->merge($listProjectCollabs)->unique('id')->take(4);
 
-        return view('admin.dashboard', compact('page', 'invitations', 'projects', 'projectCollabs', 'listProjects', 'listProjectCollabs', 'listAllProjects'));
+        $listAllMyProjects = $listProjects->merge($listProjectCollabs)->unique('id');
+
+        return view('admin.dashboard', compact('page', 'invitations', 'projects', 'projectCollabs', 'listProjects', 'listProjectCollabs', 'listAllProjects', 'listAllMyProjects'));
     }
 
     // Dans votre méthode de contrôleur ou votre logique de service

@@ -26,7 +26,9 @@ class BoardController extends Controller
 
         $ifUserIsProjectCollab = ProjectUser::where([
             ['user_id', '=', session()->get('id')],
-            ['project_id', '=', $project->id]
+            ['project_id', '=', $project->id],
+            ['status', '=', 1],
+            ['id', '!=', $project->project_client]
         ])->first();
 
         if ($ifOwnerProject == null && $ifUserIsProjectCollab == null) {

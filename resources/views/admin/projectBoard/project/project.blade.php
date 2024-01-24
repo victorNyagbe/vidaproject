@@ -14,7 +14,7 @@
                 @include('admin.includes.messageReturned')
                 <div class="row">
                     <div class="col-12 pb-5">
-                        <h6 class="name-project">TOUS VOS PROJETS</h6>
+                        <h6 class="name-project">AUTRES PROJETS</h6>
                         {{-- <a href="#!" data-toggle="modal" data-target="#addProject" class="add-link"><i class="bi bi-plus-circle-dotted"></i> Créer un projet</a> --}}
                     </div>
                 </div>
@@ -103,25 +103,26 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    @forelse ($projectCollabs as $project)
+                                    @forelse ($projectCollabs as $projectCollab)
                                         <tr>
-                                            <td>{{ $project->nom }}</td>
-                                            <td>{{ $project->user->fullname }}</td>
+                                            <td>{{ $projectCollab->nom }}</td>
+                                            <td>{{ $projectCollab->user->fullname }}</td>
                                             <td>|
-                                                @foreach ($project->project_types as $project_type)
+                                                @foreach ($projectCollab->project_types as $project_type)
                                                     {{ $project_type->nom . ' |' }}
                                                 @endforeach
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($project->date_debut)->format('d-m-Y') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($project->date_fin)->format('d-m-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($projectCollab->date_debut)->format('d-m-Y') }}
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($projectCollab->date_fin)->format('d-m-Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}"
+                                                <a href="{{ route('admin.projectBoard.project.showBoard', $projectCollab) }}"
                                                     class="btn btn-info btn-sm {{ $page == 'admin.project.showBord' ? 'active' : '' }}"><i
                                                         class="fas fa-eye"></i></a>
-                                                <a href="{{ route('admin.projectBoard.project.edit', $project) }}"
+                                                <a href="{{ route('admin.projectBoard.project.edit', $projectCollab) }}"
                                                     class="btn btn-warning btn-sm {{ $page == 'admin.project' ? 'active' : '' }}"><i
                                                         class="fas fa-edit"></i></a>
-                                                <a href="{{ route('admin.project.project.destroy', $project) }}"
+                                                <a href="{{ route('admin.project.project.destroy', $projectCollab) }}"
                                                     onclick="return confirm('Êtes-vous certain de vouloir supprimer ce projet ? Cette action est irréversible.');"
                                                     class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                             </td>

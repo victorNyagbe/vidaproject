@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
         /* #droppable: {height: 10vh;}
-                                                        #droppable:hover { height: 20vh; } */
+                                                                                                                    #droppable:hover { height: 20vh; } */
         .deplacer: {
             height: 20vh;
         }
@@ -113,6 +113,25 @@
                                                                 @endif
 
                                                                 @if (session()->get('accessLevel') == 'Collab')
+                                                                    <div class="btn-group" role="group">
+                                                                        <button id="dropdownId" type="button"
+                                                                            class="btn btn-sm btn-secondary dropdown-toggle"
+                                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                                            aria-expanded="false">
+                                                                            statut
+                                                                        </button>
+                                                                        <div class="dropdown-menu"
+                                                                            aria-labelledby="dropdownId">
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('admin.task.updateStatus', [$project, $task, 0]) }}">A
+                                                                                faire</a>
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('admin.task.updateStatus', [$project, $task, 1]) }}">En
+                                                                                cours</a>
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('admin.task.updateStatus', [$project, $task, 2]) }}">Terminé</a>
+                                                                        </div>
+                                                                    </div>
                                                                     <a href="#!" data-toggle="modal"
                                                                         data-target="#showTask{{ $task->id }}"
                                                                         class="btn btn-sm btn-info"><i
@@ -310,6 +329,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        // if ("{{ session()->get('accessLevel') }}" === 'Collab') {
+        //     const dureeAutoChargement = 5000;
+
+        //     // Fonction pour effectuer une requête AJAX et mettre à jour le contenu
+        //     function autoChargementPage() {
+        //         $.ajax({
+        //             url: window.location.href, // URL de la page actuelle
+        //             type: 'GET',
+        //             success: function(data) {
+        //                 // Mettez à jour le contenu de la page avec les données reçues
+        //                 $('body').html(data);
+        //             }
+        //         });
+        //     }
+
+        //     // Déclencher le rechargement automatique à intervalles réguliers
+        //     setInterval(autoChargementPage, dureeAutoChargement);
+        // }
+
         // $(document).ready(function() {
 
         //     $('#createForm').on('submit', function(e) {

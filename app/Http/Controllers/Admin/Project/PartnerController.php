@@ -343,11 +343,13 @@ class PartnerController extends Controller
                 'user_id' => $user->id,
                 'email' => $request->input('email'),
                 'token' => $invitationToken,
+                'invite_type' => 'collaborateur',
                 'status' => 'en_attente',
             ];
 
             if ($project->id !== null) {
                 $invitationData['project_id'] = $project->id;
+                $invitationData['project_name'] = $project->nom;
             }
 
             Invitation::create($invitationData);
@@ -356,11 +358,15 @@ class PartnerController extends Controller
             $invitationData = [
                 'email' => $request->input('email'),
                 'token' => $invitationToken,
+                'invite_type' => 'collaborateur',
                 'status' => 'en_attente',
             ];
 
+            dd($project->nom);
+
             if ($project->id !== null) {
                 $invitationData['project_id'] = $project->id;
+                $invitationData['project_name'] = $project->nom;
             }
 
             Invitation::create($invitationData);
@@ -449,11 +455,13 @@ class PartnerController extends Controller
                 'user_id' => $user->id,
                 'email' => $request->input('email'),
                 'token' => $invitationToken,
+                'invite_type' => 'client',
                 'status' => 'en_attente',
             ];
 
             if ($project->id !== null) {
                 $invitationData['project_id'] = $project->id;
+                $invitationData['project_name'] = $project->nom;
             }
 
             Invitation::create($invitationData);
@@ -462,11 +470,13 @@ class PartnerController extends Controller
             $invitationData = [
                 'email' => $request->input('email'),
                 'token' => $invitationToken,
+                'invite_type' => 'client',
                 'status' => 'en_attente',
             ];
 
             if ($project->id !== null) {
                 $invitationData['project_id'] = $project->id;
+                $invitationData['project_name'] = $project->nom;
             }
 
             Invitation::create($invitationData);
@@ -498,7 +508,7 @@ class PartnerController extends Controller
 
             ]);
 
-            if ($project->id = $client->project_id){
+            if ($project->id == $client->project_id){
 
                 $project->update([
                     'project_client' => $client->id

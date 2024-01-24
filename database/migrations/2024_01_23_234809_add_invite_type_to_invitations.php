@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('mails', function (Blueprint $table) {
-            $table->string('client_mail_type')->after('type');
+        Schema::table('invitations', function (Blueprint $table) {
+            $table->string('project_name')->nullable()->after('token');
+            $table->string('invite_type')->nullable()->after('project_name');
         });
     }
 
@@ -25,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('mails', function (Blueprint $table) {
+        Schema::table('invitations', function (Blueprint $table) {
             //
         });
     }
