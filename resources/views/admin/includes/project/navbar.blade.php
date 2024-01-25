@@ -109,8 +109,8 @@
                   <span class="online-btn navbar-badge"></span>
               </a>
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                  <a href="#" class="dropdown-item text-dark">
-                      <i class="fas fa-user mr-2"></i> Profil
+                  <a href="#!" data-toggle="modal" data-target="#profilModal" class="dropdown-item text-dark">
+                      <i class="fas fa-user mr-2"></i> Profile
                   </a>
                   <div class="dropdown-divider"></div>
                   <a href="{{ route('guests.logout') }}" class="dropdown-item text-dark">
@@ -121,3 +121,30 @@
       </ul>
   </nav>
   <!-- /.navbar -->
+  <div class="modal fade show" id="profilModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title text-success" id="successModalLabel">Profile</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="success-icon text-center">
+                      <img src="{{ session()->get('profile') }}" alt="User-image" style="border-radius: 10px">
+                  </div>
+                  <p class="text-center pt-4">
+                      <b>{{ session()->get('email') }}</b>
+                  </p>
+                  <p class="text-center">
+                      <b>Nom : {{ session()->get('fullname') }}</b>
+                  </p>
+              </div>
+              <div class="text-center mb-2 pb-3">
+                  <button type="button" class="btn btn-success" data-dismiss="modal">Fermer</button>
+              </div>
+          </div>
+      </div>
+  </div>

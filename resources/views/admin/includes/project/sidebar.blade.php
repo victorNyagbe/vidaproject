@@ -127,6 +127,15 @@
               </p>
             </a>
           </li> --}}
+                {{-- <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.project.project', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>
+                            Autres projets
+                        </p>
+                    </a>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ route('admin.projectBoard.project.project', $project) }}"
                         class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
