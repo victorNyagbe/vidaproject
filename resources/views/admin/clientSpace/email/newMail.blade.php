@@ -1,10 +1,10 @@
 @section('style')
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 <style>
     .textarea-block {
-        color : #000000;
+        color: #000000;
     }
 
     #fileList {
@@ -18,26 +18,40 @@
         padding-right: 1rem;
     }
 
+    /* Styles pour le conteneur de chaque fichier */
     .file-name-container {
         display: flex;
         align-items: center;
-        margin: 5px;
-        padding: 12px;
-        background-color: #f5f5f5;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        padding: 8px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        margin-right: 8px;
+        margin-bottom: 8px;
     }
 
+    /* Styles pour le nom du fichier */
     .file-name {
-        margin-right: 10px;
+        flex-grow: 1;
+        /* Le nom du fichier prend l'espace disponible */
+        margin-right: 8px;
+        /* Marge à droite pour l'espace du bouton "x" */
+        word-break: break-word;
+        /* Permet de casser le texte long si nécessaire */
     }
 
+    /* Styles pour le bouton "x" de suppression */
     .file-close {
         cursor: pointer;
+        font-weight: bold;
+        color: red;
+        margin-right: 8px;
+        */
+        /* Marge à gauche pour séparer du nom du fichier */
     }
 </style>
 
-<form action="{{ route('admin.clientSpace.email.create', $project) }}" method="post" enctype="multipart/form-data" id="createForm">
+<form action="{{ route('admin.clientSpace.email.create', $project) }}" method="post" enctype="multipart/form-data"
+    id="createForm">
     @csrf
     <div class="form-group">
         <input class="form-control" name="to" disabled value="{{ $project->user->email }}" placeholder="À">
@@ -51,9 +65,9 @@
     <textarea name="descriptionText" id="descriptionText" class="d-none"></textarea>
     <div class="form-group">
 
-            <div id="fileList"></div>
+        <div id="fileList"></div>
 
-            <ul id="customFileList"></ul>
+        <ul id="customFileList"></ul>
 
     </div>
     <input type="hidden" name="filesToBeUploaded[]" value="[]" id="filesToBeUploaded">
@@ -64,14 +78,15 @@
             <i class="fas fa-paperclip"></i> Joindre
             <input type="file" name="files[]" multiple id="fileSelector">
         </div>
-        <button type="button" id="saveDraft" href="{{-- route('admin.projectBoard.email.createDraftMail') --}}" onclick="saveAsDraft()" class="btn btn-light"><i class="fas fa-pencil-alt"></i> Brouillon</button>
-        <button type="submit" class="btn btn-success"><i class="fas fa-envelope"></i> Envoyer</button>
+        <button type="submit" name="action" value="toDraft" class="btn btn-light"><i class="fas fa-pencil-alt"></i>
+            Brouillon</button>
+        <button type="submit" name="action" value="toSend" class="btn btn-success"><i class="fas fa-envelope"></i>
+            Envoyer</button>
         {{-- <p class="help-block">Max. 32MB</p> --}}
     </div>
 </form>
 
 <script>
-
     function autoActualiserPage(interval) {
         setInterval(function() {
             location.reload();
@@ -131,10 +146,10 @@
             // fileClose.setAttribute("aria-live", fileId)
             // fileClose.textContent = '×';
             // fileClose.addEventListener('click', function() {
-                //     const containerId = fileId; // Utiliser l'ID du conteneur
+            //     const containerId = fileId; // Utiliser l'ID du conteneur
             //     const objectURL = objectURLs[containerId];
             //     if (objectURL) {
-                //         URL.revokeObjectURL(objectURL);
+            //         URL.revokeObjectURL(objectURL);
             //         delete objectURLs[containerId];
             //         destroy(containerId); // Appeler la fonction destroy
             //     }
@@ -219,22 +234,20 @@
         // Vous pouvez également afficher un message ou effectuer d'autres actions ici
         alert('Brouillon sauvegardé avec succès !');
 
-        fetch('{{ route("admin.projectBoard.email.createDraftMail", $project) }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken // Assurez-vous d'ajouter le jeton CSRF
-            },
+        fetch('{{ route('admin.projectBoard.email.createDraftMail', $project) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Assurez-vous d'ajouter le jeton CSRF
+                },
                 body: JSON.stringify(draftData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-        })
-        .catch(error => {
-            console.error('Erreur lors de l\'enregistrement du brouillon :', error);
-        });
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'enregistrement du brouillon :', error);
+            });
     }
-
-
 </script>

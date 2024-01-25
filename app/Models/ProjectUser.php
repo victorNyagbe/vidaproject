@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Mail;
 use App\Models\User;
+use App\Models\Project;
 use App\Models\ClientStatus;
 use App\Models\CollabStatus;
 use Illuminate\Database\Eloquent\Model;
@@ -32,5 +33,10 @@ class ProjectUser extends Model
     public function mails()
     {
         return $this->hasMany(Mail::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

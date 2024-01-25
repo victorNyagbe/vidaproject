@@ -24,15 +24,27 @@ class ProjectController extends Controller
             'owner_id' => session()->get('id'),
         ])->get();
 
-        $other_projects = Project::where([
-            'owner_id' => session()->get('id'),
-        ])->where('id', '!=', $project->id)->latest()->get();
+        $selected_project = Project::where('id', $project->id)->first();
+
+        // $other_projects = Project::where([
+        //     'owner_id' => session()->get('id'),
+        // ])->where('id', '!=', $project->id)->latest()->get();
+
+        // $other_projects = Project::where([
+        //     'owner_id' => session()->get('id'),
+        // ])->where('id', '!=', $project->id)->latest()->get();
+
+        // $getProjectsCollab = ProjectUser::where([
+        //     ['user_mail', '=', session()->get('email')],
+        //     ['status', '<>', 2],
+        //     ['status', '=', 1]
+        // ])->where('id', '<>', $project->id)->latest()->get('project_id');
 
         $getProjectsCollab = ProjectUser::where([
             ['user_mail', '=', session()->get('email')],
             ['status', '<>', 2],
             ['status', '=', 1]
-        ])->where('id', '<>', $project->id)->latest()->get('project_id');
+        ])->get('project_id');
 
         $collabProjectArray = [];
 
@@ -46,9 +58,11 @@ class ProjectController extends Controller
             $projectCollabs = collect([]);
         }
 
+        // $currentProject = Project::find($project->id);
+
         $types = ProjectType::all();
         $page = 'admin.projectBoard.project';
-        return view('admin.projectBoard.project.project', compact('projects', 'other_projects', 'types', 'page', 'projectCollabs'));
+        return view('admin.projectBoard.project.project', compact('projects','selected_project', 'types', 'page', 'projectCollabs'));
     }
 
     public function edit(Project $project)

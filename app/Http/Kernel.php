@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -21,6 +22,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\CkeckSessionExpiration::class,
     ];
 
     /**
@@ -36,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\CkeckSessionExpiration::class,
         ],
 
         'api' => [
@@ -65,5 +68,11 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'accessProject' => \App\Http\Middleware\AccessProjectMiddleware::class,
         'accessSpecProject' => \App\Http\Middleware\AccessSpecProjectMiddleware::class,
+        'ckeckSessionExpirationt' => \App\Http\Middleware\CkeckSessionExpiration::class,
     ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('session:clear')->daily(); // ou selon la fréquence souhaitée
+    }
 }

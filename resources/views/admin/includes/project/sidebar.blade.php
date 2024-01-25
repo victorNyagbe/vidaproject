@@ -2,27 +2,30 @@
 <aside class="main-sidebar sidebar-light sidebar-bg elevation-4">
     <!-- Brand Logo -->
     <div class="brand-block mb-3 d-flex">
-      <div href="index3.html" class="brand-link image">
-        <img src="{{ asset('assets/logos/goproject-03.jpg') }}" alt="goproject Logo" class="brand-image goproject-logo" style="opacity: .8; width:140px; height:120px;">
-      </div>
+        <div href="index3.html" class="brand-link image">
+            <img src="{{ asset('assets/logos/goproject-03.jpg') }}" alt="goproject Logo" class="brand-image goproject-logo"
+                style="opacity: .8; width:140px; height:120px;">
+        </div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel pb-3 mb-3 d-flex">
-        <div class="image" style="padding-left: 5em;">
-          <!-- <img src=" {{ asset('assets/logos/kozah 3 logo.jpg') }} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
-          @if($project->logo)
-            <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img" alt="Project Image" style="opacity: .8; width:80px; height:70px;">
-          @else
-            <img src=" {{ asset('assets/logos/no_image.jpg') }} " class="logo-img" alt="Project Image" style="opacity: .8; width:80px; height:70px;">
-          @endif
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel pb-3 mb-3 d-flex">
+            <div class="image" style="padding-left: 5em;">
+                <!-- <img src=" {{-- asset('assets/logos/kozah3logo.jpg') --}} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
+                @if (isset($project))
+                    <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img"
+                        alt="Project Image" style="opacity: .8; width:80px; height:70px;">
+                @else
+                    <img src=" {{ asset('assets/logos/no_image.jpg') }} " class="logo-img" alt="Project Image"
+                        style="opacity: .8; width:80px; height:70px;">
+                @endif
+            </div>
         </div>
-      </div>
 
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
+        <!-- SidebarSearch Form -->
+        <!-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -33,46 +36,51 @@
         </div>
       </div> -->
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.project.showBoard' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                  Tableau de bord
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.board', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.board' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Bureau
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.collaborateur', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.collaborateur' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-user-plus"></i>
-              <p>
-                 Collaborateurs
-              </p>
-            </a>
-          </li>
-          @if (session()->get('accessLevel') == 'Owner')
-            <li class="nav-item">
-                <a href="{{ route('admin.projectBoard.client', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user-plus"></i>
-                <p>
-                    Client
-                </p>
-                </a>
-            </li>
-          @endif
-          {{-- <li class="nav-item">
+                <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.project.showBoard', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.project.showBoard' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Tableau de bord
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.board', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.board' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            Bureau
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.collaborateur', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.collaborateur' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user-plus"></i>
+                        <p>
+                            Collaborateurs
+                        </p>
+                    </a>
+                </li>
+                @if (session()->get('accessLevel') == 'Owner')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.projectBoard.client', $project) }}"
+                            class="nav-link {{ $page == 'admin.projectBoard.client' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-plus"></i>
+                            <p>
+                                Client
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.charts', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.charts' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -80,7 +88,7 @@
               </p>
             </a>
           </li> --}}
-          {{-- <li class="nav-item">
+                {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.calendar', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.calendar' ? 'active' : '' }}">
               <i class="nav-icon bi bi-calendar-date-fill pl-1"></i>
               <p>
@@ -89,25 +97,27 @@
               </p>
             </a>
           </li> --}}
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.gallery', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.gallery' ? 'active' : '' }}">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallerie
-              </p>
-            </a>
-          </li>
-            @if (session()->get('accessLevel') == 'Owner')
                 <li class="nav-item">
-                    <a href="{{ route('admin.projectBoard.email.mail', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
-                    <i class="nav-icon far fa-envelope"></i>
-                    <p>
-                        Boite Mail
-                    </p>
+                    <a href="{{ route('admin.projectBoard.gallery', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.gallery' ? 'active' : '' }}">
+                        <i class="nav-icon far fa-image"></i>
+                        <p>
+                            Gallerie
+                        </p>
                     </a>
                 </li>
-            @endif
-          {{-- <li class="nav-item">
+                @if (session()->get('accessLevel') == 'Owner')
+                    <li class="nav-item">
+                        <a href="{{ route('admin.projectBoard.email.mail', $project) }}"
+                            class="nav-link {{ $page == 'admin.projectBoard.email' ? 'active' : '' }}">
+                            <i class="nav-icon far fa-envelope"></i>
+                            <p>
+                                Boite Mail
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                {{-- <li class="nav-item">
             <a href="{{ route('admin.projectBoard.message.chat', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.message' ? 'active' : '' }}">
               <i class="nav-icon far fa-comments"></i>
               <p>
@@ -116,25 +126,36 @@
               </p>
             </a>
           </li> --}}
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.project.project', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-project-diagram"></i>
-              <p>
-                Autres projets
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('admin.projectBoard.rapport.index', $project) }}" class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-file"></i>
-              <p>
-                Rapport
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+                {{-- <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.project.project', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>
+                            Autres projets
+                        </p>
+                    </a>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.project.project') }}"
+                        class="nav-link {{ $page == 'admin.project' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>
+                            Autres projets
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.projectBoard.rapport.index', $project) }}"
+                        class="nav-link {{ $page == 'admin.projectBoard.rapport' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Rapport
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-  </aside>
+</aside>

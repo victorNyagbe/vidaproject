@@ -28,6 +28,11 @@ class sendInvitationMailForCollabListener
      */
     public function handle(sendInvitationMailForCollabEvent $event)
     {
-        Mail::to('gomezfelix310@gmail.com')->send(new SendInvitationForCollabMail($event->data));
+        $recipientEmail = $event->data['recipientEmail'];
+
+        // Mail::to('lastundertaker18@gmail.com')->send(new SendInvitationForCollabMail($event->data));
+
+        Mail::to($recipientEmail)->send(new SendInvitationForCollabMail($event->data));
+
     }
 }

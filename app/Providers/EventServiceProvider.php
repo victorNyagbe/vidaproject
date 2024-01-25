@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\SessionExpired;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\HandleSessionExpiration;
+use Illuminate\Session\Events\SessionEnding;
 use App\Events\sendInvitationMailForClientEvent;
 use App\Events\sendInvitationMailForCollabEvent;
 use App\Listeners\sendInvitationMailForClientListener;
@@ -29,6 +32,14 @@ class EventServiceProvider extends ServiceProvider
 
         sendInvitationMailForClientEvent::class => [
             sendInvitationMailForClientListener::class,
+        ],
+
+        SessionExpired::class => [
+            HandleSessionExpiration::class,
+        ],
+
+        'Illuminate\Session\Events\SessionEnding' => [
+            'App\Observers\SessionEndingObserver@ending',
         ],
     ];
 

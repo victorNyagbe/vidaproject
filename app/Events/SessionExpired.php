@@ -10,20 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class sendInvitationMailForClientEvent
+class SessionExpired
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $data;
+    public $userId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($userId)
     {
-        $this->data = $data;
+        $this->userId = $userId;
     }
 
     /**

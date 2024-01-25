@@ -28,6 +28,10 @@ class sendInvitationMailForClientListener
      */
     public function handle(sendInvitationMailForClientEvent $event)
     {
-        Mail::to('gomezfelix310@gmail.com')->send(new SendInvitationForClientMail($event->data));
+        $recipientEmail = $event->data['recipientEmail'];
+
+        // Mail::to('gomezfelix310@gmail.com')->send(new SendInvitationForClientMail($event->data));
+
+        Mail::to($recipientEmail)->send(new SendInvitationForClientMail($event->data));
     }
 }

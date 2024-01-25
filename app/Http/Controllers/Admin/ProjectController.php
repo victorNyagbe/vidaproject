@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Task;
+use App\Models\User;
 use App\Models\Project;
 use App\Models\ProjectType;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use App\Models\ProjectStatus;
-use App\Http\Controllers\Controller;
+use App\Models\ConnectedSession;
 use App\Models\ProjectTypePivot;
-use App\Models\ProjectUser;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -60,7 +63,7 @@ class ProjectController extends Controller
 
         if ($getProjectsCollab->count() > 0) {
             foreach ($getProjectsCollab as $getProjectCollab) {
-                $collabProject = Project::where('id', $getProjectCollab->project_id)->first();
+                $collabProject = Project::where([['id', '=', $getProjectCollab->project_id]])->first();
                 $collabProjectArray[] = $collabProject;
             }
             $projectCollabs = collect($collabProjectArray);
@@ -101,7 +104,7 @@ class ProjectController extends Controller
             'logo' => request('logo')->store('logo_projects', 'public'),
             'nom' => $request->project_name,
             'date_debut' => $request->date_debut,
-            'date_fin' => $request->date_debut,
+            'date_fin' => $request->date_fin,
             'description' => $request->description
         ]);
 
@@ -280,6 +283,62 @@ class ProjectController extends Controller
             session()->put('accessLevel', 'Owner');
         }
 
-        return view('admin.projectBoard.project.showBoard', compact('page', 'project'));
+        $taskUserIds = Task::where('project_id', $project->id)->pluck('project_user_id')->toArray();
+        $users = User::whereIn('id', $taskUserIds)->get();
+
+        $userProjects = User::find(session('id'));
+
+        $connectedUsers = ConnectedSession::where('session_email', '!=', $userProjects->email)->get();
+
+        $filteredUsers = collect();
+
+        // $filteredUsers = $connectedUsers->filter(function ($connectedUser) use ($userProjects, $project) {
+        //     return $userProjects->contains('id', $project->owner_id)
+        //         || ProjectUser::where([
+        //             ['user_id', $connectedUser->user_id],
+        //             ['project_id', $project->id],
+        //         ])->exists()
+        //         || Project::where([
+        //             ['owner_id', $connectedUser->user_id],
+        //         ])->exists()
+        //         || $project->contains('project_client', $connectedUser->user_id);
+        // });
+
+        foreach ($connectedUsers as $connectedUser) {
+            if ($userProjects->id == $project->owner_id) {
+                // L'utilisateur actuel est le propriétaire du projet, récupérer les collaborateurs
+                $projectCollabs = ProjectUser::where([
+                    ['user_id', $connectedUser->user_id],
+                    ['project_id', $project->id],
+                ])->get();
+
+                foreach ($projectCollabs as $projectCollab) {
+                    $collabUser = User::find($projectCollab->user_id);
+                    $filteredUsers->push($collabUser);
+                }
+            } else {
+                // L'utilisateur actuel n'est pas le propriétaire du projet
+                $projectOwner = User::find($project->owner_id);
+                $filteredUsers->push($projectOwner);
+
+                // Ajouter les collaborateurs liés au projet à la collection
+                $projectCollabs = ProjectUser::where([
+                    ['user_id', $connectedUser->user_id],
+                    ['project_id', $project->id],
+                ])->get();
+
+                foreach ($projectCollabs as $projectCollab) {
+                    $collabUser = User::find($projectCollab->user_id);
+                    $filteredUsers->push($collabUser);
+                }
+            }
+        }
+
+        // Éliminer les doublons dans la collection
+        $filteredUsers = $filteredUsers->unique('id');
+
+        $currentProject = Project::find($project->id);
+
+        return view('admin.projectBoard.project.showBoard', compact('page', 'project', 'users', 'filteredUsers', 'currentProject'));
     }
 }

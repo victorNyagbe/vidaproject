@@ -10,7 +10,7 @@ class Invitation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'email', 'token', 'status', 'project_id'];
+    protected $fillable = ['user_id', 'email', 'token', 'project_name', 'invite_type', 'status', 'project_id'];
 
     public function project()
     {

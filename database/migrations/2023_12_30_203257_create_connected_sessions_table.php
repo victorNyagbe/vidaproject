@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('mails', function (Blueprint $table) {
-            $table->string('client_mail_type')->after('type');
+        Schema::create('connected_sessions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->constrained();
+            $table->string('session_email')->nullable();
+            $table->string('session_id')->unique();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('mails', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('connected_sessions');
     }
 };

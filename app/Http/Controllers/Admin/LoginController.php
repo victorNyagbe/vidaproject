@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\ConnectedSession;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,6 +56,12 @@ class LoginController extends Controller
                 session()->put('isAuthenticated', true);
                 session()->put('fullname', $findEmail->fullname);
 
+                ConnectedSession::create([
+                    'user_id' => $findEmail->id,
+                    'session_id' => session()->getId(),
+                    'session_email' => $findEmail->email,
+                ]);
+
                 $status = 'success';
                 return $response = [
                     'message' => route('admin.dashboard'),
@@ -74,6 +82,10 @@ class LoginController extends Controller
 
     public function logout()
     {
+        $connected_id = session()->get('id');
+
+        DB::table('connected_sessions')->where('user_id', $connected_id)->delete();
+
         session()->flush();
 
         return redirect()->route('guests.login');

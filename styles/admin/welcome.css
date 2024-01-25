@@ -163,7 +163,7 @@ td {
     padding-top: 3.5em;
 }
 
-.task-img1 {
+/* .task-img1 {
     position: absolute;
     left: 0;
     right: 0;
@@ -197,7 +197,7 @@ td {
     bottom: 0.4em;
     border-radius: 50%;
     width: 30px;
-}
+} */
 
 /* Calendar */
 
@@ -235,10 +235,17 @@ td {
 /* count clients and members */
 
 .number-circle {
-    border: 8px solid #00000019;
+    border: 0.5em solid #00000019;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+}
+
+/* Ajout de styles pour les écrans plus petits (ajustez les valeurs selon vos besoins) */
+@media (max-width: 768px) {
+    .number-circle {
+        border-width: 0.3em; /* Réduire la bordure pour les petits écrans */
+    }
 }
 
 @font-face {
