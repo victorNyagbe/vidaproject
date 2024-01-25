@@ -14,7 +14,6 @@
         <div class="user-panel pb-3 mb-3 d-flex">
             <div class="image" style="padding-left: 5em;">
                 <!-- <img src=" {{-- asset('assets/logos/kozah3logo.jpg') --}} " class="logo-img" alt="User Image" style="opacity: .8; width:80px; height:80px; text-align: center;"> -->
-
                 @if (isset($project))
                     <img src=" {{ asset('storage/app/public/' . $project->logo) }} " class="logo-img"
                         alt="Project Image" style="opacity: .8; width:80px; height:70px;">
@@ -137,8 +136,8 @@
                     </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a href="{{ route('admin.projectBoard.project.project', $project) }}"
-                        class="nav-link {{ $page == 'admin.projectBoard.project' ? 'active' : '' }}">
+                    <a href="{{ route('admin.project.project') }}"
+                        class="nav-link {{ $page == 'admin.project' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-project-diagram"></i>
                         <p>
                             Autres projets

@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                    @forelse ($other_projects as $project)
+                                    @forelse ($projects as $project)
                                         <tr>
                                             <td>{{ $project->nom }}</td>
                                             <td>

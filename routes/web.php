@@ -171,7 +171,7 @@ Route::prefix('projets')->group( function() {
 
         Route::get('/{project}/messages', [AdminProjectChatController::class, 'chat'])->name('admin.projectBoard.message.chat');
 
-        Route::get('/{selected_project}/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
+        Route::get('/{project}/autres-projets', [AdminProjectProjectController::class, 'index'])->name('admin.projectBoard.project.project');
 
         Route::prefix('taches/')->group(function () {
             Route::post('{project}/storeProccesing', [TaskController::class, 'store'])->name('admin.task.store');
